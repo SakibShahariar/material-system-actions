@@ -32,11 +32,13 @@ See `lib/layouts/registry.js:1` for mapping.
 
 ```bash
 glib-compile-schemas schemas/
-# copy to extensions dir (Wayland needs logout to rescan)
-cp -r extension.js metadata.json prefs.js stylesheet.css lib schemas ~/.local/share/gnome-shell/extensions/material-system-actions@sakib.dev/
-glib-compile-schemas ~/.local/share/gnome-shell/extensions/material-system-actions@sakib.dev/schemas/
+# symlink so edits are live (Wayland still needs logout to rescan, but no cp needed)
+ln -sfn /home/sakib/Projects/material-system-actions ~/.local/share/gnome-shell/extensions/material-system-actions@sakib.dev
+glib-compile-schemas schemas/
 gnome-extensions enable material-system-actions@sakib.dev
 # toggle: Ctrl+Alt+End (default)
+# after any code change: gnome-extensions disable material-system-actions@sakib.dev; gnome-extensions enable material-system-actions@sakib.dev
+# Wayland: log out/in once to pick up new files
 ```
 
 ## Prototype
