@@ -1,0 +1,119 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+import Adw from 'gi://Adw';
+import Gtk from 'gi://Gtk';
+import Gdk from 'gi://Gdk';
+
+import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+
+const STYLE_NAMES = [
+    'card', 'rofi', 'quickshell', 'grid', 'radial', 'bento', 'tui', 'dock',
+    'wlogout', 'dots', 'end4', 'circles', 'avatar', 'pill', 'banner',
+];
+
+const MODIFIER_KEYVALS = new Set([
+    Gdk.KEY_Shift_L, Gdk.KEY_Shift_R,
+    Gdk.KEY_Control_L, Gdk.KEY_Control_R,
+    Gdk.KEY_Alt_L, Gdk.KEY_Alt_R,
+    Gdk.KEY_Super_L, Gdk.KEY_Super_R,
+    Gdk.KEY_Meta_L, Gdk.KEY_Meta_R,
+    Gdk.KEY_ISO_Level3_Shift,
+]);
+
+export default class MaterialSystemActionsPreferences extends ExtensionPreferences {
+    fillPreferencesWindow(window) {
+        const settings = this.getSettings();
+        const page = new Adw.PreferencesPage();
+
+        const styleGroup = new Adw.PreferencesGroup({title: 'Style'});
+        const styleRow = new Adw.ComboRow({
+            title: 'System actions style',
+            subtitle: '15 styles ported from prototype/system_actions_all.py',
+            model: Gtk.StringList.new(STYLE_NAMES),
+        });
+        const current = settings.get_string('style');
+        const idx = STYLE_NAMES.indexOf(current);
+        styleRow.selected = idx === -1 ? 0 : idx;
+        styleRow.connect('notify::selected', () => {
+            settings.set_string('style', STYLE_NAMES[styleRow.selected]);
+        });
+        styleGroup.add(styleRow);
+        page.add(styleGroup);
+
+        const keybindGroup = new Adw.PreferencesGroup({
+            title: 'Keyboard shortcut',
+            description: 'Default is Ctrl+Alt+End.',
+        });
+        const keybindRow = new Adw.ActionRow({title: 'Toggle system actions'});
+        const shortcutLabel = new Gtk.ShortcutLabel({valign: Gtk.Align.CENTER});
+        const updateLabel = () => {
+            const [accel] = settings.get_strv('toggle-system-actions');
+            shortcutLabel.set_accelerator(accel || '');
+        };
+        updateLabel();
+        const editButton = new Gtk.Button({
+            child: shortcutLabel,
+            valign: Gtk.Align.CENTER,
+            css_classes: ['flat'],
+            tooltip_text: 'Click to record a new shortcut',
+        });
+        editButton.connect('clicked', () => this._openRecorder(window, settings, updateLabel));
+        keybindRow.add_suffix(editButton);
+        keybindGroup.add(keybindRow);
+        page.add(keybindGroup);
+
+        const appearance = new Adw.PreferencesGroup({title: 'Appearance'});
+        const scaleRow = new Adw.SpinRow({
+            title: 'Icon size',
+            adjustment: new Gtk.Adjustment({
+                lower: 0.7, upper: 1.6, step_increment: 0.1, value: settings.get_double('icon-scale'),
+            }),
+            digits: 1,
+        });
+        scaleRow.connect('notify::value', () => settings.set_double('icon-scale', scaleRow.value));
+        appearance.add(scaleRow);
+
+        const opacityRow = new Adw.ActionRow({title: 'Background opacity', subtitle: '1.0 opaque, 0.0 transparent'});
+        const opacityScale = new Gtk.Scale({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            adjustment: new Gtk.Adjustment({lower: 0.0, upper: 1.0, step_increment: 0.05, value: settings.get_double('background-opacity')}),
+            digits: 2, hexpand: true, draw_value: true, value_pos: Gtk.PositionType.RIGHT, width_request: 220,
+        });
+        opacityScale.connect('value-changed', () => settings.set_double('background-opacity', opacityScale.get_value()));
+        opacityRow.add_suffix(opacityScale);
+        appearance.add(opacityRow);
+        page.add(appearance);
+
+        window.add(page);
+    }
+
+    _openRecorder(parentWindow, settings, updateLabel) {
+        const dialog = new Gtk.Window({
+            title: 'Set shortcut', transient_for: parentWindow, modal: true,
+            default_width: 340, default_height: 140, resizable: false,
+        });
+        const box = new Gtk.Box({
+            orientation: Gtk.Orientation.VERTICAL, spacing: 8,
+            margin_top: 28, margin_bottom: 28, margin_start: 24, margin_end: 24,
+            halign: Gtk.Align.CENTER, valign: Gtk.Align.CENTER,
+        });
+        box.append(new Gtk.Label({label: 'Press a new key combination…', css_classes: ['title-4']}));
+        box.append(new Gtk.Label({label: 'Esc to cancel', css_classes: ['dim-label']}));
+        dialog.set_child(box);
+        const controller = new Gtk.EventControllerKey();
+        controller.connect('key-pressed', (_ctrl, keyval, _keycode, state) => {
+            if (keyval === Gdk.KEY_Escape) { dialog.close(); return true; }
+            const mods = state & Gtk.accelerator_get_default_mod_mask();
+            if (mods === 0 && MODIFIER_KEYVALS.has(keyval)) return true;
+            if (Gtk.accelerator_valid(keyval, mods)) {
+                const accel = Gtk.accelerator_name(keyval, mods);
+                settings.set_strv('toggle-system-actions', [accel]);
+                updateLabel();
+                dialog.close();
+            }
+            return true;
+        });
+        dialog.add_controller(controller);
+        dialog.present();
+    }
+}

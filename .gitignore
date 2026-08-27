@@ -1,0 +1,7 @@
+# Compiled GSettings schema
+schemas/gschemas.compiled
+
+# Editor / OS cruft
+*.swp
+*.swo
+.DS_Store

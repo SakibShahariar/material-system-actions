@@ -1,0 +1,52 @@
+/* Loaded automatically by GNOME Shell when this extension is enabled. */
+.modal-dialog.system-actions-dialog {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* Shared panel — mirrors CSS .sa-panel in prototype system_actions_all.py:116 */
+.sa-panel {
+    background-color: var(--surface_container_low, #1e1e1e);
+    border-radius: 20px;
+    padding: 20px;
+}
+.sa-panel-flat {
+    background-color: var(--surface_container_low, #1e1e1e);
+    border: 1px solid var(--outline_variant, #444);
+}
+
+.sa-header-pill {
+    background-color: var(--surface_container, #2a2a2a);
+    border-radius: 16px;
+    padding: 10px 14px;
+}
+.sa-avatar {
+    border-radius: 999px;
+    background-color: var(--primary_container, #4a4a6a);
+    color: var(--on_primary_container, #fff);
+    font-weight: 600;
+}
+.sa-muted { font-size: 0.72em; color: var(--on_surface_variant, #aaa); }
+.sa-heading {
+    font-size: 0.72em; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--on_surface_variant, #aaa);
+}
+.sa-pill-btn {
+    border-radius: 999px; padding: 10px 16px;
+    background-color: var(--surface_container, #2a2a2a);
+}
+.sa-pill-btn.sa-tier-primary { background-color: var(--primary_container, #4a4a6a); }
+.sa-pill-btn.sa-tier-error { background-color: var(--error_container, #5a3333); }
+
+.sa-circle-btn {
+    border-radius: 999px;
+    background-color: var(--surface_container, #2a2a2a);
+}
+.sa-tile-btn {
+    border-radius: 4px;
+    background-color: var(--surface_container, #2a2a2a);
+    border-top: 3px solid transparent;
+}
+.sa-tile-btn:focus { border-top: 3px solid var(--primary, #8ab4f8); }

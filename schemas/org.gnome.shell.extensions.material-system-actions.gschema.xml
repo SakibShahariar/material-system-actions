@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.material-system-actions"
+          path="/org/gnome/shell/extensions/material-system-actions/">
+    <key name="toggle-system-actions" type="as">
+      <default>['&lt;Control&gt;&lt;Alt&gt;End']</default>
+      <summary>Toggle system actions</summary>
+      <description>Keybinding to open/close the system actions popup.</description>
+    </key>
+    <key name="style" type="s">
+      <default>'card'</default>
+      <summary>Which style to render</summary>
+    </key>
+    <key name="icon-scale" type="d">
+      <default>1.0</default>
+      <range min="0.7" max="1.6"/>
+      <summary>Icon size scale factor</summary>
+    </key>
+    <key name="background-opacity" type="d">
+      <default>1.0</default>
+      <range min="0.0" max="1.0"/>
+      <summary>Background opacity</summary>
+    </key>
+  </schema>
+</schemalist>
