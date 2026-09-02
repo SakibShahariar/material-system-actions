@@ -55,6 +55,8 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const migrated = ({rofi: 'list', quickshell: 'split', wlogout: 'tiles', dots: 'halo', end4: 'capsule'})[current] ?? current;
         const idx = STYLE_NAMES.indexOf(migrated);
         styleRow.selected = idx === -1 ? 0 : idx;
+        if (migrated !== current)
+            settings.set_string('style', migrated);
         styleRow.connect('notify::selected', () => {
             settings.set_string('style', STYLE_NAMES[styleRow.selected]);
         });
@@ -94,14 +96,20 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         scaleRow.connect('notify::value', () => settings.set_double('icon-scale', scaleRow.value));
         appearance.add(scaleRow);
 
-        const opacityRow = new Adw.ActionRow({title: 'Background opacity', subtitle: '1.0 opaque, 0.0 transparent'});
-        const opacityScale = new Gtk.Scale({
-            orientation: Gtk.Orientation.HORIZONTAL,
-            adjustment: new Gtk.Adjustment({lower: 0.0, upper: 1.0, step_increment: 0.05, value: settings.get_double('background-opacity')}),
-            digits: 2, hexpand: true, draw_value: true, value_pos: Gtk.PositionType.RIGHT, width_request: 220,
+        const opacityRow = new Adw.SpinRow({
+            title: 'Panel opacity',
+            subtitle: '0 = fully transparent, 1 = solid',
+            adjustment: new Gtk.Adjustment({
+                lower: 0.0, upper: 1.0, step_increment: 0.05, value: settings.get_double('panel-opacity'),
+            }),
+            digits: 2,
         });
-        opacityScale.connect('value-changed', () => settings.set_double('background-opacity', opacityScale.get_value()));
-        opacityRow.add_suffix(opacityScale);
+        opacityRow.connect('notify::value', () => settings.set_double('panel-opacity', opacityRow.value));
+        // keep in sync if changed elsewhere
+        settings.connect('changed::panel-opacity', () => {
+            const v = settings.get_double('panel-opacity');
+            if (Math.abs(opacityRow.value - v) > 0.001) opacityRow.value = v;
+        });
         appearance.add(opacityRow);
         page.add(appearance);
 
