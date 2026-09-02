@@ -5,3 +5,7 @@ schemas/gschemas.compiled
 *.swp
 *.swo
 .DS_Store
+
+# Generated package and Python bytecode
+dist/
+__pycache__/

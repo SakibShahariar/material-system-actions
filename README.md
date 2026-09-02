@@ -41,6 +41,15 @@ gnome-extensions enable material-system-actions@sakib.dev
 # Wayland: log out/in once to pick up new files
 ```
 
+## Package
+
+```bash
+./scripts/package.sh
+# output: dist/material-system-actions@sakib.dev.shell-extension.zip
+```
+
+The package command includes `lib/` and the compiled GSettings schema, while excluding Git metadata. For a non-standard Matugen file, set `MATUGEN_COLORS_PATH` to its `colors.css` path before starting GNOME Shell.
+
 ## Prototype
 
 ```bash
