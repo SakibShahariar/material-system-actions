@@ -1,4 +1,4 @@
-/* Loaded automatically by GNOME Shell when this extension is enabled. */
+/* Material System Actions — shared Material 3 / Matugen visual system. */
 .modal-dialog.system-actions-dialog {
     background-color: transparent;
     border: none;
@@ -6,338 +6,122 @@
     padding: 0;
 }
 
-/* Shared panel — mirrors prototype CSS */
-.sa-panel {
-    background-color: var(--surface_container_low, #1e1e26);
-    border-radius: 20px;
-    padding: 20px;
-}
+/* -------------------------------------------------------------------------
+ * Surfaces and typography
+ * ---------------------------------------------------------------------- */
+.sa-panel,
 .sa-panel-flat {
-    background-color: var(--surface_container_low, #1e1e26);
-    border: 1px solid var(--outline_variant, #49454f);
+    color: var(--on_surface, #f8ddcf);
+    background-color: var(--surface_container_low, #261910);
+    border: 1px solid var(--outline_variant, #544339);
+    box-shadow: 0 16px 42px rgba(0, 0, 0, 0.34);
 }
+
+.sa-panel { border-radius: 24px; padding: 20px; }
+.sa-panel-flat { border-radius: 22px; overflow: hidden; }
 .sa-mono { font-family: "JetBrains Mono", "Iosevka", "Fira Code", monospace; }
 
-/* header pill */
+.sa-muted {
+    color: var(--on_surface_variant, #dac2b4);
+    font-size: 0.78em;
+}
+
+.sa-heading {
+    color: var(--on_surface_variant, #dac2b4);
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.sa-heading-lg {
+    color: var(--on_surface, #f8ddcf);
+    font-size: 0.9em;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+}
+
+.sa-danger-text { color: var(--error, #ffb4ab); }
+
+/* Header identity surface */
 .sa-header-pill {
-    background-color: var(--surface_container, #2b2930);
-    border-radius: 16px;
+    background-color: var(--surface_container, #2a1d14);
+    color: var(--on_surface, #f8ddcf);
+    border: 1px solid var(--outline_variant, #544339);
+    border-radius: 18px;
     padding: 10px 14px;
 }
+
 .sa-avatar {
     border-radius: 999px;
-    background-color: var(--primary_container, #4f378b);
-    color: var(--on_primary_container, #eaddff);
-    font-weight: 600;
+    background-color: var(--primary_container, #733500);
+    color: var(--on_primary_container, #ffdbc8);
+    font-weight: 700;
 }
+
 .sa-avatar-neutral {
-    background-color: var(--surface_container_high, #322f37);
-    color: var(--primary, #d0bcff);
+    background-color: var(--surface_container_high, #36271e);
+    color: var(--primary, #ffb689);
 }
-.sa-muted { font-size: 0.72em; color: var(--on_surface_variant, #cac4cf); }
-.sa-heading {
-    font-size: 0.72em; font-weight: 700; letter-spacing: 0.1em;
-    color: var(--on_surface_variant, #cac4cf);
+
+/* Bars / separators */
+.sa-bar {
+    padding: 6px 12px;
+    font-size: 0.78em;
+    color: var(--on_surface_variant, #dac2b4);
 }
-.sa-heading-lg {
-    font-size: 0.9em; font-weight: 700; letter-spacing: 0.08em;
-    color: var(--on_surface_variant, #cac4cf);
-}
-.sa-danger-text { color: var(--error, #ffb4ab); }
-.sa-grid-seam { background-color: var(--outline_variant, #49454f); }
-.sa-guide-circle { border-radius: 999px; border: 1px dashed var(--outline_variant, #49454f); }
-.sa-bar { padding: 6px 12px; font-size: 0.78em; color: var(--on_surface_variant, #cac4cf); }
-.sa-bar-top { border-bottom: 1px solid var(--outline_variant, #49454f); }
-.sa-bar-bottom { border-top: 1px solid var(--outline_variant, #49454f); }
+.sa-bar-top { border-bottom: 1px solid var(--outline_variant, #544339); }
+.sa-bar-bottom { border-top: 1px solid var(--outline_variant, #544339); }
+.sa-grid-seam { background-color: var(--outline_variant, #544339); }
+.sa-guide-circle { border-radius: 999px; border: 1px dashed var(--outline_variant, #544339); }
+
 .sa-banner-badge {
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(23, 11, 5, 0.78);
+    border: 1px solid var(--outline_variant, #544339);
     border-radius: 999px;
     padding: 4px 10px 4px 4px;
 }
 
-/* pill buttons */
-.sa-pill-btn {
-    border-radius: 999px; padding: 10px 16px;
-    background-color: var(--surface_container, #2b2930);
-    color: var(--on_surface, #e6e0e9);
-    border: none; box-shadow: none; min-height: 40px;
-}
-.sa-pill-btn:hover { background-color: var(--surface_container_high, #322f37); }
-.sa-pill-btn:focus { box-shadow: 0 0 0 2px var(--outline, #938f99); }
-.sa-pill-label { font-weight: 500; font-size: 0.92em; }
-.sa-pill-btn.sa-tier-primary { background-color: var(--primary_container, #4f378b); color: var(--on_primary_container, #eaddff); }
-.sa-pill-btn.sa-tier-primary:hover { background-color: #5a4490; }
-.sa-pill-btn.sa-tier-primary:focus { box-shadow: 0 0 0 2px var(--primary, #d0bcff); }
-.sa-pill-btn.sa-tier-secondary { background-color: var(--secondary_container, #4a4458); color: var(--on_surface, #e6e0e9); }
-.sa-pill-btn.sa-tier-secondary:focus { box-shadow: 0 0 0 2px var(--secondary, #ccc2dc); }
-.sa-pill-btn.sa-tier-error { background-color: var(--error_container, #93000a); color: var(--error, #ffb4ab); }
-.sa-pill-btn.sa-tier-error:focus { box-shadow: 0 0 0 2px var(--error, #ffb4ab); }
-.sa-row-icon-badge { border-radius: 999px; background-color: var(--surface_container_high, #322f37); }
-.sa-row-icon-badge.sa-tier-primary { background-color: var(--primary, #d0bcff); }
-.sa-row-icon-badge.sa-tier-primary StIcon { color: var(--on_primary, #381e72); }
-.sa-row-icon-badge.sa-tier-secondary StIcon { color: var(--secondary, #ccc2dc); }
-.sa-row-icon-badge.sa-tier-error StIcon { color: var(--error, #ffb4ab); }
-
-/* text rows (avatar list) */
-.sa-text-row {
-    border-radius: 8px; padding: 6px 8px;
-    border-left: 2px solid transparent; background-color: transparent; box-shadow: none;
-}
-.sa-text-row:focus { background-color: var(--surface_container, #2b2930); border-left: 2px solid var(--outline, #938f99); }
-.sa-text-row.sa-tier-primary StIcon, .sa-text-row.sa-tier-primary StLabel { color: var(--primary, #d0bcff); }
-.sa-text-row.sa-tier-primary:focus { border-left: 2px solid var(--primary, #d0bcff); }
-.sa-text-row.sa-tier-secondary StIcon, .sa-text-row.sa-tier-secondary StLabel { color: var(--on_surface, #e6e0e9); }
-.sa-text-row.sa-tier-secondary:focus { border-left: 2px solid var(--secondary, #ccc2dc); }
-.sa-text-row.sa-tier-error StIcon, .sa-text-row.sa-tier-error StLabel { color: var(--error, #ffb4ab); }
-.sa-text-row.sa-tier-error:focus { border-left: 2px solid var(--error, #ffb4ab); }
-
-/* circular buttons */
-.sa-circle-btn {
-    border-radius: 999px;
-    background-color: var(--surface_container, #2b2930);
-    border: none; box-shadow: none;
-}
-.sa-circle-btn:focus { box-shadow: 0 0 0 2px var(--outline, #938f99); }
-.sa-circle-btn.sa-squircle { border-radius: 14px; }
-.sa-circle-btn.sa-circle-hero { transition-duration: 150ms; }
-.sa-circle-btn.sa-circle-hero:focus { transform: scale(1.08); }
-.sa-circle-label { font-size: 0.65em; letter-spacing: 0.05em; color: var(--on_surface_variant, #cac4cf); }
-.sa-circle-btn.sa-tier-primary { background-color: var(--primary_container, #4f378b); }
-.sa-circle-btn.sa-tier-primary StIcon { color: var(--on_primary_container, #eaddff); }
-.sa-circle-btn.sa-tier-primary:focus { box-shadow: 0 0 0 2px var(--primary, #d0bcff); }
-.sa-circle-btn.sa-tier-secondary { background-color: var(--secondary_container, #4a4458); }
-.sa-circle-btn.sa-tier-secondary StIcon { color: var(--on_secondary_container, #eaddff); }
-.sa-circle-btn.sa-tier-secondary:focus { box-shadow: 0 0 0 2px var(--secondary, #ccc2dc); }
-.sa-circle-btn.sa-tier-error StIcon { color: var(--error, #ffb4ab); }
-.sa-circle-btn.sa-tier-error:focus { box-shadow: 0 0 0 2px var(--error, #ffb4ab); }
-.sa-circle-btn.sa-filled { background-color: var(--primary_container, #4f378b); }
-.sa-circle-btn.sa-filled StIcon { color: var(--on_primary_container, #eaddff); }
-
-/* tiles */
-.sa-tile-btn {
-    border-radius: 4px;
-    background-color: var(--surface_container, #2b2930);
-    border: none; box-shadow: none;
-    border-top: 3px solid transparent;
-}
-.sa-tile-btn:focus { border-top: 3px solid var(--outline, #938f99); }
-.sa-tile-btn.sa-sharp { border-radius: 0; }
-.sa-tile-btn.sa-sharp:focus { transform: scale(1.04); }
-.sa-tile-btn.sa-round { border-radius: 24px; }
-.sa-tile-btn.sa-hero { background-color: rgba(79,55,139,0.4); }
-.sa-tile-label { font-size: 0.85em; }
-.sa-tile-badge { font-size: 0.62em; font-weight: 700; color: var(--on_surface_variant, #cac4cf); }
-.sa-tile-btn.sa-tier-primary StIcon, .sa-tile-btn.sa-tier-primary StLabel { color: var(--primary, #d0bcff); }
-.sa-tile-btn.sa-tier-primary:focus { border-top: 3px solid var(--primary, #d0bcff); }
-.sa-tile-btn.sa-tier-secondary StIcon, .sa-tile-btn.sa-tier-secondary StLabel { color: var(--secondary, #ccc2dc); }
-.sa-tile-btn.sa-tier-secondary:focus { border-top: 3px solid var(--secondary, #ccc2dc); }
-.sa-tile-btn.sa-tier-error StIcon, .sa-tile-btn.sa-tier-error StLabel { color: var(--error, #ffb4ab); }
-.sa-tile-btn.sa-tier-error:focus { border-top: 3px solid var(--error, #ffb4ab); }
-
-/* rofi list */
-.sa-rofi-row { padding: 8px 12px; border-left: 3px solid transparent; }
-.sa-rofi-row:focus { background-color: var(--surface_container, #2b2930); border-left: 3px solid var(--primary, #d0bcff); }
-.sa-rofi-row.sa-tier-primary StLabel { color: var(--primary, #d0bcff); }
-.sa-rofi-row.sa-tier-secondary StLabel { color: var(--on_surface_variant, #cac4cf); }
-.sa-rofi-row.sa-tier-error StLabel, .sa-rofi-row.sa-tier-error .sa-rofi-key { color: var(--error, #ffb4ab); }
-.sa-rofi-key { min-width: 24px; padding: 0 4px; border: 1px solid var(--outline_variant, #49454f); font-size: 0.72em; font-weight: 700; }
-
-/* tui */
-.sa-tui-selected { background-color: var(--primary, #d0bcff); }
-.sa-tui-selected StLabel { color: var(--on_primary, #381e72); }
-
-/* dots */
-.sa-dot { border-radius: 999px; background-color: var(--outline_variant, #49454f); }
-.sa-dot-filled { background-color: var(--error, #ffb4ab); }
-
-/* 2026 visual refresh: one calm Material surface system for every layout. */
-.system-actions-dialog {
-    spacing: 0;
-}
-.sa-panel, .sa-panel-flat {
-    border-radius: 28px;
-    border: 1px solid rgba(255,255,255,0.10);
-    box-shadow: 0 18px 52px rgba(0,0,0,0.36);
-}
-.sa-panel { padding: 22px; }
-.sa-panel-flat { overflow: hidden; }
-.sa-heading, .sa-heading-lg {
-    font-size: 0.70em;
-    letter-spacing: 0.14em;
-    font-weight: 800;
-}
-.sa-muted { opacity: 0.78; }
-.sa-header-pill {
-    border-radius: 20px;
-    padding: 12px 14px;
-    background-color: rgba(255,255,255,0.075);
-    border: 1px solid rgba(255,255,255,0.07);
-}
-.sa-avatar {
-    background-color: var(--primary_container, #4f378b);
-    box-shadow: inset 0 1px rgba(255,255,255,0.18);
-}
-.sa-pill-btn, .sa-circle-btn, .sa-tile-btn, .sa-text-row, .sa-rofi-row {
-    transition-duration: 150ms;
-    transition-timing-function: ease-out;
-}
-.sa-pill-btn {
-    padding: 11px 16px;
-    border: 1px solid rgba(255,255,255,0.06);
-    box-shadow: inset 0 1px rgba(255,255,255,0.06);
-}
-.sa-pill-btn:hover, .sa-circle-btn:hover, .sa-tile-btn:hover, .sa-text-row:hover, .sa-rofi-row:hover {
-    background-color: rgba(255,255,255,0.13);
-    box-shadow: inset 0 1px rgba(255,255,255,0.11);
-}
-.sa-pill-btn:focus, .sa-circle-btn:focus, .sa-tile-btn:focus, .sa-text-row:focus, .sa-rofi-row:focus {
-    box-shadow: 0 0 0 2px var(--primary, #d0bcff), inset 0 1px rgba(255,255,255,0.12);
-}
-.sa-circle-btn {
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: inset 0 1px rgba(255,255,255,0.07);
-}
-.sa-circle-btn:hover { transform: translateY(-2px); }
-.sa-tile-btn {
-    border: 1px solid rgba(255,255,255,0.07);
-    box-shadow: inset 0 1px rgba(255,255,255,0.06);
-}
-.sa-tile-btn:hover { transform: translateY(-2px); }
-.sa-tier-error { border-color: rgba(255,180,171,0.28); }
-
-/* Layout framing keeps the expressive layouts intentional rather than sparse. */
-.sa-layout-card, .sa-layout-capsule, .sa-layout-pill { min-width: 340px; }
-.sa-layout-list, .sa-layout-tui, .sa-layout-grid { box-shadow: 0 24px 64px rgba(0,0,0,0.45); }
-.sa-layout-circles, .sa-layout-tiles { padding: 18px; border-radius: 28px; background-color: rgba(30,30,38,0.90); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 18px 52px rgba(0,0,0,0.36); }
-.sa-layout-dock { border-radius: 24px; }
-.sa-layout-radial { border-radius: 50%; }
-.sa-layout-banner { border-radius: 24px; }
-.sa-layout-avatar { min-width: 380px; }
-.sa-layout-halo { min-width: 280px; }
-.sa-layout-bento { border-radius: 24px; }
-.sa-layout-split { min-width: 440px; }
-
-.sa-layout-card .sa-header-pill { margin-bottom: 2px; }
-.sa-layout-list .sa-bar, .sa-layout-grid .sa-bar { background-color: rgba(255,255,255,0.045); }
-.sa-layout-list .sa-rofi-row { margin: 0 6px; border-radius: 12px; }
-.sa-layout-list .sa-rofi-row:focus { border-left-color: transparent; }
-.sa-layout-split .sa-circle-btn { min-width: 60px; }
-.sa-layout-grid .sa-tile-btn { border-radius: 14px; margin: 4px; }
-.sa-layout-radial .sa-guide-circle { opacity: 0.55; }
-.sa-layout-bento .sa-tile-btn { border-radius: 14px; }
-.sa-layout-tui { border-color: rgba(208,188,255,0.26); }
-.sa-layout-tui .sa-tui-selected { border-radius: 6px; }
-.sa-layout-dock .sa-circle-btn { margin: 1px 0; }
-.sa-layout-tiles .sa-tile-btn { border-radius: 16px; }
-.sa-layout-halo .sa-circle-btn { box-shadow: 0 0 0 7px rgba(255,255,255,0.035); }
-.sa-layout-capsule .sa-header-pill { margin-bottom: 2px; }
-.sa-layout-circles .sa-circle-btn { box-shadow: 0 5px 16px rgba(0,0,0,0.24), inset 0 1px rgba(255,255,255,0.08); }
-.sa-layout-avatar .sa-avatar { margin-right: 4px; }
-.sa-layout-pill .sa-pill-btn { border-radius: 20px; }
-.sa-layout-banner .sa-banner-badge { margin: 12px; }
-
-
 /* -------------------------------------------------------------------------
- * Modern layout refresh
- * Material 3-inspired: quieter chrome, stronger hierarchy, larger targets,
- * and a consistent "floating surface" language across all 15 layouts.
+ * Shared action controls
+ *
+ * Normal  = Material surface
+ * Hover   = primary/error fill
+ * Focus   = visible two-layer keyboard ring
+ * Active  = hover fill + stronger pressed ring
  * ---------------------------------------------------------------------- */
-.system-actions-dialog {
-    spacing: 0;
-}
-
-/* Core surface tokens */
-.sa-panel,
-.sa-panel-flat {
-    color: var(--on_surface, #e6e0e9);
-    background-color: var(--surface_container_low, #1e1e26);
-    border: 1px solid rgba(255,255,255,0.09);
-    box-shadow:
-        0 22px 70px rgba(0,0,0,0.42),
-        0 2px 10px rgba(0,0,0,0.18),
-        inset 0 1px rgba(255,255,255,0.055);
-}
-
-.sa-panel {
-    border-radius: 30px;
-    padding: 24px;
-}
-
-.sa-panel-flat {
-    border-radius: 26px;
-    overflow: hidden;
-}
-
-.sa-muted {
-    color: var(--on_surface_variant, #cac4cf);
-    opacity: 0.82;
-}
-
-.sa-heading,
-.sa-heading-lg {
-    color: var(--on_surface_variant, #cac4cf);
-    font-weight: 800;
-    letter-spacing: 0.12em;
-}
-
-.sa-heading { font-size: 0.68em; }
-.sa-heading-lg { font-size: 0.82em; }
-
-/* Shared interactive language */
 .sa-pill-btn,
 .sa-circle-btn,
 .sa-tile-btn,
 .sa-text-row,
 .sa-rofi-row {
-    transition-duration: 140ms;
-    transition-timing-function: ease-out;
+    color: var(--on_surface, #f8ddcf);
+    background-color: var(--surface_container, #2a1d14);
+    border: 1px solid var(--outline_variant, #544339);
+    box-shadow: none;
 }
 
 .sa-pill-btn,
 .sa-circle-btn,
-.sa-tile-btn {
-    border: 1px solid rgba(255,255,255,0.07);
-    box-shadow:
-        inset 0 1px rgba(255,255,255,0.07),
-        0 2px 7px rgba(0,0,0,0.10);
+.sa-tile-btn,
+.sa-text-row,
+.sa-rofi-row {
+    transition-duration: 120ms;
+    transition-timing-function: ease-out;
 }
 
-.sa-pill-btn:hover,
-.sa-circle-btn:hover,
-.sa-tile-btn:hover,
-.sa-text-row:hover,
-.sa-rofi-row:hover {
-    background-color: rgba(255,255,255,0.105);
-    box-shadow:
-        inset 0 1px rgba(255,255,255,0.10),
-        0 5px 14px rgba(0,0,0,0.16);
-    transform: translateY(-1px);
-}
-
-.sa-pill-btn:focus,
-.sa-circle-btn:focus,
-.sa-tile-btn:focus,
-.sa-text-row:focus,
-.sa-rofi-row:focus {
-    box-shadow:
-        0 0 0 2px var(--primary, #d0bcff),
-        0 5px 16px rgba(0,0,0,0.18),
-        inset 0 1px rgba(255,255,255,0.10);
-}
-
-/* Primary / secondary / destructive hierarchy */
+/* Normal semantic tiers */
 .sa-pill-btn.sa-tier-primary,
 .sa-circle-btn.sa-tier-primary,
 .sa-tile-btn.sa-tier-primary {
-    background-color: var(--primary_container, #4f378b);
-    color: var(--on_primary_container, #eaddff);
+    background-color: var(--surface_container_high, #36271e);
+    color: var(--primary, #ffb689);
 }
 
 .sa-pill-btn.sa-tier-secondary,
 .sa-circle-btn.sa-tier-secondary,
 .sa-tile-btn.sa-tier-secondary {
-    background-color: var(--secondary_container, #4a4458);
-    color: var(--on_surface, #e6e0e9);
+    background-color: var(--secondary_container, #5f401d);
+    color: var(--on_secondary_container, #ffdcbc);
 }
 
 .sa-pill-btn.sa-tier-error,
@@ -345,263 +129,254 @@
 .sa-tile-btn.sa-tier-error {
     background-color: var(--error_container, #93000a);
     color: var(--error, #ffb4ab);
+    border-color: var(--outline_variant, #544339);
 }
 
-.sa-tier-error { border-color: rgba(255,180,171,0.24); }
-
-/* Header / identity */
-.sa-header-pill {
-    min-height: 56px;
-    padding: 10px 14px;
-    border-radius: 20px;
-    background-color: var(--surface_container, #2b2930);
-    border: 1px solid rgba(255,255,255,0.065);
-    box-shadow: inset 0 1px rgba(255,255,255,0.045);
+/* Hover = filled tonal role */
+.sa-pill-btn:hover,
+.sa-circle-btn:hover,
+.sa-tile-btn:hover,
+.sa-text-row:hover,
+.sa-rofi-row:hover {
+    background-color: var(--primary, #ffb689);
+    color: var(--on_primary, #512300);
+    border-color: var(--primary, #ffb689);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
 }
 
-.sa-avatar {
-    box-shadow: inset 0 1px rgba(255,255,255,0.18);
-    font-weight: 750;
+.sa-pill-btn.sa-tier-secondary:hover,
+.sa-circle-btn.sa-tier-secondary:hover,
+.sa-tile-btn.sa-tier-secondary:hover {
+    background-color: var(--secondary, #ecbe91);
+    color: var(--on_secondary, #48290b);
+    border-color: var(--secondary, #ecbe91);
 }
 
-/* Compact action pills */
+.sa-pill-btn.sa-tier-error:hover,
+.sa-circle-btn.sa-tier-error:hover,
+.sa-tile-btn.sa-tier-error:hover {
+    background-color: var(--error, #ffb4ab);
+    color: var(--on_error, #690005);
+    border-color: var(--error, #ffb4ab);
+}
+
+/* Keyboard focus — deliberately different from hover */
+.sa-pill-btn:focus,
+.sa-circle-btn:focus,
+.sa-tile-btn:focus,
+.sa-text-row:focus,
+.sa-rofi-row:focus {
+    box-shadow:
+        0 0 0 2px var(--surface_container_lowest, #170b05),
+        0 0 0 4px var(--primary, #ffb689);
+}
+
+.sa-pill-btn.sa-tier-secondary:focus,
+.sa-circle-btn.sa-tier-secondary:focus,
+.sa-tile-btn.sa-tier-secondary:focus {
+    box-shadow:
+        0 0 0 2px var(--surface_container_lowest, #170b05),
+        0 0 0 4px var(--secondary, #ecbe91);
+}
+
+.sa-pill-btn.sa-tier-error:focus,
+.sa-circle-btn.sa-tier-error:focus,
+.sa-tile-btn.sa-tier-error:focus {
+    box-shadow:
+        0 0 0 2px var(--surface_container_lowest, #170b05),
+        0 0 0 4px var(--error, #ffb4ab);
+}
+
+/* Pressed/click state — stronger ring, same semantic fill as hover */
+.sa-pill-btn:active,
+.sa-circle-btn:active,
+.sa-tile-btn:active,
+.sa-text-row:active,
+.sa-rofi-row:active {
+    background-color: var(--primary, #ffb689);
+    color: var(--on_primary, #512300);
+    border-color: var(--primary, #ffb689);
+    box-shadow:
+        0 0 0 2px var(--surface_container_lowest, #170b05),
+        0 0 0 4px var(--primary, #ffb689),
+        0 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+.sa-pill-btn.sa-tier-error:active,
+.sa-circle-btn.sa-tier-error:active,
+.sa-tile-btn.sa-tier-error:active {
+    background-color: var(--error, #ffb4ab);
+    color: var(--on_error, #690005);
+    border-color: var(--error, #ffb4ab);
+    box-shadow:
+        0 0 0 2px var(--surface_container_lowest, #170b05),
+        0 0 0 4px var(--error, #ffb4ab),
+        0 1px 3px rgba(0, 0, 0, 0.28);
+}
+
+/* Keep child icons/text following the button state */
+.sa-pill-btn StIcon,
+.sa-pill-btn StLabel,
+.sa-circle-btn StIcon,
+.sa-circle-btn StLabel,
+.sa-tile-btn StIcon,
+.sa-tile-btn StLabel,
+.sa-text-row StIcon,
+.sa-text-row StLabel,
+.sa-rofi-row StIcon,
+.sa-rofi-row StLabel {
+    color: inherit;
+}
+
+/* Pill controls */
 .sa-pill-btn {
-    min-height: 44px;
-    padding: 10px 17px;
-    border-radius: 15px;
+    min-height: 40px;
+    padding: 10px 16px;
+    border-radius: 999px;
 }
+.sa-pill-label { font-size: 0.92em; font-weight: 650; }
 
-.sa-pill-btn.sa-tier-primary { border-radius: 16px; }
-.sa-pill-label { font-size: 0.90em; font-weight: 650; }
-
-/* Circular actions */
+/* Circular controls */
 .sa-circle-btn {
-    box-shadow: inset 0 1px rgba(255,255,255,0.075);
+    border-radius: 999px;
 }
-
-.sa-circle-btn:hover { transform: translateY(-2px) scale(1.015); }
-
+.sa-circle-btn.sa-squircle { border-radius: 14px; }
+.sa-circle-btn.sa-circle-hero { min-width: 52px; min-height: 52px; }
 .sa-circle-label {
-    font-size: 0.62em;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    color: var(--on_surface_variant, #dac2b4);
+    font-size: 0.65em;
+    font-weight: 650;
+    letter-spacing: 0.06em;
 }
 
-/* Tile actions */
+/* Tiles */
 .sa-tile-btn {
-    border-radius: 18px;
+    border-radius: 16px;
+    border-top: 1px solid var(--outline_variant, #544339);
 }
+.sa-tile-btn:focus { border-top: 1px solid var(--primary, #ffb689); }
+.sa-tile-btn.sa-sharp { border-radius: 4px; }
+.sa-tile-btn.sa-round { border-radius: 24px; }
+.sa-tile-btn.sa-hero { background-color: var(--primary_container, #733500); }
+.sa-tile-label { font-size: 0.85em; font-weight: 600; }
+.sa-tile-badge { color: var(--on_surface_variant, #dac2b4); font-size: 0.62em; font-weight: 700; }
 
-.sa-tile-label { font-size: 0.80em; font-weight: 600; }
-.sa-tile-badge {
-    opacity: 0.72;
-    font-size: 0.60em;
-    font-weight: 800;
+/* Avatar list */
+.sa-text-row {
+    border-radius: 10px;
+    border-left: 2px solid transparent;
+    padding: 6px 8px;
 }
+.sa-text-row.sa-tier-primary StIcon,
+.sa-text-row.sa-tier-primary StLabel { color: var(--primary, #ffb689); }
+.sa-text-row.sa-tier-error StIcon,
+.sa-text-row.sa-tier-error StLabel { color: var(--error, #ffb4ab); }
+.sa-text-row:hover StIcon,
+.sa-text-row:hover StLabel,
+.sa-text-row:active StIcon,
+.sa-text-row:active StLabel { color: inherit; }
 
-/* List / keyboard-first layouts */
-.sa-layout-list,
-.sa-layout-grid,
-.sa-layout-tui {
-    box-shadow: 0 26px 78px rgba(0,0,0,0.46);
+/* Rofi/list rows */
+.sa-rofi-row {
+    border-radius: 12px;
+    border-left: 3px solid transparent;
+    padding: 8px 12px;
 }
-
-.sa-layout-list .sa-bar,
-.sa-layout-grid .sa-bar {
-    background-color: rgba(255,255,255,0.035);
-}
-
-.sa-layout-list .sa-rofi-row {
-    margin: 2px 8px;
-    padding: 10px 12px;
-    border-radius: 14px;
-    border-left: 0;
-}
-
-.sa-layout-list .sa-rofi-row:focus {
-    border-left: 0;
-    background-color: var(--surface_container, #2b2930);
-}
-
 .sa-rofi-key {
-    min-width: 28px;
-    min-height: 22px;
-    padding: 1px 6px;
-    border-radius: 8px;
-    border: 1px solid var(--outline_variant, #49454f);
-    background-color: rgba(255,255,255,0.035);
+    min-width: 24px;
+    padding: 1px 5px;
+    border: 1px solid var(--outline_variant, #544339);
+    border-radius: 6px;
+    color: var(--on_surface_variant, #dac2b4);
+    font-size: 0.72em;
+    font-weight: 700;
 }
+.sa-rofi-row.sa-tier-error StLabel { color: var(--error, #ffb4ab); }
+.sa-rofi-row:hover .sa-rofi-key,
+.sa-rofi-row:active .sa-rofi-key { color: inherit; border-color: currentColor; }
 
-/* Grid */
-.sa-layout-grid .sa-tile-btn {
-    margin: 5px;
-    border-radius: 18px;
-    min-height: 100px;
+/* Row icon badges */
+.sa-row-icon-badge {
+    background-color: var(--surface_container_high, #36271e);
+    border: 1px solid var(--outline_variant, #544339);
 }
+.sa-row-icon-badge.sa-tier-primary { background-color: var(--primary_container, #733500); }
+.sa-row-icon-badge.sa-tier-error { background-color: var(--error_container, #93000a); }
 
-/* Split / dashboard */
-.sa-layout-split {
-    min-width: 450px;
-    border-radius: 30px;
+/* TUI remains intentionally terminal-like */
+.sa-tui-selected {
+    background-color: var(--primary, #ffb689);
+    color: var(--on_primary, #512300);
+    border-radius: 6px;
 }
+.sa-tui-selected StLabel { color: var(--on_primary, #512300); }
 
-.sa-layout-split .sa-circle-btn {
-    min-width: 62px;
-    min-height: 62px;
-}
+/* Dots */
+.sa-dot { border-radius: 999px; background-color: var(--outline_variant, #544339); }
+.sa-dot-filled { background-color: var(--error, #ffb4ab); }
 
-/* Bento */
-.sa-layout-bento {
-    border-radius: 28px;
-    padding: 10px;
-    background-color: var(--surface_container_low, #1e1e26);
-}
+/* -------------------------------------------------------------------------
+ * Layout-specific framing — preserve the personality of each layout while
+ * keeping surfaces, spacing, and interactions consistent.
+ * ---------------------------------------------------------------------- */
+.sa-layout-card { min-width: 520px; }
+.sa-layout-card .sa-header-pill { margin-bottom: 4px; }
+.sa-layout-card .sa-heading { color: var(--on_surface_variant, #dac2b4); }
+.sa-layout-card .sa-title { color: var(--primary, #ffb689); font-size: 1.35em; font-weight: 800; letter-spacing: 0.02em; }
+.sa-layout-card .sa-pill-btn { min-width: 132px; min-height: 54px; border-radius: 16px; }
 
-.sa-layout-bento .sa-tile-btn { border-radius: 18px; }
+.sa-layout-capsule,
+.sa-layout-pill { min-width: 350px; }
+.sa-layout-capsule .sa-header-pill { border-radius: 18px; }
+.sa-layout-capsule .sa-pill-btn { min-height: 46px; }
+.sa-layout-pill { border-radius: 24px; }
 
-/* Radial */
+.sa-layout-list { min-width: 360px; }
+.sa-layout-list .sa-rofi-row { margin: 2px 8px; }
+.sa-layout-list .sa-rofi-row:focus { border-left-color: var(--primary, #ffb689); }
+
+.sa-layout-grid { min-width: 390px; }
+.sa-layout-grid .sa-tile-btn { margin: 4px; min-height: 100px; }
+
+.sa-layout-split { min-width: 440px; border-radius: 24px; }
+.sa-layout-split .sa-circle-btn { min-width: 60px; min-height: 60px; }
+
+.sa-layout-bento { border-radius: 22px; padding: 8px; }
+.sa-layout-bento .sa-tile-btn { border-radius: 14px; }
+
 .sa-layout-radial {
     border-radius: 50%;
-    background-color: var(--surface_container_low, #1e1e26);
+    background-color: var(--surface_container_low, #261910);
 }
+.sa-layout-radial .sa-guide-circle { opacity: 0.55; }
 
-.sa-layout-radial .sa-guide-circle {
-    opacity: 0.40;
-    border-color: var(--outline_variant, #49454f);
-}
+.sa-layout-dock { padding: 12px 9px; border-radius: 24px; }
+.sa-layout-dock .sa-circle-btn { margin: 2px 0; }
 
-.sa-layout-radial .sa-circle-btn {
+.sa-layout-tiles { padding: 18px; border-radius: 24px; }
+.sa-layout-tiles .sa-tile-btn { border-radius: 18px; }
+
+.sa-layout-halo { min-width: 300px; border-radius: 28px; }
+.sa-layout-halo .sa-circle-btn { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.025); }
+.sa-layout-halo .sa-circle-btn:focus {
     box-shadow:
-        0 7px 20px rgba(0,0,0,0.25),
-        inset 0 1px rgba(255,255,255,0.09);
+        0 0 0 2px var(--surface_container_lowest, #170b05),
+        0 0 0 4px var(--primary, #ffb689),
+        0 0 0 10px rgba(255, 182, 137, 0.08);
 }
 
-/* TUI stays deliberately terminal-like, but gets cleaner rhythm and focus. */
-.sa-layout-tui {
-    border-radius: 22px;
-    border-color: rgba(208,188,255,0.24);
-    background-color: #17151c;
-}
+.sa-layout-circles { min-width: 84px; padding: 18px 16px; border-radius: 26px; }
+.sa-layout-circles .sa-circle-btn { box-shadow: 0 5px 16px rgba(0, 0, 0, 0.22); }
 
-.sa-layout-tui .sa-tui-selected {
-    border-radius: 7px;
-    padding-left: 7px;
-    padding-right: 7px;
-}
+.sa-layout-avatar { min-width: 390px; border-radius: 26px; }
+.sa-layout-avatar .sa-avatar { margin-right: 4px; }
+.sa-layout-avatar .sa-text-row { min-height: 40px; border-left: 0; }
 
-/* Dock */
-.sa-layout-dock {
-    padding: 12px 9px;
-    border-radius: 26px;
-}
+.sa-layout-banner { min-width: 380px; border-radius: 24px; }
+.sa-layout-banner .sa-banner-badge { margin: 12px; }
 
-.sa-layout-dock .sa-circle-btn {
-    margin: 2px 0;
-    box-shadow:
-        0 4px 14px rgba(0,0,0,0.20),
-        inset 0 1px rgba(255,255,255,0.08);
-}
+.sa-layout-tui { border-radius: 18px; background-color: var(--surface_container_lowest, #170b05); }
+.sa-layout-tui .sa-tui-selected { border-radius: 6px; }
 
-/* Tiles / quick action strip */
-.sa-layout-tiles {
-    padding: 20px;
-    border-radius: 28px;
-}
-
-.sa-layout-tiles .sa-tile-btn {
-    border-radius: 20px;
-}
-
-/* Hold-to-confirm halo */
-.sa-layout-halo {
-    min-width: 300px;
-    border-radius: 32px;
-}
-
-.sa-layout-halo .sa-circle-btn {
-    box-shadow:
-        0 0 0 7px rgba(255,255,255,0.028),
-        0 9px 24px rgba(0,0,0,0.25),
-        inset 0 1px rgba(255,255,255,0.09);
-}
-
-.sa-layout-halo .sa-dot {
-    box-shadow: 0 0 8px rgba(255,255,255,0.06);
-}
-
-/* Capsule / circles / avatar / pill */
-.sa-layout-capsule,
-.sa-layout-pill {
-    min-width: 350px;
-}
-
-.sa-layout-capsule .sa-header-pill {
-    border-radius: 18px;
-}
-
-.sa-layout-capsule .sa-pill-btn {
-    min-height: 46px;
-}
-
-.sa-layout-circles {
-    min-width: 84px;
-    padding: 18px 16px;
-    border-radius: 30px;
-}
-
-.sa-layout-circles .sa-circle-btn {
-    box-shadow:
-        0 7px 18px rgba(0,0,0,0.24),
-        inset 0 1px rgba(255,255,255,0.08);
-}
-
-.sa-layout-avatar {
-    min-width: 390px;
-    border-radius: 30px;
-}
-
-.sa-layout-avatar .sa-text-row {
-    min-height: 40px;
-    border-radius: 12px;
-    border-left: 0;
-    padding: 8px 10px;
-}
-
-.sa-layout-avatar .sa-text-row:focus {
-    border-left: 0;
-    background-color: var(--surface_container, #2b2930);
-}
-
-.sa-layout-pill {
-    border-radius: 30px;
-}
-
-.sa-layout-pill .sa-pill-btn {
-    border-radius: 16px;
-}
-
-/* Banner */
-.sa-layout-banner {
-    min-width: 380px;
-    border-radius: 28px;
-}
-
-.sa-layout-banner .sa-banner-badge {
-    margin: 12px;
-    padding: 5px 11px 5px 5px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background-color: rgba(15,13,19,0.62);
-    box-shadow: 0 5px 16px rgba(0,0,0,0.24);
-}
-
-/* Focus visibility for icon-only controls */
-.sa-circle-btn:focus StIcon,
-.sa-tile-btn:focus StIcon {
-    icon-shadow: 0 0 12px rgba(255,255,255,0.16);
-}
-
-/* Keep the destructive confirmation consistent with the new surfaces. */
-.sa-layout-card .sa-header-pill,
-.sa-layout-capsule .sa-header-pill {
-    margin-bottom: 2px;
-}
+/* Shared confirmation dialog */
+.sa-panel .sa-tier-error { border-color: var(--outline_variant, #544339); }
