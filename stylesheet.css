@@ -273,170 +273,205 @@
 .sa-dot-filled { background-color: var(--error, #ffb4ab); }
 
 /* -------------------------------------------------------------------------
- * Card — match the reference composition.
+ * Card — compact reference composition and GTK-derived interaction states.
  * ---------------------------------------------------------------------- */
+.sa-card-frame {
+    width: 520px;
+    min-width: 520px;
+    max-width: 520px;
+    height: 438px;
+    min-height: 438px;
+    max-height: 438px;
+}
+
 .sa-layout-card {
-    width: 780px;
-    min-width: 780px;
-    max-width: 780px;
-    min-height: 600px;
+    width: 520px;
+    min-width: 520px;
+    max-width: 520px;
+    height: 438px;
+    min-height: 438px;
+    max-height: 438px;
+    padding: 20px 20px 16px;
     border-radius: 20px;
     background-color: var(--surface, #121318);
-    border: 1px solid var(--outline, #8f9099);
+    border: 1px solid var(--outline_variant, #44464f);
     box-shadow: 0 18px 46px rgba(0, 0, 0, 0.34);
 }
+
 .sa-layout-card .sa-card-header {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
     background-color: transparent;
     border: none;
-    border-radius: 0;
-    padding: 0;
-    margin-bottom: 0;
-}
-.sa-layout-card .sa-avatar { border-radius: 12px; }
-.sa-card-title {
-    color: var(--on_surface, #e2e2e9);
-    font-size: 2em;
-    font-weight: 750;
-    margin-top: 34px;
-}
-.sa-layout-card .sa-heading { margin-top: 0; }
-.sa-layout-card .sa-pill-btn {
-    width: 146px;
-    min-width: 146px;
-    height: 58px;
-    min-height: 58px;
-    border-radius: 16px;
-    padding: 10px 14px;
-}
-.sa-layout-card .sa-pill-label { font-size: 1em; font-weight: 650; }
-.sa-layout-card .sa-header-pill StLabel:first-child { font-size: 1.25em; }
-
-/* Other layouts retain their geometry but use the same interaction roles. */
-.sa-layout-capsule, .sa-layout-pill { min-width: 340px; }
-.sa-layout-list { min-width: 360px; }
-.sa-layout-grid { min-width: 390px; }
-.sa-layout-split { min-width: 440px; border-radius: 20px; }
-.sa-layout-bento { border-radius: 20px; padding: 8px; }
-.sa-layout-radial { border-radius: 50%; background-color: var(--surface_container_low, #1a1b20); }
-.sa-layout-dock { padding: 12px 9px; border-radius: 20px; }
-.sa-layout-tiles { padding: 18px; border-radius: 20px; }
-.sa-layout-halo { min-width: 300px; border-radius: 24px; }
-.sa-layout-circles { min-width: 84px; padding: 18px 16px; border-radius: 22px; }
-.sa-layout-avatar { min-width: 390px; border-radius: 22px; }
-.sa-layout-banner { min-width: 380px; border-radius: 20px; }
-.sa-layout-tui { border-radius: 18px; background-color: var(--surface_container_lowest, #0c0e13); }
-
-/* Confirmation panels inherit the same semantic action treatment. */
-.sa-panel .sa-tier-error { border-color: var(--outline_variant, #44464f); }
-/* Card correction — keep this block LAST in stylesheet.css. */
-
-.sa-card-frame {
-    width: 100%;
 }
 
-/* The final Card geometry intentionally overrides any older Card rules. */
-.sa-layout-card {
-    width: 560px;
-    min-width: 560px;
-    max-width: 560px;
-    min-height: 0;
-    height: auto;
-    border-radius: 20px;
-    padding: 16px;
-    spacing: 0;
-    background-color: var(--surface_container_low, #1a1b20);
-    border: 1px solid var(--outline_variant, #44464f);
-    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.34);
-}
-
-.sa-layout-card .sa-card-header {
-    width: auto;
-    min-width: 0;
-    background-color: var(--surface_container, #1e1f25);
-    border: 1px solid var(--outline_variant, #44464f);
-    border-radius: 16px;
-    padding: 10px 14px;
-    spacing: 12px;
-}
-
+.sa-layout-card .sa-card-header-info { margin-left: 12px; }
 .sa-layout-card .sa-card-user {
     color: var(--on_surface, #e2e2e9);
     font-size: 1.05em;
     font-weight: 650;
 }
-
+.sa-layout-card .sa-card-clock-box { margin-left: 12px; }
 .sa-layout-card .sa-card-clock {
     color: var(--on_surface, #e2e2e9);
     font-size: 1.05em;
     font-weight: 500;
 }
+.sa-layout-card .sa-card-date { font-size: 0.78em; }
 
 .sa-layout-card .sa-avatar {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
     border-radius: 12px;
     background-color: var(--primary_container, #2f4578);
     color: var(--on_primary_container, #d9e2ff);
 }
-
-.sa-layout-card .sa-avatar-image {
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.sa-layout-card .sa-avatar-image StIcon {
-    border-radius: 12px;
-}
+.sa-layout-card .sa-avatar-image { overflow: hidden; }
+.sa-layout-card .sa-avatar-image StIcon { width: 44px; height: 44px; }
 
 .sa-layout-card .sa-card-title {
+    margin-top: 30px;
     color: var(--on_surface, #e2e2e9);
-    font-size: 1.65em;
+    font-size: 1.42em;
     font-weight: 750;
-    margin-top: 24px;
 }
 
+.sa-layout-card .sa-card-section {
+    margin-top: 18px;
+}
 .sa-layout-card .sa-card-section-heading {
     color: var(--on_surface_variant, #c5c6d0);
     font-size: 0.72em;
     font-weight: 750;
     letter-spacing: 0.12em;
-    min-width: 80px;
+    margin-bottom: 12px;
 }
+.sa-layout-card .sa-card-action-row { spacing: 10px; }
 
+/* Horizontal icon + label action pills. */
 .sa-layout-card .sa-card-action {
-    width: 110px;
-    min-width: 110px;
-    max-width: 110px;
-    height: 54px;
-    min-height: 54px;
-    max-height: 54px;
-    padding: 6px 10px;
-    border-radius: 16px;
+    width: 108px;
+    min-width: 108px;
+    max-width: 108px;
+    height: 42px;
+    min-height: 42px;
+    max-height: 42px;
+    padding: 8px 12px;
+    border-radius: 12px;
 }
-
-.sa-layout-card .sa-card-action .sa-pill-label {
+.sa-layout-card .sa-card-action-content { spacing: 8px; }
+.sa-layout-card .sa-card-action-label {
     color: inherit;
-    font-size: 0.86em;
+    font-size: 0.88em;
     font-weight: 650;
 }
+.sa-layout-card .sa-card-action StIcon { color: inherit; }
 
-.sa-layout-card .sa-card-cancel {
-    min-width: 104px;
-    min-height: 40px;
-    padding: 8px 18px;
-    background-color: var(--surface_container, #1e1f25);
-    color: var(--on_surface, #e2e2e9);
-    border-color: var(--outline_variant, #44464f);
+/* Generic GTK button reference: tonal normal, semantic hover, detached focus. */
+.sa-layout-card .sa-card-action.sa-tier-primary,
+.sa-layout-card .sa-card-action.sa-tier-secondary {
+    background-color: var(--surface_container_highest, #33343a);
+    border-color: transparent;
+}
+.sa-layout-card .sa-card-action.sa-tier-primary { color: var(--primary, #b0c6ff); }
+.sa-layout-card .sa-card-action.sa-tier-secondary { color: var(--secondary, #c0c6dc); }
+
+.sa-layout-card .sa-card-action.sa-tier-primary:hover {
+    background-color: var(--primary, #b0c6ff);
+    color: var(--on_primary, #152e60);
+    border-color: var(--primary, #b0c6ff);
+    border-radius: 16px;
+    outline: 0 solid transparent;
+}
+.sa-layout-card .sa-card-action.sa-tier-secondary:hover {
+    background-color: var(--secondary, #c0c6dc);
+    color: var(--on_secondary, #2a3042);
+    border-color: var(--secondary, #c0c6dc);
+    border-radius: 16px;
+    outline: 0 solid transparent;
 }
 
-.sa-layout-card .sa-card-cancel:hover {
-    background-color: var(--surface_container_high, #282a2f);
-    color: var(--on_surface, #e2e2e9);
-    border-color: var(--outline, #8f9099);
-}
-
-/* Actual offset focus ring — not a flush border or box-shadow. */
+/* Focus never replaces the normal tonal appearance. */
 .sa-layout-card .sa-card-action.sa-focus-ring,
+.sa-layout-card .sa-card-action:focus {
+    border-radius: 12px;
+    outline: 2px solid var(--primary, #b0c6ff);
+    outline-offset: 2px;
+}
+.sa-layout-card .sa-card-action.sa-tier-secondary.sa-focus-ring,
+.sa-layout-card .sa-card-action.sa-tier-secondary:focus {
+    outline-color: var(--secondary, #c0c6dc);
+}
+.sa-layout-card .sa-card-action.sa-tier-error.sa-focus-ring,
+.sa-layout-card .sa-card-action.sa-tier-error:focus {
+    outline-color: var(--error, #ffb4ab);
+}
+
+/* Mouse/keyboard active state: full semantic role + offset outline + pill pop. */
+.sa-layout-card .sa-card-action.sa-tier-primary.sa-pressed,
+.sa-layout-card .sa-card-action.sa-tier-primary:active {
+    background-color: var(--primary, #b0c6ff);
+    color: var(--on_primary, #152e60);
+    border-color: var(--primary, #b0c6ff);
+    border-radius: 999px;
+    outline: 2px solid var(--primary, #b0c6ff);
+    outline-offset: 2px;
+}
+.sa-layout-card .sa-card-action.sa-tier-secondary.sa-pressed,
+.sa-layout-card .sa-card-action.sa-tier-secondary:active {
+    background-color: var(--secondary, #c0c6dc);
+    color: var(--on_secondary, #2a3042);
+    border-color: var(--secondary, #c0c6dc);
+    border-radius: 999px;
+    outline: 2px solid var(--secondary, #c0c6dc);
+    outline-offset: 2px;
+}
+
+/* Destructive actions follow the GTK destructive-action semantics. */
+.sa-layout-card .sa-card-action.sa-tier-error {
+    background-color: transparent;
+    color: var(--error, #ffb4ab);
+    border-color: transparent;
+}
+.sa-layout-card .sa-card-action.sa-tier-error:hover {
+    background-color: var(--error, #ffb4ab);
+    color: var(--on_error, #690005);
+    border-color: var(--error, #ffb4ab);
+    border-radius: 16px;
+    outline: 0 solid transparent;
+}
+.sa-layout-card .sa-card-action.sa-tier-error.sa-pressed,
+.sa-layout-card .sa-card-action.sa-tier-error:active {
+    background-color: var(--error, #ffb4ab);
+    color: var(--on_error, #690005);
+    border-color: var(--error, #ffb4ab);
+    border-radius: 999px;
+    outline: 2px solid var(--error, #ffb4ab);
+    outline-offset: 2px;
+}
+
+/* Cancel is neutral/tonal but uses the same focus and active mechanics. */
+.sa-layout-card .sa-card-cancel-row { margin-top: 42px; }
+.sa-layout-card .sa-card-cancel {
+    min-width: 96px;
+    min-height: 38px;
+    padding: 8px 18px;
+    border-radius: 12px;
+    background-color: var(--surface_container_highest, #33343a);
+    color: var(--primary, #b0c6ff);
+    border-color: transparent;
+}
+.sa-layout-card .sa-card-cancel:hover {
+    background-color: var(--primary, #b0c6ff);
+    color: var(--on_primary, #152e60);
+    border-color: var(--primary, #b0c6ff);
+    border-radius: 16px;
+    outline: 0 solid transparent;
+}
 .sa-layout-card .sa-card-cancel.sa-focus-ring,
-.sa-layout-card .sa-card-action:focus,
 .sa-layout-card .sa-card-cancel:focus {
     border-radius: 12px;
     outline: 2px solid var(--primary, #b0c6ff);
@@ -454,15 +489,6 @@
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
 }
 
-.sa-layout-card .sa-card-action.sa-tier-secondary.sa-focus-ring,
-.sa-layout-card .sa-card-action.sa-tier-secondary:focus {
-    outline-color: var(--secondary, #c0c6dc);
-}
-
-.sa-layout-card .sa-card-action.sa-tier-error.sa-focus-ring,
-.sa-layout-card .sa-card-action.sa-tier-error:focus {
-    outline-color: var(--error, #ffb4ab);
-}
 /* Card: keep geometry but add depth so pressed/focused still read clearly. */
 .sa-layout-card .sa-card-action.sa-focus-ring,
 .sa-layout-card .sa-card-action:focus {
