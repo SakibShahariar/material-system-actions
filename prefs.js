@@ -111,6 +111,21 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             if (Math.abs(opacityRow.value - v) > 0.001) opacityRow.value = v;
         });
         appearance.add(opacityRow);
+
+        const dimRow = new Adw.SpinRow({
+            title: 'Backdrop dim',
+            subtitle: '0% = no dim, 50% = default shell look, 100% = darkest',
+            adjustment: new Gtk.Adjustment({
+                lower: 0.0, upper: 1.0, step_increment: 0.05, value: settings.get_double('backdrop-dim'),
+            }),
+            digits: 2,
+        });
+        dimRow.connect('notify::value', () => settings.set_double('backdrop-dim', dimRow.value));
+        settings.connect('changed::backdrop-dim', () => {
+            const v = settings.get_double('backdrop-dim');
+            if (Math.abs(dimRow.value - v) > 0.001) dimRow.value = v;
+        });
+        appearance.add(dimRow);
         page.add(appearance);
 
         window.add(page);
