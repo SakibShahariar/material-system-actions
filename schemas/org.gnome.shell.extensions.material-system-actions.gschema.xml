@@ -19,8 +19,8 @@
     <key name="panel-opacity" type="d">
       <default>1.0</default>
       <range min="0.0" max="1.0"/>
-      <summary>Panel background opacity</summary>
-      <description>0 is fully transparent, 1 is solid. Controls sa-panel background opacity.</description>
+      <summary>Panel transparency</summary>
+      <description>Opacity of the whole popup. 0 is fully transparent, 1 is solid. Fades every surface of the panel uniformly.</description>
     </key>
   </schema>
 </schemalist>

@@ -97,8 +97,8 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         appearance.add(scaleRow);
 
         const opacityRow = new Adw.SpinRow({
-            title: 'Panel opacity',
-            subtitle: '0 = fully transparent, 1 = solid',
+            title: 'Panel transparency',
+            subtitle: '0% = fully transparent, 100% = solid',
             adjustment: new Gtk.Adjustment({
                 lower: 0.0, upper: 1.0, step_increment: 0.05, value: settings.get_double('panel-opacity'),
             }),
