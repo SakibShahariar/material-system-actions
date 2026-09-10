@@ -73,10 +73,12 @@
 /* -------------------------------------------------------------------------
  * Shared action controls
  *
- * normal  -> surface roles
- * hover   -> semantic full role
- * focus   -> explicit offset ring
- * pressed -> semantic full role + offset ring
+ * One interaction vocabulary reused by every layout:
+ *
+ *   normal  -> tonal surface, soft elevation
+ *   hover   -> full semantic role color + lift
+ *   focus   -> offset ring + outer glow (keyboard focus too)
+ *   pressed -> role color + inset shadow ("click"), ring retained
  * ---------------------------------------------------------------------- */
 .sa-pill-btn,
 .sa-circle-btn,
@@ -86,8 +88,8 @@
     color: var(--on_surface, #e2e2e9);
     background-color: var(--surface_container, #1e1f25);
     border: 1px solid var(--outline_variant, #44464f);
-    box-shadow: none;
-    transition-duration: 120ms;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    transition-duration: 140ms;
     transition-timing-function: ease-out;
 }
 
@@ -97,21 +99,24 @@
 .sa-tile-btn.sa-tier-primary {
     background-color: var(--primary_container, #2f4578);
     color: var(--on_primary_container, #d9e2ff);
+    border-color: var(--primary, #b0c6ff);
 }
 .sa-pill-btn.sa-tier-secondary,
 .sa-circle-btn.sa-tier-secondary,
 .sa-tile-btn.sa-tier-secondary {
     background-color: var(--secondary_container, #404659);
     color: var(--on_secondary_container, #dce2f9);
+    border-color: var(--secondary, #c0c6dc);
 }
 .sa-pill-btn.sa-tier-error,
 .sa-circle-btn.sa-tier-error,
 .sa-tile-btn.sa-tier-error {
     background-color: var(--error_container, #93000a);
     color: var(--on_error_container, #ffdad6);
+    border-color: var(--error, #ffb4ab);
 }
 
-/* Hover */
+/* Hover: full semantic fill + clear elevation lift */
 .sa-pill-btn:hover,
 .sa-circle-btn:hover,
 .sa-tile-btn:hover,
@@ -120,6 +125,7 @@
     background-color: var(--primary, #b0c6ff);
     color: var(--on_primary, #152e60);
     border-color: var(--primary, #b0c6ff);
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.38);
 }
 .sa-pill-btn.sa-tier-secondary:hover,
 .sa-circle-btn.sa-tier-secondary:hover,
@@ -136,7 +142,7 @@
     border-color: var(--error, #ffb4ab);
 }
 
-/* Focus: deliberately offset from the control, matching the reference. */
+/* Focus ring: keyboard focus + mouse focus, offset ring with soft glow */
 .sa-pill-btn.sa-focus-ring,
 .sa-circle-btn.sa-focus-ring,
 .sa-tile-btn.sa-focus-ring,
@@ -149,21 +155,30 @@
 .sa-rofi-row:focus {
     outline-style: solid;
     outline-width: 2px;
-    outline-offset: 4px;
+    outline-offset: 3px;
     outline-color: var(--primary, #b0c6ff);
+    box-shadow: 0 0 0 6px rgba(176, 198, 255, 0.2);
 }
 .sa-pill-btn.sa-tier-secondary.sa-focus-ring,
 .sa-circle-btn.sa-tier-secondary.sa-focus-ring,
-.sa-tile-btn.sa-tier-secondary.sa-focus-ring {
+.sa-tile-btn.sa-tier-secondary.sa-focus-ring,
+.sa-pill-btn.sa-tier-secondary:focus,
+.sa-circle-btn.sa-tier-secondary:focus,
+.sa-tile-btn.sa-tier-secondary:focus {
     outline-color: var(--secondary, #c0c6dc);
+    box-shadow: 0 0 0 6px rgba(192, 198, 220, 0.2);
 }
 .sa-pill-btn.sa-tier-error.sa-focus-ring,
 .sa-circle-btn.sa-tier-error.sa-focus-ring,
-.sa-tile-btn.sa-tier-error.sa-focus-ring {
+.sa-tile-btn.sa-tier-error.sa-focus-ring,
+.sa-pill-btn.sa-tier-error:focus,
+.sa-circle-btn.sa-tier-error:focus,
+.sa-tile-btn.sa-tier-error:focus {
     outline-color: var(--error, #ffb4ab);
+    box-shadow: 0 0 0 6px rgba(255, 180, 171, 0.2);
 }
 
-/* Pressed: explicit class makes mouse-down state reliable. */
+/* Pressed: role color + inset shadow (sunk-in click), ring retained */
 .sa-pill-btn.sa-pressed,
 .sa-circle-btn.sa-pressed,
 .sa-tile-btn.sa-pressed,
@@ -177,14 +192,18 @@
     background-color: var(--primary, #b0c6ff);
     color: var(--on_primary, #152e60);
     border-color: var(--primary, #b0c6ff);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
     outline-style: solid;
     outline-width: 2px;
-    outline-offset: 5px;
+    outline-offset: 4px;
     outline-color: var(--primary, #b0c6ff);
 }
 .sa-pill-btn.sa-tier-secondary.sa-pressed,
 .sa-circle-btn.sa-tier-secondary.sa-pressed,
-.sa-tile-btn.sa-tier-secondary.sa-pressed {
+.sa-tile-btn.sa-tier-secondary.sa-pressed,
+.sa-pill-btn.sa-tier-secondary:active,
+.sa-circle-btn.sa-tier-secondary:active,
+.sa-tile-btn.sa-tier-secondary:active {
     background-color: var(--secondary, #c0c6dc);
     color: var(--on_secondary, #2a3042);
     border-color: var(--secondary, #c0c6dc);
@@ -192,7 +211,10 @@
 }
 .sa-pill-btn.sa-tier-error.sa-pressed,
 .sa-circle-btn.sa-tier-error.sa-pressed,
-.sa-tile-btn.sa-tier-error.sa-pressed {
+.sa-tile-btn.sa-tier-error.sa-pressed,
+.sa-pill-btn.sa-tier-error:active,
+.sa-circle-btn.sa-tier-error:active,
+.sa-tile-btn.sa-tier-error:active {
     background-color: var(--error, #ffb4ab);
     color: var(--on_error, #690005);
     border-color: var(--error, #ffb4ab);
@@ -232,7 +254,20 @@
 .sa-row-icon-badge.sa-tier-primary { background-color: var(--primary, #b0c6ff); }
 .sa-row-icon-badge.sa-tier-error { background-color: var(--error_container, #93000a); }
 
-.sa-tui-selected { background-color: var(--primary, #b0c6ff); color: var(--on_primary, #152e60); border-radius: 6px; }
+/* TUI rows: no background by default; hover/focus/selected make them pop */
+.sa-tui-row { background-color: transparent; border-radius: 6px; }
+.sa-tui-row:hover { background-color: rgba(255, 255, 255, 0.07); }
+.sa-tui-row.sa-focus-ring,
+.sa-tui-row:focus {
+    background-color: rgba(255, 255, 255, 0.1);
+    outline-style: solid;
+    outline-width: 1px;
+    outline-offset: 0;
+    outline-color: var(--primary, #b0c6ff);
+}
+.sa-tui-row.sa-pressed,
+.sa-tui-row:active { background-color: var(--primary, #b0c6ff); }
+.sa-tui-selected { background-color: var(--primary, #b0c6ff); color: var(--on_primary, #152e60); border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); }
 .sa-tui-selected StLabel { color: var(--on_primary, #152e60); }
 .sa-dot { border-radius: 999px; background-color: var(--outline_variant, #44464f); }
 .sa-dot-filled { background-color: var(--error, #ffb4ab); }
@@ -403,8 +438,20 @@
 .sa-layout-card .sa-card-cancel.sa-focus-ring,
 .sa-layout-card .sa-card-action:focus,
 .sa-layout-card .sa-card-cancel:focus {
+    border-radius: 12px;
     outline: 2px solid var(--primary, #b0c6ff);
-    outline-offset: 4px;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 6px rgba(176, 198, 255, 0.16);
+}
+.sa-layout-card .sa-card-cancel.sa-pressed,
+.sa-layout-card .sa-card-cancel:active {
+    background-color: var(--primary, #b0c6ff);
+    color: var(--on_primary, #152e60);
+    border-color: var(--primary, #b0c6ff);
+    border-radius: 999px;
+    outline: 2px solid var(--primary, #b0c6ff);
+    outline-offset: 2px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
 }
 
 .sa-layout-card .sa-card-action.sa-tier-secondary.sa-focus-ring,
@@ -415,4 +462,23 @@
 .sa-layout-card .sa-card-action.sa-tier-error.sa-focus-ring,
 .sa-layout-card .sa-card-action.sa-tier-error:focus {
     outline-color: var(--error, #ffb4ab);
+}
+/* Card: keep geometry but add depth so pressed/focused still read clearly. */
+.sa-layout-card .sa-card-action.sa-focus-ring,
+.sa-layout-card .sa-card-action:focus {
+    box-shadow: 0 0 0 6px rgba(176, 198, 255, 0.16);
+}
+.sa-layout-card .sa-card-action.sa-tier-secondary.sa-focus-ring,
+.sa-layout-card .sa-card-action.sa-tier-secondary:focus {
+    box-shadow: 0 0 0 6px rgba(192, 198, 220, 0.16);
+}
+.sa-layout-card .sa-card-action.sa-tier-error.sa-focus-ring,
+.sa-layout-card .sa-card-action.sa-tier-error:focus {
+    box-shadow: 0 0 0 6px rgba(255, 180, 171, 0.16);
+}
+.sa-layout-card .sa-card-action.sa-pressed,
+.sa-layout-card .sa-card-action:active,
+.sa-layout-card .sa-card-cancel.sa-pressed,
+.sa-layout-card .sa-card-cancel:active {
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
 }
