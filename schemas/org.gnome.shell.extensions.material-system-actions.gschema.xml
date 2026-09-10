@@ -22,11 +22,10 @@
       <summary>Panel transparency</summary>
       <description>Opacity of the whole popup. 0 is fully transparent, 1 is solid. Fades every surface of the panel uniformly.</description>
     </key>
-    <key name="backdrop-dim" type="d">
-      <default>0.5</default>
-      <range min="0.0" max="1.0"/>
-      <summary>Backdrop dim</summary>
-      <description>Darkness of the overlay behind the popup. 0 disables the dim entirely, 0.5 is the default shell look, 1 is the darkest.</description>
+    <key name="backdrop-dim-enabled" type="b">
+      <default>true</default>
+      <summary>Dim the backdrop behind the popup</summary>
+      <description>When enabled, the popup dims the desktop behind it using the standard shell dim level. Disable for no dim at all.</description>
     </key>
   </schema>
 </schemalist>

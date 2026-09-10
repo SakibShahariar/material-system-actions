@@ -112,18 +112,15 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         });
         appearance.add(opacityRow);
 
-        const dimRow = new Adw.SpinRow({
-            title: 'Backdrop dim',
-            subtitle: '0% = no dim, 50% = default shell look, 100% = darkest',
-            adjustment: new Gtk.Adjustment({
-                lower: 0.0, upper: 1.0, step_increment: 0.05, value: settings.get_double('backdrop-dim'),
-            }),
-            digits: 2,
+        const dimRow = new Adw.SwitchRow({
+            title: 'Dim backdrop',
+            subtitle: 'Dim the desktop behind the popup',
         });
-        dimRow.connect('notify::value', () => settings.set_double('backdrop-dim', dimRow.value));
-        settings.connect('changed::backdrop-dim', () => {
-            const v = settings.get_double('backdrop-dim');
-            if (Math.abs(dimRow.value - v) > 0.001) dimRow.value = v;
+        dimRow.active = settings.get_boolean('backdrop-dim-enabled');
+        dimRow.connect('notify::active', () => settings.set_boolean('backdrop-dim-enabled', dimRow.active));
+        settings.connect('changed::backdrop-dim-enabled', () => {
+            if (dimRow.active !== settings.get_boolean('backdrop-dim-enabled'))
+                dimRow.active = settings.get_boolean('backdrop-dim-enabled');
         });
         appearance.add(dimRow);
         page.add(appearance);
