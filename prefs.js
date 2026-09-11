@@ -87,11 +87,12 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
 
         const appearance = new Adw.PreferencesGroup({title: 'Appearance'});
         const scaleRow = new Adw.SpinRow({
-            title: 'Icon size',
+            title: 'UI scale',
+            subtitle: 'Zoom the whole popup — text, icons, and geometry',
             adjustment: new Gtk.Adjustment({
-                lower: 0.7, upper: 1.6, step_increment: 0.1, value: settings.get_double('icon-scale'),
+                lower: 0.6, upper: 2.0, step_increment: 0.05, value: settings.get_double('icon-scale'),
             }),
-            digits: 1,
+            digits: 2,
         });
         scaleRow.connect('notify::value', () => settings.set_double('icon-scale', scaleRow.value));
         appearance.add(scaleRow);
