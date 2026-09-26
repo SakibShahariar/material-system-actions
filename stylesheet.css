@@ -166,7 +166,7 @@
     outline-width: 2px;
     outline-offset: 2px;
     outline-color: var(--primary, #b0c6ff);
-    box-shadow: 0 0 0 6px rgba(176, 198, 255, 0.2);
+    box-shadow: 0 0 0 6px var(--sa-glow-primary, rgba(176, 198, 255, 0.2));
 }
 .sa-pill-btn.sa-tier-secondary.sa-focus-ring,
 .sa-circle-btn.sa-tier-secondary.sa-focus-ring,
@@ -175,7 +175,7 @@
 .sa-circle-btn.sa-tier-secondary:focus,
 .sa-tile-btn.sa-tier-secondary:focus {
     outline-color: var(--secondary, #c0c6dc);
-    box-shadow: 0 0 0 6px rgba(192, 198, 220, 0.2);
+    box-shadow: 0 0 0 6px var(--sa-glow-secondary, rgba(192, 198, 220, 0.2));
 }
 .sa-pill-btn.sa-tier-error.sa-focus-ring,
 .sa-circle-btn.sa-tier-error.sa-focus-ring,
@@ -184,7 +184,17 @@
 .sa-circle-btn.sa-tier-error:focus,
 .sa-tile-btn.sa-tier-error:focus {
     outline-color: var(--error, #ffb4ab);
-    box-shadow: 0 0 0 6px rgba(255, 180, 171, 0.2);
+    box-shadow: 0 0 0 6px var(--sa-glow-error, rgba(255, 180, 171, 0.2));
+}
+
+/* GTK parity: while hovering, the outline is cleared (frame only shows on
+ * :focus:not(:hover):not(:active) — restored on button press below). */
+.sa-pill-btn:hover,
+.sa-circle-btn:hover,
+.sa-tile-btn:hover,
+.sa-text-row:hover,
+.sa-rofi-row:hover {
+    outline: 0 solid transparent;
 }
 
 /* Pressed: full role color + pill morph + inset shadow, ring retained */
@@ -261,6 +271,70 @@
 .sa-tile-btn.sa-hero { background-color: var(--primary_container, #2f4578); }
 .sa-tile-label { font-size: 0.85em; font-weight: 600; }
 .sa-tile-badge { color: var(--on_surface_variant, #c5c6d0); font-size: 0.62em; font-weight: 700; }
+
+/* -------------------------------------------------------------------------
+ * Tiles — reinforced, unmistakable interaction states.
+ *
+ * The generic ring above (2px outline, tier-colored) reads fine on a
+ * saturated theme but disappears on a dark/low-chroma Matugen theme,
+ * because the ring color sits close in value to the tile's own border and
+ * the panel behind it. Also: an earlier version of this ring used
+ * `box-shadow: 0 0 0 <n>px <color>` (the 4-value offset/blur/spread form)
+ * for an extra glow — St does not reliably support the spread component,
+ * so it rendered as a huge opaque black blob instead of a soft colored
+ * halo. Fixed by dropping box-shadow entirely and using only `outline`
+ * (offset + width + color), which doesn't need spread math. For tiles:
+ *   - the ring is thicker (3px) and drawn in --on_surface (a near-white
+ *     neutral), so it contrasts with the tile *and* the panel regardless
+ *     of theme hue — a deliberate exception to "use the tier's own color"
+ *   - focus survives hover: the compound :focus:hover selectors below have
+ *     higher specificity than the plain :hover rule above, so resting the
+ *     mouse on the keyboard-focused tile no longer erases its ring
+ * ---------------------------------------------------------------------- */
+.sa-tile-btn:focus,
+.sa-tile-btn.sa-focus-ring {
+    outline-style: solid;
+    outline-width: 3px;
+    outline-offset: 3px;
+    outline-color: var(--on_surface, #f5f5f5);
+}
+
+/* Focus + hover together: keep the ring (don't let :hover above erase it)
+ * and layer it on top of hover's full-color fill, so the one tile that's
+ * both focused and under the pointer is unmistakably "the one Enter will
+ * activate". */
+.sa-tile-btn:focus:hover,
+.sa-tile-btn.sa-focus-ring:hover,
+.sa-tile-btn:hover.sa-focus-ring {
+    background-color: var(--primary, #b0c6ff);
+    color: var(--on_primary, #152e60);
+    border-color: var(--on_primary, #152e60);
+    outline-style: solid;
+    outline-width: 3px;
+    outline-offset: 3px;
+    outline-color: var(--on_surface, #f5f5f5);
+}
+.sa-tile-btn.sa-tier-secondary:focus:hover,
+.sa-tile-btn.sa-tier-secondary.sa-focus-ring:hover,
+.sa-tile-btn.sa-tier-secondary:hover.sa-focus-ring {
+    background-color: var(--secondary, #c0c6dc);
+    color: var(--on_secondary, #2a3042);
+    border-color: var(--on_secondary, #2a3042);
+}
+.sa-tile-btn.sa-tier-error:focus:hover,
+.sa-tile-btn.sa-tier-error.sa-focus-ring:hover,
+.sa-tile-btn.sa-tier-error:hover.sa-focus-ring {
+    background-color: var(--error, #ffb4ab);
+    color: var(--on_error, #690005);
+    border-color: var(--on_error, #690005);
+}
+
+/* Pressed/click: same neutral ring color as focus, so a click always reads
+ * as "focus, but darker/inset" rather than a fourth unrelated look. */
+.sa-tile-btn.sa-pressed,
+.sa-tile-btn:active {
+    outline-color: var(--on_surface, #f5f5f5);
+}
 
 .sa-text-row { border-radius: 10px; border-left: 2px solid transparent; padding: 6px 8px; }
 .sa-text-row.sa-tier-primary StIcon, .sa-text-row.sa-tier-primary StLabel { color: var(--primary, #b0c6ff); }
@@ -496,7 +570,7 @@
     border-radius: 12px;
     outline: 2px solid var(--primary, #b0c6ff);
     outline-offset: 2px;
-    box-shadow: 0 0 0 6px rgba(176, 198, 255, 0.16);
+    box-shadow: 0 0 0 6px var(--sa-glow-primary-soft, rgba(176, 198, 255, 0.16));
 }
 .sa-layout-card .sa-card-cancel.sa-pressed,
 .sa-layout-card .sa-card-cancel:active {
@@ -512,15 +586,15 @@
 /* Card: keep geometry but add depth so pressed/focused still read clearly. */
 .sa-layout-card .sa-card-action.sa-focus-ring,
 .sa-layout-card .sa-card-action:focus {
-    box-shadow: 0 0 0 6px rgba(176, 198, 255, 0.16);
+    box-shadow: 0 0 0 6px var(--sa-glow-primary-soft, rgba(176, 198, 255, 0.16));
 }
 .sa-layout-card .sa-card-action.sa-tier-secondary.sa-focus-ring,
 .sa-layout-card .sa-card-action.sa-tier-secondary:focus {
-    box-shadow: 0 0 0 6px rgba(192, 198, 220, 0.16);
+    box-shadow: 0 0 0 6px var(--sa-glow-secondary-soft, rgba(192, 198, 220, 0.16));
 }
 .sa-layout-card .sa-card-action.sa-tier-error.sa-focus-ring,
 .sa-layout-card .sa-card-action.sa-tier-error:focus {
-    box-shadow: 0 0 0 6px rgba(255, 180, 171, 0.16);
+    box-shadow: 0 0 0 6px var(--sa-glow-error-soft, rgba(255, 180, 171, 0.16));
 }
 .sa-layout-card .sa-card-action.sa-pressed,
 .sa-layout-card .sa-card-action:active,
