@@ -28,6 +28,10 @@ Old names (`rofi`, `quickshell`, `wlogout`, `dots`, `end4`) still work as aliase
 
 See `lib/layouts/registry.js:1` for mapping.
 
+## Action confirmation
+
+Log out, reboot, and shutdown use the same confirmation dialog in every layout. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.
+
 ## Install (dev)
 
 ```bash
