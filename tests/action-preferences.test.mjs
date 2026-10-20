@@ -76,6 +76,9 @@ test('rejects duplicate IDs and shortcut collisions', () => {
     assert.throws(() => parseCustomActions(JSON.stringify([
         {id: 'custom-a', label: 'A', icon: 'power-symbolic', cmd: ['true'], key: 's'},
     ])), /already reserved/);
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {id: 'custom-hibernate', label: 'Custom Hibernate', icon: 'power-symbolic', cmd: ['true'], key: 'h'},
+    ])), /already reserved/);
 });
 
 import {isHibernateCapabilityAvailable} from '../lib/hibernate-capability.js';
