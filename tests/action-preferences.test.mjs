@@ -120,3 +120,26 @@ test('handles malformed inhibitor data without throwing', () => {
     assert.deepEqual(getSleepInhibitors(null), []);
     assert.deepEqual(getSleepInhibitors([null, ['idle', 'x', 'y', 'block', 1, 2]]), []);
 });
+
+import {buildSwitchUserActions} from '../lib/switch-users.js';
+
+test('only offers switch actions for other users on local graphical sessions', () => {
+    const sessions = [
+        {id: '4', user: 'alice', seat: 'seat0', type: 'wayland', class: 'user', remote: false},
+        {id: '5', user: 'bob', seat: 'seat0', type: 'x11', class: 'user', remote: false},
+        {id: '6', user: 'me', seat: 'seat0', type: 'wayland', class: 'user', remote: false},
+        {id: '7', user: 'ttyuser', seat: 'seat0', type: 'tty', class: 'user', remote: false},
+        {id: '8', user: 'remote', seat: '', type: 'wayland', class: 'user', remote: true},
+        {id: '9', user: 'greeter', seat: 'seat0', type: 'wayland', class: 'greeter', remote: false},
+    ];
+    assert.deepEqual(buildSwitchUserActions(sessions, 'me', '3'), [
+        {id: 'switch-user-4', label: 'Switch to alice', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '4'], destructive: false},
+        {id: 'switch-user-5', label: 'Switch to bob', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '5'], destructive: false},
+    ]);
+});
+
+test('does not create switch actions for malformed session IDs', () => {
+    assert.deepEqual(buildSwitchUserActions([
+        {id: '../bad', user: 'other', seat: 'seat0', type: 'wayland', class: 'user', remote: false},
+    ], 'me', '1'), []);
+});

@@ -60,6 +60,10 @@ Open Preferences → **Custom actions** and edit the JSON array. Valid custom ac
 
 **Security:** custom commands execute with your user permissions. They are launched as argument arrays directly, never through a shell; shell syntax, pipes, and variable expansion are not interpreted. Treat this setting like executable code and only add commands you trust. `confirm` defaults to `true`; set it to `false` only for actions that are safe to run immediately. Use unique `custom-*` IDs and unused single-letter shortcuts.
 
+## Switch user
+
+When `systemd-logind` reports another user's local Wayland or X11 session on a seat, the popup adds a **Switch to username** action. It uses `loginctl activate` to switch to that existing session; it does not create a new user session. The action is omitted when session enumeration or graphical-session detection is unavailable.
+
 ## Action confirmation
 
 Log out, reboot, shutdown, and hibernate use the same confirmation dialog in every layout. Before suspend, the extension best-effort checks logind for sleep inhibitors; if it finds any, it lists the applications and lets you cancel or force suspend by ignoring inhibitor locks. If logind cannot be queried, suspend falls back to its normal behavior. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.
