@@ -138,6 +138,16 @@ test('only offers switch actions for other users on local graphical sessions', (
     ]);
 });
 
+test('omits switch actions when session metadata is incomplete', () => {
+    assert.deepEqual(buildSwitchUserActions([
+        {id: '4', user: 'alice', seat: 'seat0', type: 'wayland', class: null, remote: false},
+        {id: '5', user: 'bob', seat: 'seat0', type: null, class: 'user', remote: false},
+        {id: '6', user: 'carol', seat: 'seat0', type: 'x11', class: 'user', remote: null},
+    ], 'me', '3'), [
+        {id: 'switch-user-6', label: 'Switch to carol', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '6'], destructive: false},
+    ]);
+});
+
 test('does not create switch actions for malformed session IDs', () => {
     assert.deepEqual(buildSwitchUserActions([
         {id: '../bad', user: 'other', seat: 'seat0', type: 'wayland', class: 'user', remote: false},
