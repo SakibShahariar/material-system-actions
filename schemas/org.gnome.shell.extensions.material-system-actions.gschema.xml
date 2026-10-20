@@ -17,7 +17,7 @@
       <description>JSON array of custom actions. Commands run directly without a shell.</description>
     </key>
     <key name="action-order" type="as">
-      <default>['lock', 'logout', 'suspend', 'reboot', 'shutdown']</default>
+      <default>['lock', 'logout', 'suspend', 'hibernate', 'reboot', 'shutdown']</default>
       <summary>Order of system actions</summary>
       <description>Display order of available actions. New actions are appended automatically.</description>
     </key>

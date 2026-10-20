@@ -85,6 +85,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             {id: 'lock', label: 'Lock', description: 'Lock the current session'},
             {id: 'logout', label: 'Log out', description: 'End the current session'},
             {id: 'suspend', label: 'Suspend', description: 'Suspend the computer'},
+            {id: 'hibernate', label: 'Hibernate', description: 'Save the session to disk and power off, when supported'},
             {id: 'reboot', label: 'Reboot', description: 'Restart the computer'},
             {id: 'shutdown', label: 'Shutdown', description: 'Power off the computer'},
         ];
@@ -96,7 +97,8 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const renderActionRows = () => {
             for (const row of actionRows.values()) actionGroup.remove(row);
             actionRows.clear();
-            const order = settings.get_strv('action-order');
+            const configuredOrder = settings.get_strv('action-order');
+            const order = [...configuredOrder, ...ACTIONS.map(action => action.id).filter(id => !configuredOrder.includes(id))];
             const hidden = new Set(settings.get_strv('hidden-actions'));
             for (const id of order) {
                 const action = ACTIONS.find(item => item.id === id);
@@ -120,6 +122,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         };
         const moveAction = (id, delta) => {
             const order = settings.get_strv('action-order');
+            for (const action of ACTIONS) { if (!order.includes(action.id)) order.push(action.id); }
             const index = order.indexOf(id), target = index + delta;
             if (index < 0 || target < 0 || target >= order.length) return;
             [order[index], order[target]] = [order[target], order[index]];

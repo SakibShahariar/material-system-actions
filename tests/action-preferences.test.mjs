@@ -77,3 +77,13 @@ test('rejects duplicate IDs and shortcut collisions', () => {
         {id: 'custom-a', label: 'A', icon: 'power-symbolic', cmd: ['true'], key: 's'},
     ])), /already reserved/);
 });
+
+import {isHibernateCapabilityAvailable} from '../lib/hibernate-capability.js';
+
+test('shows Hibernate only when logind reports support or an authentication challenge', () => {
+    assert.equal(isHibernateCapabilityAvailable('yes'), true);
+    assert.equal(isHibernateCapabilityAvailable('challenge'), true);
+    assert.equal(isHibernateCapabilityAvailable('no'), false);
+    assert.equal(isHibernateCapabilityAvailable('na'), false);
+    assert.equal(isHibernateCapabilityAvailable(undefined), false);
+});
