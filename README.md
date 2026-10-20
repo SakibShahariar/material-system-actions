@@ -64,6 +64,26 @@ Open Preferences → **Custom actions** and edit the JSON array. Valid custom ac
 
 Log out, reboot, shutdown, and hibernate use the same confirmation dialog in every layout. Before suspend, the extension best-effort checks logind for sleep inhibitors; if it finds any, it lists the applications and lets you cancel or force suspend by ignoring inhibitor locks. If logind cannot be queried, suspend falls back to its normal behavior. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.
 
+## Session / power sheet API
+
+The extension exposes a per-user D-Bus session interface so panel or launcher integrations can open the same popup instead of creating a separate power dialog.
+
+- Bus name: `org.gnome.Shell.Extensions.MaterialSystemActions`
+- Object path: `/org/gnome/Shell/Extensions/MaterialSystemActions`
+- Interface: `org.gnome.Shell.Extensions.MaterialSystemActions`
+- Methods: `Open`, `Close`, and `Toggle`
+
+For example, a panel button can open the existing sheet with:
+
+```bash
+gdbus call --session \\
+  --dest org.gnome.Shell.Extensions.MaterialSystemActions \\
+  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \\
+  --method org.gnome.Shell.Extensions.MaterialSystemActions.Open
+```
+
+The API only controls the popup; action execution and destructive-action confirmation remain in the extension's shared UI. The interface exists while the extension is enabled and is released when it is disabled.
+
 ## Install (dev)
 
 ```bash
