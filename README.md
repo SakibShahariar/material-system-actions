@@ -34,6 +34,7 @@ See `lib/layouts/registry.js:1` for mapping.
 glib-compile-schemas schemas/
 # symlink so edits are live (Wayland still needs logout to rescan, but no cp needed)
 ln -sfn "$(pwd)" ~/.local/share/gnome-shell/extensions/material-system-actions@sakib.dev
+# The directory name must match the UUID in metadata.json.
 glib-compile-schemas schemas/
 gnome-extensions enable material-system-actions@sakib.dev
 # toggle: Ctrl+Alt+End (default)
