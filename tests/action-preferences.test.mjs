@@ -100,3 +100,23 @@ test('normalizes preference order by dropping stale IDs and duplicates', () => {
         ['custom-vpn', 'lock', 'shutdown'],
     );
 });
+
+import {getSleepInhibitors} from '../lib/inhibitors.js';
+
+test('filters login1 inhibitors to sleep blockers and delays', () => {
+    const input = [
+        ['sleep', 'Backup', 'Writing snapshot', 'block', 1000, 100],
+        ['sleep', 'Desktop', 'Preparing to sleep', 'delay', 1000, 101],
+        ['idle', 'Screen locker', 'Keep screen awake', 'block', 1000, 102],
+        ['shutdown', 'Updater', 'Finishing update', 'block', 1000, 103],
+    ];
+    assert.deepEqual(getSleepInhibitors(input), [
+        {what: 'sleep', who: 'Backup', why: 'Writing snapshot', mode: 'block'},
+        {what: 'sleep', who: 'Desktop', why: 'Preparing to sleep', mode: 'delay'},
+    ]);
+});
+
+test('handles malformed inhibitor data without throwing', () => {
+    assert.deepEqual(getSleepInhibitors(null), []);
+    assert.deepEqual(getSleepInhibitors([null, ['idle', 'x', 'y', 'block', 1, 2]]), []);
+});

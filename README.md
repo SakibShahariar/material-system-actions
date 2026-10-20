@@ -62,7 +62,7 @@ Open Preferences → **Custom actions** and edit the JSON array. Valid custom ac
 
 ## Action confirmation
 
-Log out, reboot, and shutdown use the same confirmation dialog in every layout. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.
+Log out, reboot, shutdown, and hibernate use the same confirmation dialog in every layout. Before suspend, the extension best-effort checks logind for sleep inhibitors; if it finds any, it lists the applications and lets you cancel or force suspend by ignoring inhibitor locks. If logind cannot be queried, suspend falls back to its normal behavior. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.
 
 ## Install (dev)
 
