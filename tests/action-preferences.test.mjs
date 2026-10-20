@@ -143,9 +143,7 @@ test('omits switch actions when session metadata is incomplete', () => {
         {id: '4', user: 'alice', seat: 'seat0', type: 'wayland', class: null, remote: false},
         {id: '5', user: 'bob', seat: 'seat0', type: null, class: 'user', remote: false},
         {id: '6', user: 'carol', seat: 'seat0', type: 'x11', class: 'user', remote: null},
-    ], 'me', '3'), [
-        {id: 'switch-user-6', label: 'Switch to carol', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '6'], destructive: false},
-    ]);
+    ], 'me', '3'), []);
 });
 
 test('does not create switch actions for malformed session IDs', () => {
