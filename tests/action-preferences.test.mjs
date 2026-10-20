@@ -90,3 +90,13 @@ test('shows Hibernate only when logind reports support or an authentication chal
     assert.equal(isHibernateCapabilityAvailable('na'), false);
     assert.equal(isHibernateCapabilityAvailable(undefined), false);
 });
+
+import {normalizeActionOrder} from '../lib/action-preferences.js';
+
+test('normalizes preference order by dropping stale IDs and duplicates', () => {
+    const available = [{id: 'lock'}, {id: 'custom-vpn'}, {id: 'shutdown'}];
+    assert.deepEqual(
+        normalizeActionOrder(available, ['custom-vpn', 'removed-action', 'lock', 'custom-vpn']),
+        ['custom-vpn', 'lock', 'shutdown'],
+    );
+});

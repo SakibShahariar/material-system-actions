@@ -4,6 +4,7 @@ import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
 import {parseCustomActions} from './lib/custom-actions.js';
+import {normalizeActionOrder} from './lib/action-preferences.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -110,9 +111,8 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const renderActionRows = () => {
             for (const row of actionRows.values()) actionGroup.remove(row);
             actionRows.clear();
-            const configuredOrder = settings.get_strv('action-order');
             const availableActions = getConfigurableActions();
-            const order = [...configuredOrder, ...availableActions.map(action => action.id).filter(id => !configuredOrder.includes(id))];
+            const order = normalizeActionOrder(availableActions, settings.get_strv('action-order'));
             const hidden = new Set(settings.get_strv('hidden-actions'));
             for (const id of order) {
                 const action = availableActions.find(item => item.id === id);
@@ -135,8 +135,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             }
         };
         const moveAction = (id, delta) => {
-            const order = settings.get_strv('action-order');
-            for (const action of getConfigurableActions()) { if (!order.includes(action.id)) order.push(action.id); }
+            const order = normalizeActionOrder(getConfigurableActions(), settings.get_strv('action-order'));
             const index = order.indexOf(id), target = index + delta;
             if (index < 0 || target < 0 || target >= order.length) return;
             [order[index], order[target]] = [order[target], order[index]];
