@@ -43,6 +43,23 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
         const page = new Adw.PreferencesPage();
+        const settingsSignalIds = [];
+        let signalsDisconnected = false;
+        const disconnectSettingsSignals = () => {
+            if (signalsDisconnected)
+                return;
+            signalsDisconnected = true;
+            for (const id of settingsSignalIds) {
+                try { settings.disconnect(id); } catch (_e) {}
+            }
+            settingsSignalIds.length = 0;
+        };
+        // Settings outlive a preferences window. Avoid retaining closed rows
+        // through signal closures when the user opens Preferences repeatedly.
+        window.connect('close-request', () => {
+            disconnectSettingsSignals();
+            return false;
+        });
 
         const styleGroup = new Adw.PreferencesGroup({title: 'Style'});
         const styleRow = new Adw.ComboRow({
@@ -107,10 +124,10 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         });
         opacityRow.connect('notify::value', () => settings.set_double('panel-opacity', opacityRow.value));
         // keep in sync if changed elsewhere
-        settings.connect('changed::panel-opacity', () => {
+        settingsSignalIds.push(settings.connect('changed::panel-opacity', () => {
             const v = settings.get_double('panel-opacity');
             if (Math.abs(opacityRow.value - v) > 0.001) opacityRow.value = v;
-        });
+        }));
         appearance.add(opacityRow);
 
         const dimRow = new Adw.SwitchRow({
@@ -119,10 +136,10 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         });
         dimRow.active = settings.get_boolean('backdrop-dim-enabled');
         dimRow.connect('notify::active', () => settings.set_boolean('backdrop-dim-enabled', dimRow.active));
-        settings.connect('changed::backdrop-dim-enabled', () => {
+        settingsSignalIds.push(settings.connect('changed::backdrop-dim-enabled', () => {
             if (dimRow.active !== settings.get_boolean('backdrop-dim-enabled'))
                 dimRow.active = settings.get_boolean('backdrop-dim-enabled');
-        });
+        }));
         appearance.add(dimRow);
         page.add(appearance);
 
