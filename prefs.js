@@ -94,14 +94,28 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             description: 'Choose which actions appear and set their display order. Changes apply the next time the popup opens.',
         });
         const actionRows = new Map();
+        const getConfigurableActions = () => {
+            let custom = [];
+            try {
+                custom = parseCustomActions(settings.get_string('custom-actions')).map(action => ({
+                    id: action.id,
+                    label: action.label,
+                    description: action.destructive ? 'Custom command · confirmation required' : 'Custom command · runs immediately',
+                }));
+            } catch (_e) {
+                // Keep Preferences usable if the stored JSON was edited outside this editor.
+            }
+            return [...ACTIONS, ...custom];
+        };
         const renderActionRows = () => {
             for (const row of actionRows.values()) actionGroup.remove(row);
             actionRows.clear();
             const configuredOrder = settings.get_strv('action-order');
-            const order = [...configuredOrder, ...ACTIONS.map(action => action.id).filter(id => !configuredOrder.includes(id))];
+            const availableActions = getConfigurableActions();
+            const order = [...configuredOrder, ...availableActions.map(action => action.id).filter(id => !configuredOrder.includes(id))];
             const hidden = new Set(settings.get_strv('hidden-actions'));
             for (const id of order) {
-                const action = ACTIONS.find(item => item.id === id);
+                const action = availableActions.find(item => item.id === id);
                 if (!action) continue;
                 const row = new Adw.ActionRow({title: action.label, subtitle: action.description});
                 const toggle = new Gtk.Switch({active: !hidden.has(id), valign: Gtk.Align.CENTER, tooltip_text: `Show ${action.label}`});
@@ -122,7 +136,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         };
         const moveAction = (id, delta) => {
             const order = settings.get_strv('action-order');
-            for (const action of ACTIONS) { if (!order.includes(action.id)) order.push(action.id); }
+            for (const action of getConfigurableActions()) { if (!order.includes(action.id)) order.push(action.id); }
             const index = order.indexOf(id), target = index + delta;
             if (index < 0 || target < 0 || target >= order.length) return;
             [order[index], order[target]] = [order[target], order[index]];
@@ -130,6 +144,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             renderActionRows();
         };
         renderActionRows();
+        settingsSignalIds.push(settings.connect('changed::custom-actions', renderActionRows));
         page.add(actionGroup);
 
         const customGroup = new Adw.PreferencesGroup({

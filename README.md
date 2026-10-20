@@ -36,7 +36,7 @@ Combined-list layouts follow the configured order. Layouts that intentionally se
 
 ## Custom actions
 
-Open Preferences → **Custom actions** and edit the JSON array. Example:
+Open Preferences → **Custom actions** and edit the JSON array. Valid custom actions also appear in **System actions**, where you can hide/show them and change their display order. Changes apply the next time the popup opens. Example:
 
 ```json
 [
