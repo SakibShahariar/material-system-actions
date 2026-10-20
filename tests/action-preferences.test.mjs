@@ -47,3 +47,33 @@ test('hiding every configured action produces an empty list', () => {
         [],
     );
 });
+
+import {parseCustomActions} from '../lib/custom-actions.js';
+
+test('parses custom commands and defaults confirmation to enabled', () => {
+    const parsed = parseCustomActions(JSON.stringify([
+        {id: 'custom-backup', label: 'Backup', icon: 'document-save-symbolic', cmd: ['/home/user/backup']},
+        {id: 'custom-vpn', label: 'VPN', icon: 'network-vpn-symbolic', cmd: ['nmcli', 'connection', 'up', 'Work'], confirm: false, key: 'v'},
+    ]));
+    assert.equal(parsed[0].destructive, true);
+    assert.equal(parsed[0].key, null);
+    assert.deepEqual(parsed[0].cmd, ['/home/user/backup']);
+    assert.equal(parsed[1].destructive, false);
+    assert.equal(parsed[1].key, 'v');
+});
+
+test('rejects malformed JSON and invalid command formats', () => {
+    assert.throws(() => parseCustomActions('{'), /valid JSON/);
+    assert.throws(() => parseCustomActions(JSON.stringify([{id: 'custom-x', label: 'X', icon: 'power-symbolic', cmd: 'shutdown'}])), /cmd must be/);
+    assert.throws(() => parseCustomActions(JSON.stringify([{id: 'custom-x', label: 'X', icon: 'power-symbolic', cmd: ['shutdown'], confirm: 'false'}])), /confirm must be/);
+});
+
+test('rejects duplicate IDs and shortcut collisions', () => {
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {id: 'custom-a', label: 'A', icon: 'power-symbolic', cmd: ['true']},
+        {id: 'custom-a', label: 'B', icon: 'power-symbolic', cmd: ['true'],
+    ])), /duplicate id/);
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {id: 'custom-a', label: 'A', icon: 'power-symbolic', cmd: ['true'], key: 's'},
+    ])), /already reserved/);
+});

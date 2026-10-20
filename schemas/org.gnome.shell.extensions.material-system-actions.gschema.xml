@@ -11,6 +11,11 @@
       <default>'card'</default>
       <summary>Which style to render</summary>
     </key>
+    <key name="custom-actions" type="s">
+      <default>'[]'</default>
+      <summary>User-defined command actions</summary>
+      <description>JSON array of custom actions. Commands run directly without a shell.</description>
+    </key>
     <key name="action-order" type="as">
       <default>['lock', 'logout', 'suspend', 'reboot', 'shutdown']</default>
       <summary>Order of system actions</summary>

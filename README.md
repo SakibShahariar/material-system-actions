@@ -34,6 +34,32 @@ Open Preferences → **System actions** to hide actions you do not use and move 
 
 Combined-list layouts follow the configured order. Layouts that intentionally separate session actions from power actions keep those two sections, while respecting the configured order within each section.
 
+## Custom actions
+
+Open Preferences → **Custom actions** and edit the JSON array. Example:
+
+```json
+[
+  {
+    "id": "custom-vpn-toggle",
+    "label": "Toggle VPN",
+    "icon": "network-vpn-symbolic",
+    "cmd": ["nmcli", "connection", "up", "Work VPN"],
+    "confirm": false,
+    "key": "v"
+  },
+  {
+    "id": "custom-backup",
+    "label": "Run backup",
+    "icon": "document-save-symbolic",
+    "cmd": ["/home/user/bin/backup"],
+    "confirm": true
+  }
+]
+```
+
+**Security:** custom commands execute with your user permissions. They are launched as argument arrays directly, never through a shell; shell syntax, pipes, and variable expansion are not interpreted. Treat this setting like executable code and only add commands you trust. `confirm` defaults to `true`; set it to `false` only for actions that are safe to run immediately. Use unique `custom-*` IDs and unused single-letter shortcuts.
+
 ## Action confirmation
 
 Log out, reboot, and shutdown use the same confirmation dialog in every layout. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.

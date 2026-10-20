@@ -3,6 +3,7 @@
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
+import {parseCustomActions} from './lib/custom-actions.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -127,6 +128,60 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         };
         renderActionRows();
         page.add(actionGroup);
+
+        const customGroup = new Adw.PreferencesGroup({
+            title: 'Custom actions',
+            description: 'Add commands such as VPN toggles or backup scripts. Commands are trusted code and run as your user.',
+        });
+        const customRow = new Adw.ActionRow({
+            title: 'Custom command list',
+            subtitle: 'Edit a JSON array; each command is launched directly, without a shell.',
+        });
+        const customButton = new Gtk.Button({label: 'Edit JSON', valign: Gtk.Align.CENTER});
+        customRow.add_suffix(customButton);
+        customGroup.add(customRow);
+        page.add(customGroup);
+        customButton.connect('clicked', () => {
+            const editor = new Gtk.Window({
+                title: 'Custom actions (JSON)', transient_for: window, modal: true,
+                default_width: 620, default_height: 520,
+            });
+            const editorBox = new Gtk.Box({
+                orientation: Gtk.Orientation.VERTICAL, spacing: 12,
+                margin_top: 16, margin_bottom: 16, margin_start: 16, margin_end: 16,
+            });
+            const help = new Gtk.Label({
+                label: 'Each item needs id (custom-*), label, icon, and cmd (an argv array). confirm defaults to true; key is an optional unused letter. Never paste commands from untrusted sources.',
+                wrap: true, xalign: 0,
+            });
+            const scroll = new Gtk.ScrolledWindow({vexpand: true, hexpand: true});
+            const textView = new Gtk.TextView({monospace: true, wrap_mode: Gtk.WrapMode.NONE});
+            textView.buffer.text = settings.get_string('custom-actions') || '[]';
+            scroll.set_child(textView);
+            const status = new Gtk.Label({xalign: 0, wrap: true});
+            const buttons = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, spacing: 8, halign: Gtk.Align.END});
+            const cancel = new Gtk.Button({label: 'Cancel'});
+            const save = new Gtk.Button({label: 'Validate and save', css_classes: ['suggested-action']});
+            buttons.append(cancel); buttons.append(save);
+            editorBox.append(help); editorBox.append(scroll); editorBox.append(status); editorBox.append(buttons);
+            editor.set_child(editorBox);
+            cancel.connect('clicked', () => editor.close());
+            save.connect('clicked', () => {
+                const serialized = textView.buffer.text;
+                try {
+                    parseCustomActions(serialized);
+                    settings.set_string('custom-actions', serialized);
+                    status.label = 'Saved. Reopen the popup to use the updated actions.';
+                    status.remove_css_class('error');
+                    status.add_css_class('success');
+                } catch (error) {
+                    status.label = error.message;
+                    status.remove_css_class('success');
+                    status.add_css_class('error');
+                }
+            });
+            editor.present();
+        });
 
         const keybindGroup = new Adw.PreferencesGroup({
             title: 'Keyboard shortcut',
