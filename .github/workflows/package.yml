@@ -1,0 +1,38 @@
+name: Extension package
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Install packaging dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes glib2.0-bin zip unzip
+
+      - name: Validate packaging script syntax
+        run: bash -n scripts/package.sh
+
+      - name: Compile GSettings schema strictly
+        run: glib-compile-schemas --strict schemas/
+
+      - name: Build archive using a relative output directory
+        run: ./scripts/package.sh build-output
+
+      - name: Validate archive integrity and required files
+        run: |
+          archive="build-output/material-system-actions@sakib.dev.shell-extension.zip"
+          unzip -t "$archive"
+          unzip -Z1 "$archive" | grep -Fx 'metadata.json'
+          unzip -Z1 "$archive" | grep -Fx 'extension.js'
+          unzip -Z1 "$archive" | grep -Fx 'schemas/gschemas.compiled'
