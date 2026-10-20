@@ -28,6 +28,12 @@ Old names (`rofi`, `quickshell`, `wlogout`, `dots`, `end4`) still work as aliase
 
 See `lib/layouts/registry.js:1` for mapping.
 
+## Configure actions
+
+Open Preferences → **System actions** to hide actions you do not use and move actions up or down. Changes apply the next time the popup opens. Letter shortcuts remain attached to their actions; number shortcuts follow the configured order.
+
+Combined-list layouts follow the configured order. Layouts that intentionally separate session actions from power actions keep those two sections, while respecting the configured order within each section.
+
 ## Action confirmation
 
 Log out, reboot, and shutdown use the same confirmation dialog in every layout. In Halo, completing the hold gesture opens that dialog; the hold itself does not execute a destructive action. Cancel or press Escape to return without running the command.

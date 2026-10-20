@@ -11,6 +11,16 @@
       <default>'card'</default>
       <summary>Which style to render</summary>
     </key>
+    <key name="action-order" type="as">
+      <default>['lock', 'logout', 'suspend', 'reboot', 'shutdown']</default>
+      <summary>Order of system actions</summary>
+      <description>Display order of available actions. New actions are appended automatically.</description>
+    </key>
+    <key name="hidden-actions" type="as">
+      <default>[]</default>
+      <summary>Hidden system actions</summary>
+      <description>Action IDs omitted from the popup.</description>
+    </key>
     <key name="icon-scale" type="d">
       <default>1.0</default>
       <range min="0.6" max="2.0"/>

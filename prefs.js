@@ -80,6 +80,54 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         styleGroup.add(styleRow);
         page.add(styleGroup);
 
+        const ACTIONS = [
+            {id: 'lock', label: 'Lock', description: 'Lock the current session'},
+            {id: 'logout', label: 'Log out', description: 'End the current session'},
+            {id: 'suspend', label: 'Suspend', description: 'Suspend the computer'},
+            {id: 'reboot', label: 'Reboot', description: 'Restart the computer'},
+            {id: 'shutdown', label: 'Shutdown', description: 'Power off the computer'},
+        ];
+        const actionGroup = new Adw.PreferencesGroup({
+            title: 'System actions',
+            description: 'Choose which actions appear and set their display order. Changes apply the next time the popup opens.',
+        });
+        const actionRows = new Map();
+        const renderActionRows = () => {
+            for (const row of actionRows.values()) actionGroup.remove(row);
+            actionRows.clear();
+            const order = settings.get_strv('action-order');
+            const hidden = new Set(settings.get_strv('hidden-actions'));
+            for (const id of order) {
+                const action = ACTIONS.find(item => item.id === id);
+                if (!action) continue;
+                const row = new Adw.ActionRow({title: action.label, subtitle: action.description});
+                const toggle = new Gtk.Switch({active: !hidden.has(id), valign: Gtk.Align.CENTER, tooltip_text: `Show ${action.label}`});
+                toggle.connect('notify::active', () => {
+                    const nextHidden = new Set(settings.get_strv('hidden-actions'));
+                    if (toggle.active) nextHidden.delete(id); else nextHidden.add(id);
+                    settings.set_strv('hidden-actions', [...nextHidden]);
+                });
+                row.add_suffix(toggle);
+                const index = order.indexOf(id);
+                const up = new Gtk.Button({icon_name: 'go-up-symbolic', valign: Gtk.Align.CENTER, css_classes: ['flat'], tooltip_text: `Move ${action.label} up`, sensitive: index > 0});
+                up.connect('clicked', () => moveAction(id, -1));
+                const down = new Gtk.Button({icon_name: 'go-down-symbolic', valign: Gtk.Align.CENTER, css_classes: ['flat'], tooltip_text: `Move ${action.label} down`, sensitive: index < order.length - 1});
+                down.connect('clicked', () => moveAction(id, 1));
+                row.add_suffix(up); row.add_suffix(down);
+                actionRows.set(id, row); actionGroup.add(row);
+            }
+        };
+        const moveAction = (id, delta) => {
+            const order = settings.get_strv('action-order');
+            const index = order.indexOf(id), target = index + delta;
+            if (index < 0 || target < 0 || target >= order.length) return;
+            [order[index], order[target]] = [order[target], order[index]];
+            settings.set_strv('action-order', order);
+            renderActionRows();
+        };
+        renderActionRows();
+        page.add(actionGroup);
+
         const keybindGroup = new Adw.PreferencesGroup({
             title: 'Keyboard shortcut',
             description: 'Default is Ctrl+Alt+End.',
