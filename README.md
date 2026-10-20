@@ -35,11 +35,11 @@ Log out, reboot, and shutdown use the same confirmation dialog in every layout. 
 ## Install (dev)
 
 ```bash
+# Compile the extension's settings schema.
 glib-compile-schemas schemas/
-# symlink so edits are live (Wayland still needs logout to rescan, but no cp needed)
+# Symlink so source edits are live without copying files.
 ln -sfn "$(pwd)" ~/.local/share/gnome-shell/extensions/material-system-actions@sakib.dev
 # The directory name must match the UUID in metadata.json.
-glib-compile-schemas schemas/
 gnome-extensions enable material-system-actions@sakib.dev
 # toggle: Ctrl+Alt+End (default)
 # after any code change: gnome-extensions disable material-system-actions@sakib.dev; gnome-extensions enable material-system-actions@sakib.dev
@@ -53,7 +53,7 @@ gnome-extensions enable material-system-actions@sakib.dev
 # output: dist/material-system-actions@sakib.dev.shell-extension.zip
 ```
 
-The package command includes `lib/` and the compiled GSettings schema, while excluding Git metadata. For a non-standard Matugen file, set `MATUGEN_COLORS_PATH` to its `colors.css` path before starting GNOME Shell.
+The package command includes `lib/` and the compiled GSettings schema, while excluding Git metadata. Theme colors are read when the popup is created, so changes appear the next time you open it. The file lookup order is `MATUGEN_COLORS_PATH` (if set), `~/.config/matugen/matugen-colors.css`, then `~/.config/ags/colors.css`. If no usable file is found, the extension uses its built-in fallback palette.
 
 ## Prototype
 
@@ -63,7 +63,7 @@ python3 prototype/system_actions_all.py card
 python3 prototype/system_actions_all.py --style=list  # was rofi
 ```
 
-Colors via `var(--primary_container)` etc. from `~/.zen/.../colors.css` (GTK>=4.16 `var()`), fallback in `lib/theme.js:15`.
+The popup reads Matugen CSS color roles from the paths listed above; missing roles use the built-in fallback palette in `lib/theme.js`.
 
 ## Git
 
