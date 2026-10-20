@@ -76,9 +76,9 @@ The extension exposes a per-user D-Bus session interface so panel or launcher in
 For example, a panel button can open the existing sheet with:
 
 ```bash
-gdbus call --session \\
-  --dest org.gnome.Shell.Extensions.MaterialSystemActions \\
-  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \\
+gdbus call --session \
+  --dest org.gnome.Shell.Extensions.MaterialSystemActions \
+  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \
   --method org.gnome.Shell.Extensions.MaterialSystemActions.Open
 ```
 
