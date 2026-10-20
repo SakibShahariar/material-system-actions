@@ -29,6 +29,9 @@ jobs:
             node --check "$file"
           done
 
+      - name: Test action preference ordering and visibility
+        run: node --test tests/*.test.mjs
+
       - name: Compile GSettings schema strictly
         run: glib-compile-schemas --strict schemas/
 
