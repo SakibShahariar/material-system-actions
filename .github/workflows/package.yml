@@ -23,6 +23,12 @@ jobs:
       - name: Validate packaging script syntax
         run: bash -n scripts/package.sh
 
+      - name: Validate JavaScript syntax
+        run: |
+          for file in extension.js prefs.js lib/*.js lib/layouts/*.js; do
+            node --check "$file"
+          done
+
       - name: Compile GSettings schema strictly
         run: glib-compile-schemas --strict schemas/
 
