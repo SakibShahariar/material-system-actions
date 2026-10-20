@@ -71,7 +71,7 @@ test('rejects malformed JSON and invalid command formats', () => {
 test('rejects duplicate IDs and shortcut collisions', () => {
     assert.throws(() => parseCustomActions(JSON.stringify([
         {id: 'custom-a', label: 'A', icon: 'power-symbolic', cmd: ['true']},
-        {id: 'custom-a', label: 'B', icon: 'power-symbolic', cmd: ['true'],
+        {id: 'custom-a', label: 'B', icon: 'power-symbolic', cmd: ['true']},
     ])), /duplicate id/);
     assert.throws(() => parseCustomActions(JSON.stringify([
         {id: 'custom-a', label: 'A', icon: 'power-symbolic', cmd: ['true'], key: 's'},
