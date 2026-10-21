@@ -3,6 +3,8 @@
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 import {parseCustomActions} from './lib/custom-actions.js';
 import {normalizeActionOrder} from './lib/action-preferences.js';
 
@@ -76,10 +78,21 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         styleRow.selected = idx === -1 ? 0 : idx;
         if (migrated !== current)
             settings.set_string('style', migrated);
-        styleRow.connect('notify::selected', () => {
-            settings.set_string('style', STYLE_NAMES[styleRow.selected]);
-        });
         styleGroup.add(styleRow);
+        const previewRow = new Adw.ActionRow({ title: 'Preview selected layout', subtitle: 'Preview without saving, or apply this layout as your default.' });
+        const previewButton = new Gtk.Button({label: 'Preview', valign: Gtk.Align.CENTER});
+        const applyButton = new Gtk.Button({label: 'Apply', valign: Gtk.Align.CENTER, css_classes: ['suggested-action'], sensitive: STYLE_NAMES[styleRow.selected] !== settings.get_string('style')});
+        styleRow.connect('notify::selected', () => { applyButton.sensitive = STYLE_NAMES[styleRow.selected] !== settings.get_string('style'); });
+        applyButton.connect('clicked', () => { settings.set_string('style', STYLE_NAMES[styleRow.selected]); applyButton.sensitive = false; previewRow.subtitle = 'Layout saved as the default. Preview remains available without changing it.'; });
+        previewRow.add_suffix(previewButton); previewRow.add_suffix(applyButton); styleGroup.add(previewRow);
+        previewButton.connect('clicked', () => {
+            previewButton.sensitive = false;
+            Gio.DBus.session.call('org.gnome.Shell.Extensions.MaterialSystemActions', '/org/gnome/Shell/Extensions/MaterialSystemActions', 'org.gnome.Shell.Extensions.MaterialSystemActions', 'Preview', new GLib.Variant('(s)', [STYLE_NAMES[styleRow.selected]]), null, Gio.DBusCallFlags.NONE, 3000, null, (connection, result) => {
+                try { connection.call_finish(result); }
+                catch (error) { previewRow.subtitle = 'Could not open preview: ' + error.message; }
+                finally { previewButton.sensitive = true; }
+            });
+        });
         page.add(styleGroup);
 
         const ACTIONS = [
