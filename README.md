@@ -233,7 +233,7 @@ Run the packaging checks and create a ZIP with:
 ./scripts/package.sh
 ```
 
-CI validates JavaScript syntax, action preference behavior, strict GSettings schema compilation, archive creation, and required package contents. Automated checks do not replace testing inside a live GNOME Shell session; verify shortcut handling, visual layout, D-Bus calls, suspend inhibitors, and multi-user switching on the target machine.
+CI validates JavaScript syntax, action preference behavior, accessibility and preview guards across all layouts, the exported D-Bus contract against this documentation, strict GSettings schema compilation, archive creation, and required package contents. These source-level checks do not replace testing inside a live GNOME Shell session; verify shortcut handling, visual layout, D-Bus calls, suspend inhibitors, and multi-user switching on the target machine.
 
 ## Troubleshooting
 
