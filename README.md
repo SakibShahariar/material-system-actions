@@ -159,7 +159,7 @@ The extension exposes a session-bus D-Bus interface so another GNOME component c
 - **Bus name:** `org.gnome.Shell.Extensions.MaterialSystemActions`
 - **Object path:** `/org/gnome/Shell/Extensions/MaterialSystemActions`
 - **Interface:** `org.gnome.Shell.Extensions.MaterialSystemActions`
-- **Methods:** `Open`, `Close`, `Toggle`
+- **Methods:** `Open`, `Close`, `Toggle`, and `Preview(s style)` (`Preview` is intended for the Preferences layout preview; normal integrations should use the first three).
 
 Open the sheet from a panel button or launcher with:
 
@@ -170,7 +170,17 @@ gdbus call --session \
   --method org.gnome.Shell.Extensions.MaterialSystemActions.Open
 ```
 
-Use `Close` or `Toggle` in place of `Open` for the corresponding operation. The interface is available while the extension is enabled and is released when it is disabled. These methods control the popup; they do not bypass the extension's confirmation UI.
+Use `Close` or `Toggle` in place of `Open` for the corresponding operation. To open a temporary preview of a registered layout (without changing the saved default), pass its layout ID to `Preview`:
+
+```bash
+gdbus call --session \\
+  --dest org.gnome.Shell.Extensions.MaterialSystemActions \\
+  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \\
+  --method org.gnome.Shell.Extensions.MaterialSystemActions.Preview \\
+  "'list'"
+```
+
+The `Preview` method is mainly for the Preferences UI and development tooling; ordinary panel and launcher integrations should use `Open`, `Close`, or `Toggle`. The interface is available while the extension is enabled and is released when it is disabled. These methods control the popup; they do not bypass the extension's confirmation UI.
 
 ## Development and testing
 
