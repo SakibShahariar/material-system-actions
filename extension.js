@@ -59,11 +59,12 @@ export default class MaterialSystemActionsExtension extends Extension {
     _open() {
         if (this._dialog)
             return;
-        this._dialog = new SystemActionsDialog(this._settings);
-        this._dialog.connect('closed', () => {
-            this._dialog = null;
+        const dialog = new SystemActionsDialog(this._settings);
+        this._dialog = dialog;
+        dialog.connect('closed', () => {
+            if (this._dialog === dialog) this._dialog = null;
         });
-        this._dialog.open();
+        dialog.open();
     }
 
     _close() {
@@ -76,9 +77,12 @@ export default class MaterialSystemActionsExtension extends Extension {
 
     _preview(styleName) {
         this._close();
-        this._dialog = new SystemActionsDialog(this._settings, styleName, true);
-        this._dialog.connect('closed', () => { this._dialog = null; });
-        this._dialog.open();
+        const dialog = new SystemActionsDialog(this._settings, styleName, true);
+        this._dialog = dialog;
+        dialog.connect('closed', () => {
+            if (this._dialog === dialog) this._dialog = null;
+        });
+        dialog.open();
     }
 
     _toggle() {
