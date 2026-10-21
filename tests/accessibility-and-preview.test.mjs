@@ -28,6 +28,14 @@ test('every layout registers its action controls with the shared navigation help
     }
 });
 
+test('all layouts delegate action activation to the shared confirmation and preview guard', () => {
+    for (const layout of layouts) {
+        const code = source(`../lib/layouts/${layout}.js`);
+        assert.match(code, /this\.trigger\(/, `${layout} bypasses the shared action dispatcher`);
+        assert.doesNotMatch(code, /this\._run\(/, `${layout} runs a command directly`);
+    }
+});
+
 test('destructive confirmation buttons have explicit accessible names', () => {
     const base = source('../lib/layouts/base.js');
     assert.match(base, /accessible_name:\s*`Cancel \$\{action\.label\.toLowerCase\(\)\}`/);
