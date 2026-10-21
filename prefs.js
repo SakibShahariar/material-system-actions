@@ -82,8 +82,18 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const previewRow = new Adw.ActionRow({ title: 'Preview selected layout', subtitle: 'Preview without saving, or apply this layout as your default.' });
         const previewButton = new Gtk.Button({label: 'Preview', valign: Gtk.Align.CENTER});
         const applyButton = new Gtk.Button({label: 'Apply', valign: Gtk.Align.CENTER, css_classes: ['suggested-action'], sensitive: STYLE_NAMES[styleRow.selected] !== settings.get_string('style')});
-        styleRow.connect('notify::selected', () => { applyButton.sensitive = STYLE_NAMES[styleRow.selected] !== settings.get_string('style'); });
-        applyButton.connect('clicked', () => { settings.set_string('style', STYLE_NAMES[styleRow.selected]); applyButton.sensitive = false; previewRow.subtitle = 'Layout saved as the default. Preview remains available without changing it.'; });
+        const updateStyleApplyState = () => {
+            const isPending = STYLE_NAMES[styleRow.selected] !== settings.get_string('style');
+            applyButton.sensitive = isPending;
+            previewRow.subtitle = isPending
+                ? 'Preview without saving, or apply this layout as your default.'
+                : 'Current default selected. Preview remains available.';
+        };
+        styleRow.connect('notify::selected', updateStyleApplyState);
+        applyButton.connect('clicked', () => {
+            settings.set_string('style', STYLE_NAMES[styleRow.selected]);
+            updateStyleApplyState();
+        });
         previewRow.add_suffix(previewButton); previewRow.add_suffix(applyButton); styleGroup.add(previewRow);
         previewButton.connect('clicked', () => {
             previewButton.sensitive = false;
