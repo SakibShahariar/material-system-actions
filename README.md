@@ -170,6 +170,38 @@ gdbus call --session \
   --method org.gnome.Shell.Extensions.MaterialSystemActions.Open
 ```
 
+For a **GNOME Shell extension** panel button, use the session bus asynchronously rather than spawning a new power menu or running power commands from the panel:
+
+```js
+import Gio from 'gi://Gio';
+
+function callSystemActions(method) {
+    Gio.DBus.session.call(
+        'org.gnome.Shell.Extensions.MaterialSystemActions',
+        '/org/gnome/Shell/Extensions/MaterialSystemActions',
+        'org.gnome.Shell.Extensions.MaterialSystemActions',
+        method,
+        null,
+        null,
+        Gio.DBusCallFlags.NONE,
+        3000,
+        null,
+        (connection, result) => {
+            try {
+                connection.call_finish(result);
+            } catch (error) {
+                logError(error, `material-panel: could not call system actions ${method}`);
+            }
+        },
+    );
+}
+
+// In the panel button's clicked handler:
+callSystemActions('Toggle');
+```
+
+The receiving extension must be enabled. Handle the call error in your integration (for example, show a fallback or no-op if the extension is unavailable); do not assume that a successful request means a power action has completed.
+
 Use `Close` or `Toggle` in place of `Open` for the corresponding operation. To open a temporary preview of a registered layout (without changing the saved default), pass its layout ID to `Preview`:
 
 ```bash
