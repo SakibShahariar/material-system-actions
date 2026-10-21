@@ -53,7 +53,7 @@ Optional system integrations are best-effort: if logind cannot provide inhibitor
 | `pill` | Compact status area with icons |
 | `banner` | Wallpaper-style banner with actions |
 
-Open **Preferences → Style** to choose a layout. Older names (`rofi`, `quickshell`, `wlogout`, `dots`, and `end4`) remain accepted as aliases and are migrated to their generic names.
+Open **Preferences → Style** to select a layout, then choose **Preview** to inspect it without saving or **Apply** to make it the default. Older names (`rofi`, `quickshell`, `wlogout`, `dots`, and `end4`) remain accepted as aliases and are migrated to their generic names.
 
 > Screenshots for the complete style gallery are tracked in [issue #10](https://github.com/SakibShahariar/material-system-actions/issues/10). The layout descriptions above are textual; they are not screenshots.
 
@@ -89,7 +89,7 @@ The extension directory name must match the UUID in `metadata.json`. After chang
 
 Open **Extensions → Material System Actions → Preferences** (the exact route may vary by GNOME version).
 
-- **Style:** choose one of the 15 layouts.
+- **Style:** select one of the 15 layouts, then use **Preview** to inspect it without saving or **Apply** to make it the default.
 - **System actions:** hide or show individual actions and move them up or down. Changes apply the next time the popup opens. Layouts that separate session and power actions preserve those sections while applying the configured order within each section.
 - **Custom actions:** edit and validate a JSON array of user-defined commands.
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
