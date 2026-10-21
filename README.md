@@ -53,7 +53,7 @@ Optional system integrations are best-effort: if logind cannot provide inhibitor
 | `pill` | Compact status area with icons |
 | `banner` | Wallpaper-style banner with actions |
 
-Open **Preferences → Style** to select a layout, then choose **Preview** to inspect it without saving or **Apply** to make it the default. Older names (`rofi`, `quickshell`, `wlogout`, `dots`, and `end4`) remain accepted as aliases and are migrated to their generic names.
+Open **Preferences → Style** to select a layout, then choose **Preview** to inspect it without saving or **Apply** to make it the default. Preview opens the real Shell layout through the extension's session D-Bus interface; system/custom action activation is disabled and closes the preview. Older names (`rofi`, `quickshell`, `wlogout`, `dots`, and `end4`) remain accepted as aliases and are migrated to their generic names.
 
 > Screenshots for the complete style gallery are tracked in [issue #10](https://github.com/SakibShahariar/material-system-actions/issues/10). The layout descriptions above are textual; they are not screenshots.
 
