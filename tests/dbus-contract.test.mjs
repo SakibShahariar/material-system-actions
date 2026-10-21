@@ -32,7 +32,7 @@ test('every exported method has a handler and the interface is released on disab
 
 test('README documents the same public D-Bus methods and Preview argument', () => {
     const readme = read('../README.md');
-    assert.match(readme, /Methods:\s*`Open`, `Close`, `Toggle`, and `Preview\(s style\)`/);
+    assert.match(readme, /Methods:\*\*\s*`Open`, `Close`, `Toggle`, and `Preview\(s style\)`/);
     assert.match(readme, /MaterialSystemActions\.Preview/);
     assert.match(readme, /To open a temporary preview[\s\S]*?layout ID to `Preview`/);
 });
