@@ -93,7 +93,7 @@ Open **Extensions → Material System Actions → Preferences** (the exact route
 - **System actions:** hide or show individual actions and move them up or down. Changes apply the next time the popup opens. Layouts that separate session and power actions preserve those sections while applying the configured order within each section.
 - **Custom actions:** edit and validate a JSON array of user-defined commands.
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
-- **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, and whether layout-provided status information is shown. The status toggle applies immediately to open popups; layouts without status elements remain compact.
+- **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, and whether status information is shown. The toggle applies immediately to open popups; layouts with existing headers keep their native presentation, while dock, tiles, halo, and circles use a shared compact status header.
 
 ### Keyboard and accessibility
 
