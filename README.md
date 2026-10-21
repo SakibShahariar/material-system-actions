@@ -95,6 +95,14 @@ Open **Extensions → Material System Actions → Preferences** (the exact route
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
 - **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), and backdrop dimming.
 
+### Keyboard and accessibility
+
+- Press the configured global shortcut (default **Ctrl+Alt+End**) to open or close the sheet.
+- Use **Tab / Shift+Tab** or the arrow keys to move focus; **Enter / Space** activates the focused action and **Escape** closes the sheet.
+- Letter shortcuts activate the matching action when one is configured. Number keys 1–9 select actions by their current order where supported.
+- Action buttons expose their action labels as accessible names, including icon-only layouts. Confirmation dialogs provide explicit names for cancel and confirm controls.
+- The extension uses GNOME Shell's native widgets. Screen-reader behavior still needs verification with Orca in a live GNOME session; keyboard navigation and automated checks are not a substitute for that test.
+
 Letter shortcuts stay attached to their actions; number shortcuts follow the configured order. Some layouts present actions differently by design.
 
 ## Custom actions
