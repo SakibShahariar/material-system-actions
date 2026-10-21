@@ -11,7 +11,7 @@ import {SystemActionsDialog} from './lib/dialog.js';
 
 const DBUS_NAME = 'org.gnome.Shell.Extensions.MaterialSystemActions';
 const DBUS_PATH = '/org/gnome/Shell/Extensions/MaterialSystemActions';
-const DBUS_XML = `<node><interface name="org.gnome.Shell.Extensions.MaterialSystemActions"><method name="Open"/><method name="Close"/><method name="Toggle"/></interface></node>`;
+const DBUS_XML = `<node><interface name="org.gnome.Shell.Extensions.MaterialSystemActions"><method name="Open"/><method name="Close"/><method name="Toggle"/><method name="Preview"><arg name="style" type="s" direction="in"/></method></interface></node>`;
 
 export default class MaterialSystemActionsExtension extends Extension {
     enable() {
@@ -27,6 +27,7 @@ export default class MaterialSystemActionsExtension extends Extension {
                     Open: () => this._open(),
                     Close: () => this._close(),
                     Toggle: () => this._toggle(),
+                    Preview: params => this._preview(params.deep_unpack()[0]),
                 });
                 this._dbusObject.export(connection, DBUS_PATH);
             },
@@ -71,6 +72,13 @@ export default class MaterialSystemActionsExtension extends Extension {
         const dialog = this._dialog;
         this._dialog = null;
         dialog.close();
+    }
+
+    _preview(styleName) {
+        this._close();
+        this._dialog = new SystemActionsDialog(this._settings, styleName, true);
+        this._dialog.connect('closed', () => { this._dialog = null; });
+        this._dialog.open();
     }
 
     _toggle() {
