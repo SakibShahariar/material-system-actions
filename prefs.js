@@ -250,6 +250,18 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         }));
         appearance.add(opacityRow);
 
+        const statusRow = new Adw.SwitchRow({
+            title: 'Show status information',
+            subtitle: 'Show or hide user, clock, date, and uptime details where the layout provides them',
+        });
+        statusRow.active = settings.get_boolean('show-status-header');
+        statusRow.connect('notify::active', () => settings.set_boolean('show-status-header', statusRow.active));
+        settingsSignalIds.push(settings.connect('changed::show-status-header', () => {
+            if (statusRow.active !== settings.get_boolean('show-status-header'))
+                statusRow.active = settings.get_boolean('show-status-header');
+        }));
+        appearance.add(statusRow);
+
         const dimRow = new Adw.SwitchRow({
             title: 'Dim backdrop',
             subtitle: 'Dim the desktop behind the popup',

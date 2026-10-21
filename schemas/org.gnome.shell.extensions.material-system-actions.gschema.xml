@@ -43,5 +43,10 @@
       <summary>Dim the backdrop behind the popup</summary>
       <description>When enabled, the popup dims the desktop behind it using the standard shell dim level. Disable for no dim at all.</description>
     </key>
+    <key name="show-status-header" type="b">
+      <default>true</default>
+      <summary>Show status information</summary>
+      <description>Show the user, clock, date, or uptime elements provided by the selected layout.</description>
+    </key>
   </schema>
 </schemalist>

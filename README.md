@@ -28,7 +28,7 @@ Designed for GNOME Shell **45–51**. The extension is written for GNOME Shell's
 - **Switch user:** show an action for another user's existing local graphical session when logind can identify it.
 - **Hibernate detection:** only show Hibernate when logind reports it as available.
 - **Suite integration:** panel buttons and launchers can open, close, or toggle this same sheet over the session D-Bus.
-- **Appearance controls:** popup scale, panel transparency, and backdrop dimming.
+- **Appearance controls:** popup scale, panel transparency, backdrop dimming, and a status-information toggle.
 - **Matugen integration:** reload color roles whenever the popup is created, with a built-in fallback palette.
 
 Optional system integrations are best-effort: if logind cannot provide inhibitor, hibernate, or session information, the related enhancement is skipped or the normal action behavior is retained.
@@ -93,7 +93,7 @@ Open **Extensions → Material System Actions → Preferences** (the exact route
 - **System actions:** hide or show individual actions and move them up or down. Changes apply the next time the popup opens. Layouts that separate session and power actions preserve those sections while applying the configured order within each section.
 - **Custom actions:** edit and validate a JSON array of user-defined commands.
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
-- **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), and backdrop dimming.
+- **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, and whether layout-provided status information is shown. The status toggle applies immediately to open popups; layouts without status elements remain compact.
 
 ### Keyboard and accessibility
 
