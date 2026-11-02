@@ -2,6 +2,8 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {BUILTIN_ACTION_IDS} from '../lib/action-ids.js';
 import {applyActionPreferences} from '../lib/action-preferences.js';
 
 const makeSettings = (order, hidden = []) => ({
@@ -115,7 +117,7 @@ test('rejects custom IDs that collide with built-in action IDs', () => {
     for (const id of ['lock', 'logout', 'suspend', 'reboot', 'shutdown', 'hibernate']) {
         assert.throws(() => parseCustomActions(JSON.stringify([
             {id, label: 'Built-in collision', icon: 'power-symbolic', cmd: ['true']},
-        ])), /id must start with "custom-"/);
+        ])), /collides with a built-in action/);
     }
 });
 
@@ -221,4 +223,13 @@ test('detects when every available action is hidden without treating an empty li
     assert.equal(areAllActionsHidden(['lock'], []), false);
     assert.equal(areAllActionsHidden([], ['lock']), false);
     assert.equal(areAllActionsHidden(['lock'], ['stale-id']), false);
+});
+
+test('canonical built-in IDs match the actions exposed by getActions', () => {
+    const source = readFileSync(new URL('../lib/actions.js', import.meta.url), 'utf8');
+    const implementedIds = [...source.matchAll(/id: '([a-z-]+)'/g)].map(([, id]) => id);
+    assert.deepEqual(
+        [...new Set(implementedIds)].sort(),
+        [...BUILTIN_ACTION_IDS].sort(),
+    );
 });
