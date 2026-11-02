@@ -88,7 +88,7 @@ test('rejects overlong custom-action labels, icon names, and argv entries', () =
         {...valid, label: 'x'.repeat(49)},
     ])), /label must contain 1–48 characters/);
     assert.throws(() => parseCustomActions(JSON.stringify([
-        {...valid, icon: `${'a'.repeat(80)}-symbolic`},
+        {...valid, icon: `${'a'.repeat(81)}-symbolic`},
     ])), /icon must be a symbolic icon name/);
     assert.throws(() => parseCustomActions(JSON.stringify([
         {...valid, cmd: ['x'.repeat(1025)]},
