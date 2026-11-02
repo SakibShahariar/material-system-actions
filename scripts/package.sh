@@ -49,6 +49,8 @@ glib-compile-schemas "$project_dir/schemas"
 # truncated archive or checksum at the public output paths.
 tmp_archive=$(mktemp "$output_dir/.material-system-actions.XXXXXX.zip")
 tmp_checksum=$(mktemp "$output_dir/.material-system-actions.XXXXXX.sha256")
+# zip expects to create a new archive; an existing empty mktemp file is invalid.
+rm -f "$tmp_archive"
 cleanup() {
     rm -f "$tmp_archive" "$tmp_checksum"
 }
