@@ -158,7 +158,7 @@ Replace the example paths and connection names with values that exist on your sy
 ## Safety and confirmations
 
 - **Logout, reboot, shutdown, and hibernate** require confirmation. Cancel or press Escape to return without executing the action.
-- **Suspend** checks logind for sleep inhibitors. If any are found, the popup lists the application, reason, and inhibitor mode. Choose **Cancel** or **Force suspend**. Forcing suspend runs `systemctl --ignore-inhibitors suspend` and can interrupt ongoing work.
+- **Suspend** checks logind for sleep inhibitors. If any are found, the popup lists the application, reason, and inhibitor mode. Choose **Cancel** or **Force suspend**. Forcing suspend runs `systemctl --ignore-inhibitors suspend` and can interrupt ongoing work. Missing application/reason metadata is replaced with readable fallback text. The logind `ListInhibitors` tuple does not include an icon, so entries remain text-based.
 - **Custom commands run as your user.** Commands are launched directly as argument arrays, not through a shell. Shell syntax, pipes, redirection, and variable expansion are not interpreted. Only add commands you trust; a custom command can still modify files or perform other actions permitted to your account.
 - **Switch user** activates an existing local graphical session; it does not create a new account session. The action is omitted when session discovery is unavailable.
 - **Hibernate** is only offered when logind reports that hibernation is available. Actual support also depends on system configuration.
