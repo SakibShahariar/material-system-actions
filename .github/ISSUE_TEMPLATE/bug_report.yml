@@ -1,0 +1,97 @@
+name: Bug report
+description: Report a reproducible problem with Material System Actions.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting, check whether an open issue already describes the problem.
+        Remove personal information, access tokens, and private paths from logs.
+  - type: input
+    id: shell-version
+    attributes:
+      label: GNOME Shell version
+      description: "For example: 46, 47, 48, or 49."
+      placeholder: "GNOME Shell 48"
+    validations:
+      required: true
+  - type: input
+    id: extension-version
+    attributes:
+      label: Extension version
+      description: "Use the version shown by Extensions or metadata.json."
+    validations:
+      required: true
+  - type: dropdown
+    id: session
+    attributes:
+      label: Session type
+      options:
+        - Wayland
+        - X11
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: layout
+    attributes:
+      label: Layout
+      description: Select the affected layout, or choose Not layout-specific.
+      options:
+        - card
+        - list
+        - split
+        - grid
+        - radial
+        - bento
+        - tui
+        - dock
+        - tiles
+        - halo
+        - capsule
+        - circles
+        - avatar
+        - pill
+        - banner
+        - Not layout-specific
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide the smallest sequence that reliably triggers the problem.
+      placeholder: |
+        1. Open Preferences.
+        2. Select a layout.
+        3. Open the sheet.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or screenshots
+      description: Include relevant journal or Shell errors; redact personal information and secrets.
+      render: text
+    validations:
+      required: false
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+    validations:
+      required: false
