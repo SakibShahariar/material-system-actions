@@ -181,7 +181,7 @@ D-Bus validates the method signature; only `Preview` accepts an argument, and it
 - Commands are passed to `Gio.Subprocess` as an argument array. They are not evaluated by a shell, so pipes, redirection, globbing, and variable expansion are not interpreted.
 - Confirmation dialogs reduce accidental activation; they are not a security boundary against another process already running as the same user.
 
-Only add custom commands you trust. A command can read or modify any files and use any privileges available to your account.
+Only add custom commands you trust. A command can read or modify any files and use any privileges available to your account. When the extension is disabled, it cancels its subprocess wait tracking but deliberately leaves already-started child processes running; this avoids interrupting user commands or power/session operations.
 
 ### Session discovery and privacy
 

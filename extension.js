@@ -8,6 +8,7 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import {SystemActionsDialog} from './lib/dialog.js';
+import {cleanupProcesses} from './lib/process.js';
 
 const DBUS_NAME = 'org.gnome.Shell.Extensions.MaterialSystemActions';
 const DBUS_PATH = '/org/gnome/Shell/Extensions/MaterialSystemActions';
@@ -47,6 +48,7 @@ export default class MaterialSystemActionsExtension extends Extension {
     disable() {
         Main.wm.removeKeybinding('toggle-system-actions');
         this._close();
+        cleanupProcesses();
         this._dbusObject?.unexport();
         this._dbusObject = null;
         if (this._dbusOwnerId) {
