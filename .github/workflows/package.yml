@@ -23,6 +23,9 @@ jobs:
       - name: Validate packaging script syntax
         run: bash -n scripts/package.sh
 
+      - name: Test packaging preflight and checksum
+        run: bash tests/test-package.sh
+
       - name: Validate JavaScript syntax
         run: |
           for file in extension.js prefs.js lib/*.js lib/layouts/*.js; do
@@ -45,3 +48,4 @@ jobs:
           unzip -Z1 "$archive" | grep -Fx 'metadata.json'
           unzip -Z1 "$archive" | grep -Fx 'extension.js'
           unzip -Z1 "$archive" | grep -Fx 'schemas/gschemas.compiled'
+          (cd build-output && sha256sum --check "$(basename "$archive").sha256")
