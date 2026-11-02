@@ -161,3 +161,12 @@ test('action execution failures use safe action-label notifications and one proc
     assert.ok(actions.includes("export {spawnCommand} from './process.js'"));
     assert.ok(!base.includes("cmd.join(' ')"));
 });
+
+test('reduced-motion setting disables decorative CSS transitions without changing interaction paths', () => {
+    const dialog = source('../lib/dialog.js');
+    const base = source('../lib/layouts/base.js');
+    assert.ok(dialog.includes('St.Settings.get().enable_animations'));
+    assert.ok(dialog.includes('getStateTransitionDuration'));
+    assert.ok(base.includes('trigger(action)'));
+    assert.ok(base.includes('_confirmThenRun(action)'));
+});

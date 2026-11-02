@@ -29,6 +29,8 @@ Designed for GNOME Shell **45–51**. The extension is written for GNOME Shell's
 - **Hibernate detection:** only show Hibernate when logind reports it as available.
 - **Suite integration:** panel buttons and launchers can open, close, or toggle this same sheet over the session D-Bus.
 - **Appearance controls:** popup scale, panel transparency, backdrop dimming, status-information visibility, and compact/comfortable status-header density.
+
+The sheet respects GNOME Shell's global animation setting: decorative state transitions become instantaneous when animations are disabled. Keyboard navigation and confirmation behavior are unchanged.
 - **Matugen integration:** reload color roles whenever the popup is created, with a built-in fallback palette.
 
 Optional system integrations are best-effort: if logind cannot provide inhibitor, hibernate, or session information, the related enhancement is skipped or the normal action behavior is retained.
