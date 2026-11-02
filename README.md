@@ -259,13 +259,95 @@ CI validates JavaScript syntax, action preference behavior, accessibility and pr
 
 ## Troubleshooting
 
-- **The shortcut does nothing:** check that the extension is enabled, try the shortcut shown in Preferences, and look for a conflicting GNOME or third-party keybinding.
-- **Changes are not visible:** close and reopen the popup. For code changes, disable/re-enable the extension; on Wayland, a logout/login may be needed.
-- **Colors do not match Matugen:** confirm the CSS file exists, contains the expected color roles, and is selected by the lookup order above. Set `MATUGEN_COLORS_PATH` to test a specific file.
-- **Hibernate or switch-user actions are missing:** these depend on systemd-logind reporting support and sessions that meet the detection requirements.
-- **A custom action fails:** confirm the executable and arguments are correct. Because commands are not run through a shell, use an executable script if you need shell syntax.
+### Extension does not open
 
-For bugs and feature requests, use the [GitHub issue tracker](https://github.com/SakibShahariar/material-system-actions/issues).
+Check whether GNOME Shell has the extension enabled:
+
+```bash
+gnome-extensions info material-system-actions@sakib.dev
+```
+
+Follow the Shell log while opening the popup:
+
+```bash
+journalctl --user -f -o cat /usr/bin/gnome-shell
+```
+
+Look for messages prefixed with `material-system-actions:`. To reload the extension after fixing an error:
+
+```bash
+gnome-extensions disable material-system-actions@sakib.dev
+gnome-extensions enable material-system-actions@sakib.dev
+```
+
+On Wayland, log out and back in if GNOME Shell still holds stale extension state.
+
+### D-Bus name is unavailable
+
+The session-bus name is exported only while the extension is enabled. Check that the service and object are present:
+
+```bash
+gdbus introspect --session \
+  --dest org.gnome.Shell.Extensions.MaterialSystemActions \
+  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions
+```
+
+If this reports that the service is unknown, check the extension state and Shell log above. The extension logs `could not own D-Bus session name` if it cannot acquire the name.
+
+### Layout preview does not work
+
+Use the layout preview in Preferences, or test the preview-only D-Bus method with a registered layout name:
+
+```bash
+gdbus call --session \
+  --dest org.gnome.Shell.Extensions.MaterialSystemActions \
+  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \
+  --method org.gnome.Shell.Extensions.MaterialSystemActions.Preview \
+  'card'
+```
+
+Replace `card` with another registered layout key. Preview mode does not execute actions; use the `Open` method for normal operation.
+
+### Matugen colors are stale or incomplete
+
+The palette is read when the popup is created. Close and reopen the popup after editing a color file. Check the lookup order in [Matugen colors](#matugen-colors), and use `MATUGEN_COLORS_PATH` to select a specific CSS file.
+
+For diagnostics, set `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in GNOME Shell's environment and restart the session. The log reports the resolved file, missing roles, and roles using fallback values. The variable is opt-in; normal operation remains quiet.
+
+### Keyboard shortcut does nothing
+
+Check the configured accelerator:
+
+```bash
+gsettings get org.gnome.shell.extensions.material-system-actions toggle-system-actions
+```
+
+Change it in Preferences if another GNOME Shell extension or desktop shortcut already uses the same key. To restore the schema default:
+
+```bash
+gsettings reset org.gnome.shell.extensions.material-system-actions toggle-system-actions
+```
+
+### A custom action fails
+
+Use **Validate and save** in Preferences, then inspect the stored configuration if needed:
+
+```bash
+gsettings get org.gnome.shell.extensions.material-system-actions custom-actions
+```
+
+Each `cmd` must be a JSON array containing the executable followed by separate arguments. Commands run directly as your user, not through a shell, so pipes, redirection, globbing, and variable expansion are not interpreted. Use an executable script when shell syntax is required. Check the Shell log for `spawn failed` messages.
+
+### Hibernate or switch-user actions are missing
+
+These actions depend on systemd-logind and the current session. Inspect the sessions visible to logind:
+
+```bash
+loginctl list-sessions
+loginctl show-session "$XDG_SESSION_ID" -p Type -p Class -p Remote -p Seat
+```
+
+Hibernate is shown only when logind reports support. Switch-user actions are limited to other users' local Wayland/X11 graphical sessions.
 
 ## License
 
