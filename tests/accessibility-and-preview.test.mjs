@@ -131,3 +131,10 @@ test('initial focus prefers the configured visible action and safely falls back'
     assert.ok(base.includes('selectInitialFocusWidget(this._navWidgets, preferredId)'));
     assert.ok(prefs.includes("settings.get_string('default-focused-action')"));
 });
+
+test('action buttons expose labels and destructive confirmation context to assistive technology', () => {
+    const base = source('../lib/layouts/base.js');
+    assert.ok(base.includes('widget.accessible_name = action.label'));
+    assert.ok(base.includes('widget.accessible_description ='));
+    assert.ok(base.includes('is a destructive action and requires confirmation.'));
+});
