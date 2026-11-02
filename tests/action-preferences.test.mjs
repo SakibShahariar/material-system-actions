@@ -81,6 +81,44 @@ test('rejects duplicate IDs and shortcut collisions', () => {
     ])), /already reserved/);
 });
 
+
+test('rejects overlong custom-action labels, icon names, and argv entries', () => {
+    const valid = {id: 'custom-limit-check', label: 'Limit check', icon: 'power-symbolic', cmd: ['true']};
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {...valid, label: 'x'.repeat(49)},
+    ])), /label must contain 1–48 characters/);
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {...valid, icon: `${'a'.repeat(80)}-symbolic`},
+    ])), /icon must be a symbolic icon name/);
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {...valid, cmd: ['x'.repeat(1025)]},
+    ])), /cmd must be a non-empty array/);
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {...valid, cmd: Array.from({length: 33}, () => 'x')},
+    ])), /cmd must be a non-empty array/);
+});
+
+test('rejects duplicate custom shortcut keys and every built-in shortcut', () => {
+    assert.throws(() => parseCustomActions(JSON.stringify([
+        {id: 'custom-first', label: 'First', icon: 'power-symbolic', cmd: ['true'], key: 'x'},
+        {id: 'custom-second', label: 'Second', icon: 'power-symbolic', cmd: ['true'], key: 'x'},
+    ])), /shortcut "x" is already reserved or used/);
+
+    for (const key of ['l', 'o', 's', 'r', 'p', 'h']) {
+        assert.throws(() => parseCustomActions(JSON.stringify([
+            {id: 'custom-reserved', label: 'Reserved', icon: 'power-symbolic', cmd: ['true'], key},
+        ])), /shortcut .* is already reserved or used/);
+    }
+});
+
+test('rejects custom IDs that collide with built-in action IDs', () => {
+    for (const id of ['lock', 'logout', 'suspend', 'reboot', 'shutdown', 'hibernate']) {
+        assert.throws(() => parseCustomActions(JSON.stringify([
+            {id, label: 'Built-in collision', icon: 'power-symbolic', cmd: ['true']},
+        ])), /id must start with "custom-"/);
+    }
+});
+
 import {isHibernateCapabilityAvailable} from '../lib/hibernate-capability.js';
 
 test('shows Hibernate only when logind reports support or an authentication challenge', () => {
