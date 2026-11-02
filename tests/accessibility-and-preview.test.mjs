@@ -138,3 +138,13 @@ test('action buttons expose labels and destructive confirmation context to assis
     assert.ok(base.includes('widget.accessible_description ='));
     assert.ok(base.includes('is a destructive action and requires confirmation.'));
 });
+
+test('destructive action widgets receive the shared error tier across layouts', () => {
+    const base = source('../lib/layouts/base.js');
+    const stylesheet = source('../stylesheet.css');
+    assert.ok(base.includes("widget.add_style_class_name('sa-tier-error')"));
+    assert.ok(stylesheet.includes('.sa-tui-row.sa-tier-error'));
+    assert.ok(stylesheet.includes('.sa-layout-card .sa-card-action.sa-tier-error'));
+    assert.ok(stylesheet.includes('.sa-tile-btn.sa-tier-error'));
+    assert.ok(stylesheet.includes('.sa-circle-btn.sa-tier-error'));
+});

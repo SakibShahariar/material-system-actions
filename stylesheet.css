@@ -398,6 +398,9 @@
 }
 .sa-tui-row.sa-pressed,
 .sa-tui-row:active { background-color: var(--primary, #b0c6ff); }
+.sa-tui-row.sa-tier-error { color: var(--error, #ffb4ab); }
+.sa-tui-row.sa-tier-error:hover { background-color: var(--error_container, #93000a); }
+
 .sa-tui-selected { background-color: var(--primary, #b0c6ff); color: var(--on_primary, #152e60); border-radius: 6px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); }
 .sa-tui-selected StLabel { color: var(--on_primary, #152e60); }
 .sa-dot { border-radius: 999px; background-color: var(--outline_variant, #44464f); }
