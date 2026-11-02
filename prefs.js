@@ -118,6 +118,22 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             description: 'Choose which actions appear and set their display order. Changes apply the next time the popup opens.',
         });
         const actionRows = new Map();
+        const allHiddenRow = new Adw.ActionRow({
+            title: 'All actions are hidden',
+            subtitle: 'The popup will have no actions. Enable at least one action above to restore it.',
+        });
+        allHiddenRow.add_prefix(new Gtk.Image({icon_name: 'dialog-warning-symbolic'}));
+        const updateAllHiddenWarning = () => {
+            const availableActions = getConfigurableActions();
+            const order = normalizeActionOrder(availableActions, settings.get_strv('action-order'));
+            const hidden = new Set(settings.get_strv('hidden-actions'));
+            const shouldWarn = areAllActionsHidden(order, hidden);
+            const isVisible = allHiddenRow.get_parent() === actionGroup;
+            if (shouldWarn && !isVisible)
+                actionGroup.add(allHiddenRow);
+            else if (!shouldWarn && isVisible)
+                actionGroup.remove(allHiddenRow);
+        };
         const getConfigurableActions = () => {
             let custom = [];
             try {
@@ -156,6 +172,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
                 row.add_suffix(up); row.add_suffix(down);
                 actionRows.set(id, row); actionGroup.add(row);
             }
+            updateAllHiddenWarning();
         };
         const moveAction = (id, delta) => {
             const order = normalizeActionOrder(getConfigurableActions(), settings.get_strv('action-order'));
@@ -167,6 +184,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         };
         renderActionRows();
         settingsSignalIds.push(settings.connect('changed::custom-actions', renderActionRows));
+        settingsSignalIds.push(settings.connect('changed::hidden-actions', updateAllHiddenWarning));
         page.add(actionGroup);
 
         const customGroup = new Adw.PreferencesGroup({

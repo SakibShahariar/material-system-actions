@@ -66,3 +66,10 @@ test('focus and pressed states share one transition duration and replace stale t
     assert.ok(dialog.includes('--sa-state-transition-duration: ${INTERACTION_STATE_DURATION_MS}ms;'));
     assert.ok(stylesheet.includes('transition-duration: var(--sa-state-transition-duration, 300ms);'));
 });
+
+test('Preferences displays and refreshes the all-actions-hidden warning', () => {
+    const prefs = source('../prefs.js');
+    assert.ok(prefs.includes('All actions are hidden'));
+    assert.ok(prefs.includes('areAllActionsHidden(order, hidden)'));
+    assert.ok(prefs.includes("changed::hidden-actions"));
+});

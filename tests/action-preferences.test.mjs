@@ -129,7 +129,7 @@ test('shows Hibernate only when logind reports support or an authentication chal
     assert.equal(isHibernateCapabilityAvailable(undefined), false);
 });
 
-import {normalizeActionOrder} from '../lib/action-preferences.js';
+import {normalizeActionOrder, areAllActionsHidden} from '../lib/action-preferences.js';
 
 test('normalizes preference order by dropping stale IDs and duplicates', () => {
     const available = [{id: 'lock'}, {id: 'custom-vpn'}, {id: 'shutdown'}];
@@ -213,4 +213,12 @@ test('does not create switch actions for malformed session IDs', () => {
     assert.deepEqual(buildSwitchUserActions([
         {id: '../bad', user: 'other', seat: 'seat0', type: 'wayland', class: 'user', remote: false},
     ], 'me', '1'), []);
+});
+
+test('detects when every available action is hidden without treating an empty list as hidden', () => {
+    assert.equal(areAllActionsHidden(['lock', 'shutdown'], new Set(['lock', 'shutdown'])), true);
+    assert.equal(areAllActionsHidden(['lock', 'shutdown'], ['lock']), false);
+    assert.equal(areAllActionsHidden(['lock'], []), false);
+    assert.equal(areAllActionsHidden([], ['lock']), false);
+    assert.equal(areAllActionsHidden(['lock'], ['stale-id']), false);
 });
