@@ -7,7 +7,7 @@ trap 'rm -rf "$tmp_root"' EXIT
 
 project="$tmp_root/project"
 stub_bin="$tmp_root/bin"
-mkdir -p "$project/scripts" "$project/lib" "$project/schemas" "$stub_bin"
+mkdir -p "$project/scripts" "$project/lib" "$project/schemas" "$project/prototype" "$project/tests" "$project/.github/workflows" "$project/docs" "$stub_bin"
 cp "$repo_root/scripts/package.sh" "$project/scripts/package.sh"
 chmod +x "$project/scripts/package.sh"
 
@@ -48,6 +48,7 @@ checksum="$archive.sha256"
 
 [[ -s "$archive" ]]
 [[ -s "$checksum" ]]
+[[ "$(basename "$archive")" == "$archive_name" ]]
 [[ -e "$compile_marker" ]]
 (
     cd "$output"
@@ -73,6 +74,22 @@ required = {
 missing = required - names
 if missing:
     raise SystemExit(f"Package is missing entries: {sorted(missing)}")
+
+development_paths = (
+    "README.md",
+    "AGENTS.md",
+    "prototype/",
+    "tests/",
+    ".github/",
+    "docs/",
+    "scripts/",
+)
+unexpected = sorted(
+    name for name in names
+    if any(name == path or name.startswith(path) for path in development_paths)
+)
+if unexpected:
+    raise SystemExit(f"Package contains development-only entries: {unexpected}")
 PY
 
 printf 'Package validation and checksum tests passed.\n'
