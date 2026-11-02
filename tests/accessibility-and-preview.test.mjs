@@ -85,7 +85,7 @@ test('dialog shows a Preferences recovery state when every available action is h
     const actions = source('../lib/actions.js');
     const dialog = source('../lib/dialog.js');
     const stylesheet = source('../stylesheet.css');
-    assert.ok(actions.includes('allHidden:'));
+    assert.ok(actions.includes('const allHidden = areAllActionsHidden'));
     assert.ok(dialog.includes('this._actions.allHidden ? this._buildEmptyState() : this._style.buildUI()'));
     assert.ok(dialog.includes('No actions are visible'));
     assert.ok(dialog.includes('Open Preferences and enable at least one action under System actions.'));
