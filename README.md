@@ -170,6 +170,8 @@ The popup reads Matugen CSS color roles when it is created, so palette changes a
 
 The extension reads the color roles it recognizes from the selected CSS file; a missing or unreadable file does not prevent the popup from opening. The prototype uses the same lookup paths and fallback behavior.
 
+For optional diagnostics, set `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in GNOME Shell's environment before starting the session. Opening the popup logs the selected CSS file (or the built-in fallback), missing theme roles, and roles using fallback values. Leave the variable unset for quiet normal operation.
+
 ## Panel and launcher integration
 
 The extension exposes a session-bus D-Bus interface so another GNOME component can open the existing sheet instead of implementing a separate power dialog.

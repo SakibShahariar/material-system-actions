@@ -2,7 +2,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {hexToRgba, normalizeHexColor, parseCssColors} from '../lib/theme-colors.js';
+import {hexToRgba, normalizeHexColor, parseCssColors, getMissingThemeRoles} from '../lib/theme-colors.js';
 
 test('normalizes three-digit hex colors and preserves six- and eight-digit colors', () => {
     assert.equal(normalizeHexColor('#abc'), '#aabbcc');
@@ -49,4 +49,24 @@ test('keeps fully opaque CSS hex values and handles zero opacity', () => {
     assert.equal(hexToRgba('#11223380', 1), '#11223380');
     assert.equal(hexToRgba('#112233', 0), 'transparent');
     assert.equal(hexToRgba('not-a-color', 0.5), 'not-a-color');
+});
+
+test('lists missing known roles that use fallback values', () => {
+    const fallbackTheme = {
+        background: '#000000',
+        primary: '#ffffff',
+        outline: '#777777',
+    };
+    assert.deepEqual(
+        getMissingThemeRoles({primary: '#112233', unknown: '#abcdef'}, fallbackTheme),
+        ['background', 'outline'],
+    );
+    assert.deepEqual(
+        getMissingThemeRoles(null, fallbackTheme),
+        ['background', 'primary', 'outline'],
+    );
+    assert.deepEqual(
+        getMissingThemeRoles(fallbackTheme, fallbackTheme),
+        [],
+    );
 });
