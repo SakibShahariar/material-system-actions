@@ -95,6 +95,24 @@ Open **Extensions → Material System Actions → Preferences** (the exact route
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
 - **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, and whether status information is shown. The toggle applies immediately to open popups; layouts with existing headers keep their native presentation, while dock, tiles, halo, and circles use a shared compact status header.
 
+
+### GSettings reference
+
+The extension stores its preferences in the `org.gnome.shell.extensions.material-system-actions` schema. Defaults below are taken directly from the schema shipped in `schemas/`.
+
+| Key | Type | Default | Effect |
+|---|---|---|---|
+| `toggle-system-actions` | string array (`as`) | `['<Control><Alt>End']` | Global shortcut used to open or close the sheet. |
+| `style` | string (`s`) | `'card'` | Selects the layout used by the popup. |
+| `custom-actions` | string (`s`) | `'[]'` | JSON array of user-defined command actions; commands run directly without a shell. |
+| `action-order` | string array (`as`) | `['lock', 'logout', 'suspend', 'hibernate', 'reboot', 'shutdown']` | Sets the display order of available actions; newly available actions are appended automatically. |
+| `hidden-actions` | string array (`as`) | `[]` | Lists action IDs that are omitted from the popup. |
+| `icon-scale` | double (`d`) | `1.0` (range: `0.6–2.0`) | Uniformly scales popup text, icons, and geometry. |
+| `panel-opacity` | double (`d`) | `1.0` (range: `0.0–1.0`) | Controls surface opacity; `0.0` is transparent and `1.0` is solid. Labels remain fully opaque. |
+| `backdrop-dim-enabled` | boolean (`b`) | `true` | Enables the standard Shell dimming behind the popup; disable it for no backdrop dimming. |
+| `show-status-header` | boolean (`b`) | `true` | Shows the user, clock, date, or uptime elements supported by the selected layout. |
+
+
 ### Keyboard and accessibility
 
 - Press the configured global shortcut (default **Ctrl+Alt+End**) to open or close the sheet.
