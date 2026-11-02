@@ -321,6 +321,26 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         }));
         appearance.add(statusRow);
 
+        const densityRow = new Adw.ComboRow({
+            title: 'Status header density',
+            subtitle: 'Compact reduces spacing and text size. Only layouts with the shared status header are affected.',
+            model: new Gtk.StringList({strings: ['Comfortable', 'Compact']}),
+        });
+        densityRow.selected = STATUS_HEADER_DENSITIES.indexOf(
+            normalizeStatusHeaderDensity(settings.get_string('status-header-density')));
+        densityRow.connect('notify::selected', () => {
+            const density = STATUS_HEADER_DENSITIES[densityRow.selected];
+            if (density)
+                settings.set_string('status-header-density', density);
+        });
+        settingsSignalIds.push(settings.connect('changed::status-header-density', () => {
+            const selected = STATUS_HEADER_DENSITIES.indexOf(
+                normalizeStatusHeaderDensity(settings.get_string('status-header-density')));
+            if (densityRow.selected !== selected)
+                densityRow.selected = selected;
+        }));
+        appearance.add(densityRow);
+
         const dimRow = new Adw.SwitchRow({
             title: 'Dim backdrop',
             subtitle: 'Dim the desktop behind the popup',

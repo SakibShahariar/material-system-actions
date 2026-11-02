@@ -92,3 +92,14 @@ test('dialog shows a Preferences recovery state when every available action is h
     assert.ok(dialog.includes('Clutter.KEY_Escape'));
     assert.ok(stylesheet.includes('.sa-empty-state'));
 });
+
+test('status-header density is shared and scoped to layouts that render the header', () => {
+    const base = source('../lib/layouts/base.js');
+    const prefs = source('../prefs.js');
+    const stylesheet = source('../stylesheet.css');
+    const helper = source('../lib/status-header.js');
+    assert.ok(helper.includes("['comfortable', 'compact']"));
+    assert.ok(base.includes('normalizeStatusHeaderDensity(this.dialog._settings.get_string(\'status-header-density\'))'));
+    assert.ok(prefs.includes("settings.set_string('status-header-density'"));
+    assert.ok(stylesheet.includes('.sa-shared-status-header.sa-status-header-compact'));
+});

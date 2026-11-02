@@ -40,6 +40,16 @@
 .sa-mono { font-family: "JetBrains Mono", "Iosevka", "Fira Code", monospace; }
 
 .sa-muted { color: var(--on_surface_variant, #c5c6d0); font-size: 0.78em; }
+
+.sa-shared-status-header.sa-status-header-horizontal { spacing: 12px; padding: 8px 12px; }
+.sa-shared-status-header.sa-status-header-vertical { spacing: 3px; padding: 6px; }
+.sa-shared-status-header.sa-status-header-compact.sa-status-header-horizontal { spacing: 6px; padding: 4px 8px; }
+.sa-shared-status-header.sa-status-header-compact.sa-status-header-vertical { spacing: 2px; padding: 3px; }
+.sa-status-clock { font-size: 1.15em; font-weight: 700; }
+.sa-status-header-compact .sa-status-clock { font-size: 1em; }
+.sa-status-header-compact .sa-status-user,
+.sa-status-header-compact .sa-status-detail { font-size: 0.7em; }
+
 .sa-heading {
     color: var(--on_surface_variant, #c5c6d0);
     font-size: 0.72em;

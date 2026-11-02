@@ -28,7 +28,7 @@ Designed for GNOME Shell **45–51**. The extension is written for GNOME Shell's
 - **Switch user:** show actions for other users' existing local graphical sessions when logind can identify them. Switching asks for confirmation by default; the **Confirm before switching users** preference can disable the prompt.
 - **Hibernate detection:** only show Hibernate when logind reports it as available.
 - **Suite integration:** panel buttons and launchers can open, close, or toggle this same sheet over the session D-Bus.
-- **Appearance controls:** popup scale, panel transparency, backdrop dimming, and a status-information toggle.
+- **Appearance controls:** popup scale, panel transparency, backdrop dimming, status-information visibility, and compact/comfortable status-header density.
 - **Matugen integration:** reload color roles whenever the popup is created, with a built-in fallback palette.
 
 Optional system integrations are best-effort: if logind cannot provide inhibitor, hibernate, or session information, the related enhancement is skipped or the normal action behavior is retained.
@@ -95,7 +95,7 @@ Open **Extensions → Material System Actions → Preferences** (the exact route
 - **System actions:** hide or show individual actions and move them up or down. Changes apply the next time the popup opens. Layouts that separate session and power actions preserve those sections while applying the configured order within each section.
 - **Custom actions:** edit and validate a JSON array of user-defined commands.
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
-- **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, and whether status information is shown. The toggle applies immediately to open popups; layouts with existing headers keep their native presentation, while dock, tiles, halo, and circles use a shared compact status header.
+- **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, whether status information is shown, and whether shared status headers use comfortable or compact density. Density affects only layouts that render the shared header; layouts without one are unchanged.
 
 
 ### GSettings reference
@@ -113,6 +113,7 @@ The extension stores its preferences in the `org.gnome.shell.extensions.material
 | `panel-opacity` | double (`d`) | `1.0` (range: `0.0–1.0`) | Controls surface opacity; `0.0` is transparent and `1.0` is solid. Labels remain fully opaque. |
 | `backdrop-dim-enabled` | boolean (`b`) | `true` | Enables the standard Shell dimming behind the popup; disable it for no backdrop dimming. |
 | `show-status-header` | boolean (`b`) | `true` | Shows the user, clock, date, or uptime elements supported by the selected layout. |
+| `status-header-density` | string (`s`) | `comfortable` | `comfortable` or `compact` spacing for layouts with the shared status header. |
 
 
 ### Keyboard and accessibility

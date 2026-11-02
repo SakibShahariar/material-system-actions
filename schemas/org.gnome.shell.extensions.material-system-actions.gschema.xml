@@ -43,6 +43,11 @@
       <summary>Panel transparency</summary>
       <description>Opacity of the panel surface. 0 is fully transparent, 1 is solid. Labels stay fully opaque for readability.</description>
     </key>
+    <key name="status-header-density" type="s">
+      <default>'comfortable'</default>
+      <summary>Status header density</summary>
+      <description>Choose comfortable or compact spacing for layouts with a shared status header.</description>
+    </key>
     <key name="backdrop-dim-enabled" type="b">
       <default>true</default>
       <summary>Dim the backdrop behind the popup</summary>
