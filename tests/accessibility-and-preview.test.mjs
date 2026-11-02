@@ -57,12 +57,12 @@ test('focus and pressed states share one transition duration and replace stale t
     const timing = source('../lib/interaction-timing.js');
     const stylesheet = source('../stylesheet.css');
 
-    assert.match(timing, /INTERACTION_STATE_DURATION_MS = 300/);
-    assert.match(base, /widget\\._saPressedTimeoutId/);
-    assert.match(base, /GLib\\.source_remove\\(previousTimeout\\)/);
-    assert.match(base, /this\\._setPressedState\\(widget, true, INTERACTION_STATE_DURATION_MS\\)/);
-    assert.match(base, /this\\._setPressedState\\(widget, false\\)/);
-    assert.match(base, /widget\\.connect\\('destroy', \\(\\) => this\\._setPressedState\\(widget, false\\)\\)/);
-    assert.match(dialog, /--sa-state-transition-duration: \\$\\{INTERACTION_STATE_DURATION_MS\\}ms/);
-    assert.match(stylesheet, /transition-duration: var\\(--sa-state-transition-duration, 300ms\\)/);
+    assert.ok(timing.includes('INTERACTION_STATE_DURATION_MS = 300'));
+    assert.ok(base.includes('widget._saPressedTimeoutId'));
+    assert.ok(base.includes('GLib.source_remove(previousTimeout)'));
+    assert.ok(base.includes('this._setPressedState(widget, true, INTERACTION_STATE_DURATION_MS)'));
+    assert.ok(base.includes('this._setPressedState(widget, false)'));
+    assert.ok(base.includes("widget.connect('destroy', () => this._setPressedState(widget, false))"));
+    assert.ok(dialog.includes('--sa-state-transition-duration: ${INTERACTION_STATE_DURATION_MS}ms;'));
+    assert.ok(stylesheet.includes('transition-duration: var(--sa-state-transition-duration, 300ms);'));
 });
