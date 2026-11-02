@@ -80,3 +80,15 @@ test('Preferences exposes the switch-user confirmation setting', () => {
     assert.ok(prefs.includes("settings.get_boolean('confirm-switch-user')"));
     assert.ok(prefs.includes("settings.set_boolean('confirm-switch-user'"));
 });
+
+test('dialog shows a Preferences recovery state when every available action is hidden', () => {
+    const actions = source('../lib/actions.js');
+    const dialog = source('../lib/dialog.js');
+    const stylesheet = source('../stylesheet.css');
+    assert.ok(actions.includes('allHidden:'));
+    assert.ok(dialog.includes('this._actions.allHidden ? this._buildEmptyState() : this._style.buildUI()'));
+    assert.ok(dialog.includes('No actions are visible'));
+    assert.ok(dialog.includes('Open Preferences and enable at least one action under System actions.'));
+    assert.ok(dialog.includes('Clutter.KEY_Escape'));
+    assert.ok(stylesheet.includes('.sa-empty-state'));
+});

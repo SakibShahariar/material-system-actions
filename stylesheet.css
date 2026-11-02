@@ -21,6 +21,21 @@
 }
 
 .sa-panel { border-radius: 20px; padding: 20px; }
+
+.sa-empty-state {
+    spacing: 10px;
+    padding: 32px;
+    min-width: 260px;
+    min-height: 160px;
+}
+.sa-empty-state-title { font-size: 1.05em; font-weight: 700; }
+.sa-empty-state-message {
+    color: var(--on_surface_variant, #c5c6d0);
+    font-size: 0.82em;
+    text-align: center;
+    max-width: 320px;
+}
+
 .sa-panel-flat { border-radius: 18px; overflow: hidden; }
 .sa-mono { font-family: "JetBrains Mono", "Iosevka", "Fira Code", monospace; }
 
