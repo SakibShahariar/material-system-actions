@@ -50,3 +50,19 @@ test('preview mode exits before any action can run', () => {
     assert.match(trigger, /if \(this\.dialog\._previewMode\)\s*\{\s*this\.dialog\.close\(\);\s*return;/);
     assert.ok(trigger.indexOf('_previewMode') < trigger.indexOf('this._run('));
 });
+
+test('focus and pressed states share one transition duration and replace stale timers', () => {
+    const base = source('../lib/layouts/base.js');
+    const dialog = source('../lib/dialog.js');
+    const timing = source('../lib/interaction-timing.js');
+    const stylesheet = source('../stylesheet.css');
+
+    assert.match(timing, /INTERACTION_STATE_DURATION_MS = 300/);
+    assert.match(base, /widget\\._saPressedTimeoutId/);
+    assert.match(base, /GLib\\.source_remove\\(previousTimeout\\)/);
+    assert.match(base, /this\\._setPressedState\\(widget, true, INTERACTION_STATE_DURATION_MS\\)/);
+    assert.match(base, /this\\._setPressedState\\(widget, false\\)/);
+    assert.match(base, /widget\\.connect\\('destroy', \\(\\) => this\\._setPressedState\\(widget, false\\)\\)/);
+    assert.match(dialog, /--sa-state-transition-duration: \\$\\{INTERACTION_STATE_DURATION_MS\\}ms/);
+    assert.match(stylesheet, /transition-duration: var\\(--sa-state-transition-duration, 300ms\\)/);
+});

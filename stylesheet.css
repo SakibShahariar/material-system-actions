@@ -89,7 +89,7 @@
     background-color: var(--surface_container, #1e1f25);
     border: 1px solid var(--outline_variant, #44464f);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    transition-duration: 300ms;
+    transition-duration: var(--sa-state-transition-duration, 300ms);
     transition-timing-function: ease-out;
     transition-property: background-color, color, border-color, border-radius,
         box-shadow, outline-width, outline-color, outline-offset;
