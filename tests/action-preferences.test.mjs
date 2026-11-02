@@ -116,6 +116,31 @@ test('filters login1 inhibitors to sleep blockers and delays', () => {
     ]);
 });
 
+
+test('groups duplicate inhibitors by application while preserving reasons and modes', () => {
+    const input = [
+        ['sleep', 'Backup', 'Writing snapshot', 'block', 1000, 100],
+        ['sleep', 'Backup', 'Copying files', 'block', 1000, 101],
+        ['sleep', 'Backup', 'Writing snapshot', 'delay', 1000, 102],
+        ['sleep', 'Music', 'Audio stream active', 'delay', 1000, 103],
+        ['shutdown', 'Updater', 'Finishing update', 'block', 1000, 104],
+    ];
+    assert.deepEqual(getSleepInhibitors(input), [
+        {
+            what: 'sleep',
+            who: 'Backup',
+            why: 'Writing snapshot; Copying files',
+            mode: 'block, delay',
+        },
+        {
+            what: 'sleep',
+            who: 'Music',
+            why: 'Audio stream active',
+            mode: 'delay',
+        },
+    ]);
+});
+
 test('handles malformed inhibitor data without throwing', () => {
     assert.deepEqual(getSleepInhibitors(null), []);
     assert.deepEqual(getSleepInhibitors([null, ['idle', 'x', 'y', 'block', 1, 2]]), []);
