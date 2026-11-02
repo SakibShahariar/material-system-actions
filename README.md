@@ -70,6 +70,8 @@ gnome-extensions install --force dist/material-system-actions@sakib.dev.shell-ex
 gnome-extensions enable material-system-actions@sakib.dev
 ```
 
+The build compiles schemas in a temporary staging tree without modifying the checkout. ZIP entries are sorted, timestamps are fixed, and file/directory permissions are normalized, so identical source trees produce byte-identical archives. A matching `.sha256` file is written beside the archive.
+
 If the extension does not appear immediately, log out and back in to refresh the GNOME Shell extension state. Use the Extensions app or `gnome-extensions` to open its Preferences.
 
 ### Development install

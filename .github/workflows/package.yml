@@ -18,7 +18,7 @@ jobs:
       - name: Install packaging dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --yes glib2.0-bin zip unzip
+          sudo apt-get install --yes glib2.0-bin unzip
 
       - name: Validate packaging script syntax
         run: bash -n scripts/package.sh
