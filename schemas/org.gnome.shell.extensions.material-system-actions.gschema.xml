@@ -21,6 +21,11 @@
       <summary>Order of system actions</summary>
       <description>Display order of available actions. New actions are appended automatically.</description>
     </key>
+    <key name="confirm-switch-user" type="b">
+      <default>true</default>
+      <summary>Confirm before switching users</summary>
+      <description>Ask before activating another user's local graphical session.</description>
+    </key>
     <key name="hidden-actions" type="as">
       <default>[]</default>
       <summary>Hidden system actions</summary>

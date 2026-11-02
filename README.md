@@ -25,7 +25,7 @@ Designed for GNOME Shell **45–51**. The extension is written for GNOME Shell's
 - **Custom commands:** define your own actions in Preferences using a validated JSON array.
 - **Shared confirmations:** destructive actions use a consistent confirmation dialog across layouts.
 - **Sleep inhibitor check:** before suspend, inspect logind sleep inhibitors and let the user cancel or explicitly force suspend.
-- **Switch user:** show an action for another user's existing local graphical session when logind can identify it.
+- **Switch user:** show actions for other users' existing local graphical sessions when logind can identify them. Switching asks for confirmation by default; the **Confirm before switching users** preference can disable the prompt.
 - **Hibernate detection:** only show Hibernate when logind reports it as available.
 - **Suite integration:** panel buttons and launchers can open, close, or toggle this same sheet over the session D-Bus.
 - **Appearance controls:** popup scale, panel transparency, backdrop dimming, and a status-information toggle.

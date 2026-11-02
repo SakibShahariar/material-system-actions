@@ -48,3 +48,11 @@ test('uses session IDs only when duplicate sessions share both seat and type', (
         'Switch to bob',
     ]);
 });
+
+test('switch-user confirmation defaults to enabled and can be disabled', () => {
+    const sessions = [session('4', 'alice')];
+    const confirmed = buildSwitchUserActions(sessions, 'me', '3');
+    const unconfirmed = buildSwitchUserActions(sessions, 'me', '3', false);
+    assert.equal(confirmed[0].destructive, true);
+    assert.equal(unconfirmed[0].destructive, false);
+});

@@ -73,3 +73,10 @@ test('Preferences displays and refreshes the all-actions-hidden warning', () => 
     assert.ok(prefs.includes('areAllActionsHidden(order, hidden)'));
     assert.ok(prefs.includes("changed::hidden-actions"));
 });
+
+test('Preferences exposes the switch-user confirmation setting', () => {
+    const prefs = source('../prefs.js');
+    assert.ok(prefs.includes('Confirm before switching users'));
+    assert.ok(prefs.includes("settings.get_boolean('confirm-switch-user')"));
+    assert.ok(prefs.includes("settings.set_boolean('confirm-switch-user'"));
+});

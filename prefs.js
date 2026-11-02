@@ -187,6 +187,24 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         settingsSignalIds.push(settings.connect('changed::hidden-actions', updateAllHiddenWarning));
         page.add(actionGroup);
 
+        const switchUserGroup = new Adw.PreferencesGroup({
+            title: 'Switch users',
+            description: 'Switching sessions can interrupt unsaved work.',
+        });
+        const confirmSwitchUserRow = new Adw.ActionRow({
+            title: 'Confirm before switching users',
+            subtitle: 'Ask before activating another user session. Enabled by default; changes apply next time the popup opens.',
+        });
+        const confirmSwitchUserSwitch = new Gtk.Switch({
+            active: settings.get_boolean('confirm-switch-user'),
+            valign: Gtk.Align.CENTER,
+        });
+        confirmSwitchUserSwitch.connect('notify::active', () =>
+            settings.set_boolean('confirm-switch-user', confirmSwitchUserSwitch.active));
+        confirmSwitchUserRow.add_suffix(confirmSwitchUserSwitch);
+        switchUserGroup.add(confirmSwitchUserRow);
+        page.add(switchUserGroup);
+
         const customGroup = new Adw.PreferencesGroup({
             title: 'Custom actions',
             description: 'Add commands such as VPN toggles or backup scripts. Commands are trusted code and run as your user.',
