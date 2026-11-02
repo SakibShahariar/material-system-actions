@@ -196,8 +196,8 @@ test('only offers switch actions for other users on local graphical sessions', (
         {id: '9', user: 'greeter', seat: 'seat0', type: 'wayland', class: 'greeter', remote: false},
     ];
     assert.deepEqual(buildSwitchUserActions(sessions, 'me', '3'), [
-        {id: 'switch-user-4', label: 'Switch to alice', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '4'], destructive: false},
-        {id: 'switch-user-5', label: 'Switch to bob', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '5'], destructive: false},
+        {id: 'switch-user-4', label: 'Switch to alice', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '4'], destructive: true},
+        {id: 'switch-user-5', label: 'Switch to bob', icon: 'system-users-symbolic', cmd: ['loginctl', 'activate', '5'], destructive: true},
     ]);
 });
 
