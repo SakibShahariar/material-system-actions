@@ -31,8 +31,8 @@ test('uses session type and seat only when duplicate usernames need disambiguati
         'Switch to alice (Wayland)',
         'Switch to alice (X11)',
         'Switch to bob',
-        'Switch to carol (seat seat1)',
-        'Switch to carol (seat seat2)',
+        'Switch to carol (on seat1)',
+        'Switch to carol (on seat2)',
     ]);
 });
 
