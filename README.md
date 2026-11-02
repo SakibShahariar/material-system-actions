@@ -161,6 +161,36 @@ Replace the example paths and connection names with values that exist on your sy
 - **Switch user** activates an existing local graphical session; it does not create a new account session. The action is omitted when session discovery is unavailable.
 - **Hibernate** is only offered when logind reports that hibernation is available. Actual support also depends on system configuration.
 
+## Security and trust model
+
+### D-Bus scope and authorization
+
+The extension exports `Open`, `Close`, `Toggle`, and `Preview(s style)` on the **user session bus**. It does not expose a system-bus service, network listener, or method for submitting arbitrary commands or action IDs.
+
+There is no additional per-caller authorization layer beyond access to that user's session bus. Any local process that can access the bus can request the popup to open, close, toggle, or enter layout preview. Treat processes running as your user as trusted. The extension releases the exported object and bus name when it is disabled.
+
+D-Bus validates the method signature; only `Preview` accepts an argument, and it must be a string. An unrecognized layout name falls back to the configured/default layout. A D-Bus call does not directly execute a power action.
+
+### Command execution and confirmations
+
+- Built-in logout, reboot, shutdown, and hibernate actions require an explicit confirmation.
+- Suspend checks logind sleep inhibitors. If inhibitors are present, the user must cancel or explicitly choose **Force suspend**.
+- Custom actions default to confirmation, but the saved `confirm` field can disable that prompt. Custom commands run with the current user's permissions and are **not sandboxed**.
+- Commands are passed to `Gio.Subprocess` as an argument array. They are not evaluated by a shell, so pipes, redirection, globbing, and variable expansion are not interpreted.
+- Confirmation dialogs reduce accidental activation; they are not a security boundary against another process already running as the same user.
+
+Only add custom commands you trust. A command can read or modify any files and use any privileges available to your account.
+
+### Session discovery and privacy
+
+To build switch-user actions, the extension reads session information from systemd-logind using `ListSessions` and session `GetAll` properties. It uses the session ID, username, seat, session type, class, and remote flag to include only other users' local graphical Wayland/X11 sessions. The session ID is included in a visible label only when duplicate sessions for the same user cannot otherwise be distinguished.
+
+This session metadata is used transiently to build the popup actions; it is not written to files or GSettings. Hibernate availability is queried from logind and is not persisted. User preferences and custom-action configuration are stored in the user's GSettings schema.
+
+### Preview mode
+
+The `Preview` method and Preferences layout preview open the selected layout in preview-only mode. The shared action dispatcher exits before running any command, so selecting an action in a preview closes it without executing the action. Use `Open` for normal operation.
+
 ## Matugen colors
 
 The popup reads Matugen CSS color roles when it is created, so palette changes are reflected the next time you open it. The lookup order is:
