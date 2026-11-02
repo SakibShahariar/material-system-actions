@@ -21,7 +21,7 @@ Designed for GNOME Shell **45–51**. The extension is written for GNOME Shell's
 ## Features
 
 - **15 layouts** with a common action model and configurable action visibility/order.
-- **Keyboard access:** configurable global toggle shortcut, per-action letter shortcuts where supported, and keyboard focus navigation.
+- **Keyboard access:** configurable global toggle shortcut, per-action letter shortcuts where supported, keyboard focus navigation, and an optional default focused action.
 - **Custom commands:** define your own actions in Preferences using a validated JSON array.
 - **Shared confirmations:** destructive actions use a consistent confirmation dialog across layouts.
 - **Sleep inhibitor check:** before suspend, inspect logind sleep inhibitors and let the user cancel or explicitly force suspend.
@@ -114,6 +114,7 @@ The extension stores its preferences in the `org.gnome.shell.extensions.material
 | `backdrop-dim-enabled` | boolean (`b`) | `true` | Enables the standard Shell dimming behind the popup; disable it for no backdrop dimming. |
 | `show-status-header` | boolean (`b`) | `true` | Shows the user, clock, date, or uptime elements supported by the selected layout. |
 | `status-header-density` | string (`s`) | `comfortable` | `comfortable` or `compact` spacing for layouts with the shared status header. |
+| `default-focused-action` | string (`s`) | `auto` | Action ID to focus on open; hidden or unavailable choices fall back to the first visible action. |
 
 
 ### Keyboard and accessibility

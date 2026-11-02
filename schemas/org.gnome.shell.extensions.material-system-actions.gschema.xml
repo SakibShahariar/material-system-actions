@@ -43,6 +43,11 @@
       <summary>Panel transparency</summary>
       <description>Opacity of the panel surface. 0 is fully transparent, 1 is solid. Labels stay fully opaque for readability.</description>
     </key>
+    <key name="default-focused-action" type="s">
+      <default>'auto'</default>
+      <summary>Default focused action</summary>
+      <description>Action ID to focus when the popup opens, or auto for the first visible action.</description>
+    </key>
     <key name="status-header-density" type="s">
       <default>'comfortable'</default>
       <summary>Status header density</summary>

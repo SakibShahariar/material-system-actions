@@ -122,3 +122,12 @@ test('destructive confirmation and inhibitor warnings expose accessible conseque
     assert.ok(base.includes('accessible_description: `Cancel ${action.label.toLowerCase()}; no action will be taken.`'));
     assert.ok(base.includes('Force the computer to suspend even though applications are blocking sleep.'));
 });
+
+test('initial focus prefers the configured visible action and safely falls back', () => {
+    const helper = source('../lib/focus-preferences.js');
+    const base = source('../lib/layouts/base.js');
+    const prefs = source('../prefs.js');
+    assert.ok(helper.includes('selectInitialFocusWidget'));
+    assert.ok(base.includes('selectInitialFocusWidget(this._navWidgets, preferredId)'));
+    assert.ok(prefs.includes("settings.get_string('default-focused-action')"));
+});

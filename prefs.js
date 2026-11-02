@@ -281,6 +281,27 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         keybindGroup.add(keybindRow);
         page.add(keybindGroup);
 
+        const focusGroup = new Adw.PreferencesGroup({title: 'Keyboard navigation'});
+        const focusIds = ['auto', 'lock', 'logout', 'suspend', 'hibernate', 'reboot', 'shutdown'];
+        const focusRow = new Adw.ComboRow({
+            title: 'Default focused action',
+            subtitle: 'Choose the initial keyboard focus. Hidden or unavailable actions fall back to the first visible action.',
+            model: new Gtk.StringList({strings: ['Automatic', 'Lock', 'Log out', 'Suspend', 'Hibernate', 'Reboot', 'Shutdown']}),
+        });
+        const updateFocusSelection = () => {
+            const index = focusIds.indexOf(settings.get_string('default-focused-action'));
+            focusRow.selected = Math.max(0, index);
+        };
+        updateFocusSelection();
+        focusRow.connect('notify::selected', () => {
+            const id = focusIds[focusRow.selected];
+            if (id)
+                settings.set_string('default-focused-action', id);
+        });
+        settingsSignalIds.push(settings.connect('changed::default-focused-action', updateFocusSelection));
+        focusGroup.add(focusRow);
+        page.add(focusGroup);
+
         const appearance = new Adw.PreferencesGroup({title: 'Appearance'});
         const scaleRow = new Adw.SpinRow({
             title: 'UI scale',
