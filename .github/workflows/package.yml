@@ -51,7 +51,7 @@ jobs:
           unzip -Z1 "$archive" | grep -Fx 'prefs.js'
           unzip -Z1 "$archive" | grep -Fx 'stylesheet.css'
           unzip -Z1 "$archive" | grep -Fx 'schemas/gschemas.compiled'
-          if unzip -Z1 "$archive" | grep -Eq '^(README.md|AGENTS.md|prototype/|tests/|\\.github/|docs/|scripts/)'; then
+          if unzip -Z1 "$archive" | grep -Eq '^(README.md|AGENTS.md|prototype/|tests/|\.github/|docs/|scripts/)'; then
             echo "Archive contains development-only files." >&2
             exit 1
           fi
