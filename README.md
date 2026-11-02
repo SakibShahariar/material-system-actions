@@ -337,7 +337,7 @@ gdbus call --session \
   'card'
 ```
 
-Replace `card` with another registered layout key. Preview mode does not execute actions; use the `Open` method for normal operation.
+Replace `card` with another registered layout key. Preview mode displays a visible and screen-reader description that actions are disabled. It does not execute actions; use the `Open` method for normal operation.
 
 ### Matugen colors are stale or incomplete
 

@@ -103,3 +103,13 @@ test('status-header density is shared and scoped to layouts that render the head
     assert.ok(prefs.includes("settings.set_string('status-header-density'"));
     assert.ok(stylesheet.includes('.sa-shared-status-header.sa-status-header-compact'));
 });
+
+test('preview mode is visible, announced, and remains non-executing', () => {
+    const dialog = source('../lib/dialog.js');
+    const base = source('../lib/layouts/base.js');
+    const stylesheet = source('../stylesheet.css');
+    assert.ok(dialog.includes('PREVIEW · actions are disabled'));
+    assert.ok(dialog.includes("accessible_description = 'Preview mode. Actions are disabled and will not execute.'"));
+    assert.ok(stylesheet.includes('.sa-preview-banner'));
+    assert.ok(base.includes('if (this.dialog._previewMode)'));
+});
