@@ -267,4 +267,4 @@ For bugs and feature requests, use the [GitHub issue tracker](https://github.com
 
 ## License
 
-GPL-2.0-or-later
+Licensed under the GNU General Public License, version 2 or (at your option) any later version (GPL-2.0-or-later). See [LICENSE](LICENSE) for the complete license text.
