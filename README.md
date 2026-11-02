@@ -368,7 +368,7 @@ Use **Validate and save** in Preferences, then inspect the stored configuration 
 gsettings get org.gnome.shell.extensions.material-system-actions custom-actions
 ```
 
-Each `cmd` must be a JSON array containing the executable followed by separate arguments. Commands run directly as your user, not through a shell, so pipes, redirection, globbing, and variable expansion are not interpreted. Use an executable script when shell syntax is required. Check the Shell log for `spawn failed` messages.
+Each `cmd` must be a JSON array containing the executable followed by separate arguments. Commands run directly as your user, not through a shell, so pipes, redirection, globbing, and variable expansion are not interpreted. Use an executable script when shell syntax is required. Check the Shell log for the detailed error. Failed commands now show an immediate notification using the action label, without exposing the full command line.
 
 ### Hibernate or switch-user actions are missing
 

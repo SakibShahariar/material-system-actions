@@ -148,3 +148,16 @@ test('destructive action widgets receive the shared error tier across layouts', 
     assert.ok(stylesheet.includes('.sa-tile-btn.sa-tier-error'));
     assert.ok(stylesheet.includes('.sa-circle-btn.sa-tier-error'));
 });
+
+test('action execution failures use safe action-label notifications and one process path', () => {
+    const base = source('../lib/layouts/base.js');
+    const actions = source('../lib/actions.js');
+    const process = source('../lib/process.js');
+    assert.ok(base.includes('completion = spawnCommand(cmd)'));
+    assert.ok(base.includes('this._notifyActionFailure(actionLabel, error)'));
+    assert.ok(base.includes('Main.notify(notice.title, notice.message)'));
+    assert.ok(base.includes('_run(action.cmd, action.label)'));
+    assert.ok(process.includes('wait_check_async'));
+    assert.ok(actions.includes("export {spawnCommand} from './process.js'"));
+    assert.ok(!base.includes("cmd.join(' ')"));
+});
