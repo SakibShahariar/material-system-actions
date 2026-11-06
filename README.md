@@ -291,6 +291,8 @@ The interface is available while the extension is enabled and is released when i
 
 Follow [DEVELOPING.md](DEVELOPING.md) for copy-pasteable build, installation, live GNOME Shell, D-Bus, accessibility, multi-monitor, and troubleshooting checks.
 
+CI runs the Node test suite with built-in coverage reporting. The report covers Node-compatible modules imported by tests; GNOME Shell/GJS-only modules remain part of the live-session validation checklist.
+
 The project includes a small GTK4/libadwaita prototype gallery in `prototype/system_actions_all.py`. It is useful for browsing the original concepts, but the installed extension uses GNOME Shell's native `St`/Clutter widgets.
 
 ```bash

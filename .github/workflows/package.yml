@@ -15,6 +15,11 @@ jobs:
       - name: Check out source
         uses: actions/checkout@v4
 
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       - name: Install packaging dependencies
         run: |
           sudo apt-get update
@@ -35,8 +40,8 @@ jobs:
             node --check "$file"
           done
 
-      - name: Test action preference ordering and visibility
-        run: node --test tests/*.test.mjs
+      - name: Test action preference ordering and visibility with coverage
+        run: node --test --experimental-test-coverage --test-coverage-include='lib/**/*.js' tests/*.test.mjs
 
       - name: Compile GSettings schema strictly
         run: glib-compile-schemas --strict schemas/
