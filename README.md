@@ -15,6 +15,7 @@ Designed for GNOME Shell **45–51**. The extension is written for GNOME Shell's
 - [Matugen colors](#matugen-colors)
 - [Panel and launcher integration](#panel-and-launcher-integration)
 - [Development and testing](#development-and-testing)
+- [Live GNOME testing guide](DEVELOPING.md)
 - [Troubleshooting](#troubleshooting)
 - [License](#license)
 
@@ -287,6 +288,8 @@ The method returns the extension version (or `unreleased` in an unversioned deve
 The interface is available while the extension is enabled and is released when it is disabled. These methods control the popup; they do not bypass the extension's confirmation UI.
 
 ## Development and testing
+
+Follow [DEVELOPING.md](DEVELOPING.md) for copy-pasteable build, installation, live GNOME Shell, D-Bus, accessibility, multi-monitor, and troubleshooting checks.
 
 The project includes a small GTK4/libadwaita prototype gallery in `prototype/system_actions_all.py`. It is useful for browsing the original concepts, but the installed extension uses GNOME Shell's native `St`/Clutter widgets.
 
