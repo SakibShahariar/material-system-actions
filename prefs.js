@@ -6,7 +6,8 @@ import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import {parseCustomActions} from './lib/custom-actions.js';
-import {normalizeActionOrder} from './lib/action-preferences.js';\nimport {LAYOUT_METADATA} from './lib/layouts/metadata.js';
+import {normalizeActionOrder} from './lib/action-preferences.js';
+import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 

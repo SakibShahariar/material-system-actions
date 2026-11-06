@@ -85,3 +85,16 @@ Reviewed every commit after the prior checkpoint `0b3ee9538fbfbe59f349ce2e205042
 - Corrective commit for the repeated reduced-motion assertion: `d5f8bd9520018b9a93ed5dca93a6ed366fcd2b81`; exact run [42200133934](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200133934) completed successfully.
 - Audit checkpoint advanced to `d5f8bd9520018b9a93ed5dca93a6ed366fcd2b81` after all 51 commits and their workflow results were reviewed.
 - Remaining runtime limitation: no live GNOME Shell / Orca session was available in this maintenance environment.
+
+
+## 2026-11-06 structured layout metadata CI follow-up
+
+Two consecutive commits for issue #89 were checked and both failed at the JavaScript syntax step because the new Preferences metadata import contained a literal escaped newline between import statements. This is a source syntax defect introduced by the metadata integration, not an environment failure. The next corrective commit replaces that literal sequence with a real line break. Both failed runs are preserved as red; the corrective commit's CI must pass before the metadata work is considered verified.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Classification / follow-up |
+|---|---|---|---|---|---|
+| `e29b9887e8da4fb72e8188c251d85f7be654d6be` | `feat(layouts): centralize structured layout metadata (#89)` | red | [42200578522](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200578522) | Validate JavaScript syntax | Literal escaped newline in the new Preferences import. The commit also initially omitted the metadata module and had escaped README row separators; those were addressed in the following correction. |
+| `c668d1fd523d67d45a42093bfdde355eb3f7a1f6` | `fix(layouts): add shared metadata source and repair catalog (#89)` | red | [42200713785](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200713785) | Validate JavaScript syntax | Same uncorrected Preferences import escape; corrected in the next commit. |
+
+- Corrective change: replace the literal `\\n` between import statements in `prefs.js` with an actual newline.
+- Corrective commit and final CI result: pending.
