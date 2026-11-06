@@ -254,3 +254,14 @@ Reviewed the four commits after the previous checkpoint. The coverage command, c
 | `d9c52cb36c8617b46c472f487ed0c50154c3519a` | `test: correct coverage fixtures and CI guide (#62)` | red | [42202872383](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202872383) | Guide assertion still expected the old plain Node test command. |
 | `3c521efe164beabf28f1dcd4a97035651530a2ec` | `docs: record Node coverage baseline (#62)` | red | [42203190179](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203190179) | Malformed regex in the baseline consistency test. |
 | `3a10eecae37204d898a389096ef41042c8813faa` | `test(docs): validate coverage baseline with literal checks (#62)` | green | [42203296487](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203296487) | 94 tests passed; line 99.17%, branch 95.41%, function 97.87%. Baseline is recorded and linked from README/DEVELOPING. |
+
+
+## 2026-11-06 keyboard-navigation extraction CI follow-up
+
+The first refactor commit passed JavaScript syntax validation but one new confirmation-mode test used a fixed fake focus target. The implementation correctly chose the Cancel button because the fake focus object was neither confirmation button. The test now models focus changes when `grab_key_focus()` is called; a minor duplicate semicolon in the dialog hookup is also removed.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `1ad20095cdae7817f516c29d09d29bb04725e787` | `refactor(dialog): extract keyboard navigation module (#65)` | red | [42203668873](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203668873) | `node --test --experimental-test-coverage` | Confirmation-mode test fixture did not update its focused widget after the focus call; corrected in the next commit. |
+
+- Corrective commit and final CI result: pending.

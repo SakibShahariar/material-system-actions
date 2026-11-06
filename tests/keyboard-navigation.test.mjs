@@ -45,14 +45,21 @@ test('layout confirmation handler gets first refusal', () => {
 
 test('confirmation mode only moves between buttons and activates the focused button', () => {
     const events = [];
-    const cancel = {grab_key_focus: () => events.push('cancel-focus')};
-    const confirm = {grab_key_focus: () => events.push('confirm-focus')};
-    const focused = {emit: signal => events.push(signal)};
+    let focused = null;
+    const cancel = {
+        grab_key_focus: () => { events.push('cancel-focus'); focused = cancel; },
+        emit: signal => events.push('cancel-' + signal),
+    };
+    const confirm = {
+        grab_key_focus: () => { events.push('confirm-focus'); focused = confirm; },
+        emit: signal => events.push('confirm-' + signal),
+    };
+    focused = cancel;
     const context = makeContext({
         style: {
             _confirmation: {cancelBtn: cancel, confirmBtn: confirm},
             _keyMap: {l: {id: 'lock'}},
-            pressFlash: () => events.push('flash'),
+            pressFlash: widget => events.push(widget === confirm ? 'confirm-flash' : 'cancel-flash'),
             trigger: () => events.push('trigger'),
         },
         getKeyFocus: () => focused,
@@ -61,7 +68,7 @@ test('confirmation mode only moves between buttons and activates the focused but
     assert.deepEqual(events, ['confirm-focus']);
     events.length = 0;
     assert.equal(handleKeyboardNavigation(makeEvent(keys.enter), context), stop);
-    assert.deepEqual(events, ['flash', 'clicked']);
+    assert.deepEqual(events, ['confirm-focus', 'confirm-flash', 'confirm-clicked']);
     assert.equal(handleKeyboardNavigation(makeEvent(keys.escape), context), stop);
     assert.deepEqual(events, ['flash', 'clicked']);
 });
