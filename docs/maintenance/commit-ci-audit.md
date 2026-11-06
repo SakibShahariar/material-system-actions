@@ -24,7 +24,7 @@ Persistent repository-specific record of commit-level CI checks and red-cross in
 
 - Repository: `SakibShahariar/material-system-actions`
 - Default branch: `main`
-- Checkpoint SHA: `c5b133ca4e937473f1ea54daaf75918a65b75c03`
+- Checkpoint SHA: `f3c79263d7a2f6f34d365e000c8827be567fcde2`
 - Initialized: 2026-11-02
 - Baseline: latest branch tip queried through combined commit-status endpoint; empty status list recorded as **unavailable**, not green/red. Older history was not retroactively audited during setup.
 - Next session: review commits after this checkpoint, including the ledger and `AGENTS.md` setup commits; investigate any older red/pending commit specifically identified by the owner.
@@ -149,3 +149,14 @@ The first correction attempt `950d10fd7e0232ddef5b6c6bde21cd713d607a64` also fai
 | `950d10fd7e0232ddef5b6c6bde21cd713d607a64` | `test(docs): validate declared Shell version range (#63)` | red | [42201628643](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201628643) | `node --test tests/*.test.mjs` | The replacement regex was over-escaped and did not match the valid `45–51` range; corrected with numeric range parsing. |
 
 - Corrective commit and final CI result: pending.
+
+
+## 2026-11-06 live GNOME guide verification
+
+Reviewed the three commits after the previous checkpoint. The initial guide and first test correction had red test runs caused by documentation-test assertion mistakes; the final numeric range comparison passed all 80 tests and the full package workflow.
+
+| Commit SHA | Subject | CI result | Workflow run | Follow-up |
+|---|---|---|---|---|
+| `a8d49dce0e39e79bac07dd45050f65e329cfdc3c` | `docs: add live GNOME testing guide (#63)` | red | [42201552997](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201552997) | Initial test incorrectly required literal version `46` in the compact range `45–51`. |
+| `950d10fd7e0232ddef5b6c6bde21cd713d607a64` | `test(docs): validate declared Shell version range (#63)` | red | [42201628643](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201628643) | First correction over-escaped the Markdown delimiter regex. |
+| `f3c79263d7a2f6f34d365e000c8827be567fcde2` | `test(docs): compare documented Shell compatibility range (#63)` | green | [42201715400](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201715400) | 80 tests passed; syntax, strict schema, package, and archive checks passed. Issue #63 was then closed. |

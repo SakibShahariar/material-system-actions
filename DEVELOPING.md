@@ -93,7 +93,7 @@ Follow GNOME Shell logs while exercising the extension:
 journalctl --user -f -o cat /usr/bin/gnome-shell
 ```
 
-Look for messages prefixed with `material-system-actions:`. For opt-in Matugen diagnostics, launch the GNOME Shell session with `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in its environment; do not expect changing a shell variable in an ordinary terminal to change the already-running Shell process.
+Look for messages prefixed with `material-system-actions:`. For opt-in Matugen and custom-action diagnostics, launch the GNOME Shell session with `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in its environment; do not expect changing a shell variable in an ordinary terminal to change the already-running Shell process. Custom-action logs include the action label, spawn result, exit status or signal, elapsed time, and failure reason; command arguments and output are not recorded.
 
 Check that the session-bus service is exported:
 

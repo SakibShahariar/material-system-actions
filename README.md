@@ -210,7 +210,7 @@ The popup reads Matugen CSS color roles when it is created, so palette changes a
 
 The extension reads the color roles it recognizes from the selected CSS file; a missing or unreadable file does not prevent the popup from opening. The prototype uses the same lookup paths and fallback behavior.
 
-For optional diagnostics, set `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in GNOME Shell's environment before starting the session. Opening the popup logs the selected CSS file (or the built-in fallback), missing theme roles, and roles using fallback values. Leave the variable unset for quiet normal operation.
+For optional diagnostics, set `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in GNOME Shell's environment before starting the session. Opening the popup logs the selected CSS file (or the built-in fallback), missing theme roles, and roles using fallback values. The same opt-in setting logs custom-action invocation, spawn success/failure, exit status or signal, elapsed time, and failure reason. It never records command arguments or command output. Leave the variable unset for quiet normal operation.
 
 ## Panel and launcher integration
 
