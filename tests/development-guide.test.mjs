@@ -23,11 +23,14 @@ test('live GNOME guide documents the actual automated commands and runtime APIs'
     assert.match(workflow, /node --test tests\/\*\.test\.mjs/);
     assert.match(readme, /\[DEVELOPING\.md\]\(DEVELOPING\.md\)/);
 
-    const declaredRange = guide.match(/GNOME Shell \\*\\*(\\d+)–(\\d+)\\*\\*/);
-    assert.ok(declaredRange, 'guide must state the declared GNOME Shell compatibility range');
-    for (const version of metadata['shell-version']) {
-        assert.ok(Number(version) >= Number(declaredRange[1]) &&
-            Number(version) <= Number(declaredRange[2]),
-        `declared Shell version ${version} must fall inside the documented range`);
+    const rangeLine = guide.split('\n').find(line => line.includes('GNOME Shell **'));
+    const range = rangeLine?.match(/\d+/g)?.map(Number) ?? [];
+    assert.equal(range.length, 2, 'guide must state the declared GNOME Shell compatibility range');
+    const declaredVersions = metadata['shell-version'].map(Number);
+    assert.equal(range[0], Math.min(...declaredVersions));
+    assert.equal(range[1], Math.max(...declaredVersions));
+    for (const version of declaredVersions) {
+        assert.ok(version >= range[0] && version <= range[1],
+            'declared Shell versions must fall inside the documented range');
     }
 });

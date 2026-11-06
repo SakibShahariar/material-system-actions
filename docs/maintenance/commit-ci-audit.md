@@ -140,3 +140,12 @@ The initial documentation commit for issue #63 passed syntax validation but fail
 | `a8d49dce0e39e79bac07dd45050f65e329cfdc3c` | `docs: add live GNOME testing guide (#63)` | red | [42201552997](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201552997) | `node --test tests/*.test.mjs` | Version-range test incorrectly expected literal `46` in `45–51`; corrected in the next commit. |
 
 - Corrective test commit and final CI result: pending.
+
+
+The first correction attempt `950d10fd7e0232ddef5b6c6bde21cd713d607a64` also failed the same documentation test because its regular expression was over-escaped. The next test revision avoids escaped Markdown delimiters and compares the numeric range on the guide's compatibility line with the actual `metadata.json` versions.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `950d10fd7e0232ddef5b6c6bde21cd713d607a64` | `test(docs): validate declared Shell version range (#63)` | red | [42201628643](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201628643) | `node --test tests/*.test.mjs` | The replacement regex was over-escaped and did not match the valid `45–51` range; corrected with numeric range parsing. |
+
+- Corrective commit and final CI result: pending.
