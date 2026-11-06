@@ -171,3 +171,12 @@ The initial implementation commit for issue #52 failed JavaScript syntax validat
 | `23543584a364c1bf8a2cf793f8f0780e04157548` | `feat(actions): add opt-in custom command audit logs (#52)` | red | [42201916502](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201916502) | Validate JavaScript syntax | Invalid escaped template-literal delimiters in `lib/process.js`; corrected in the next commit. |
 
 - Corrective commit and final CI result: pending.
+
+
+The first syntax correction commit `46751b4f27d57f0f66c98fa6a39b87b4a2761b08` passed JavaScript syntax validation but exposed one more stale source-contract assertion in `tests/accessibility-and-preview.test.mjs`, which still expected the previous one-argument `spawnCommand(cmd)` call. The test is updated to require forwarding the action label and custom-action audit flag.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `46751b4f27d57f0f66c98fa6a39b87b4a2761b08` | `fix(actions): correct custom-action audit log syntax (#52)` | red | [42202082240](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202082240) | `node --test tests/*.test.mjs` | Existing test expected the old one-argument spawn call; updated to assert label and audit-flag forwarding. |
+
+- Corrective test commit and final CI result: pending.

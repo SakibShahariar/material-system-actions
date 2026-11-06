@@ -153,10 +153,10 @@ test('action execution failures use safe action-label notifications and one proc
     const base = source('../lib/layouts/base.js');
     const actions = source('../lib/actions.js');
     const process = source('../lib/process.js');
-    assert.ok(base.includes('completion = spawnCommand(cmd)'));
+    assert.ok(base.includes('completion = spawnCommand(cmd, actionLabel, auditCustomAction)'));
     assert.ok(base.includes('this._notifyActionFailure(actionLabel, error)'));
     assert.ok(base.includes('Main.notify(notice.title, notice.message)'));
-    assert.ok(base.includes('_run(action.cmd, action.label)'));
+    assert.ok(base.includes("_run(action.cmd, action.label, action.id.startsWith('custom-'))"));
     assert.ok(process.includes('wait_check_async'));
     assert.ok(actions.includes("export {spawnCommand} from './process.js'"));
     assert.ok(!base.includes("cmd.join(' ')"));
