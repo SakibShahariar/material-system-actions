@@ -129,3 +129,14 @@ Reviewed the commit after the previous checkpoint. The new read-only `GetStatus(
 | Commit SHA | Subject | CI result | Workflow run | Follow-up |
 |---|---|---|---|---|
 | `c5b133ca4e937473f1ea54daaf75918a65b75c03` | `feat(dbus): expose extension status to integrations (#87)` | green | [42201381119](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201381119) | Category B; live GetStatus calls in closed/open/preview states remain pending in issue #87. |
+
+
+## 2026-11-06 live testing guide CI follow-up
+
+The initial documentation commit for issue #63 passed syntax validation but failed one new documentation test: the test looked for every version number as a literal substring, while the guide correctly documented the contiguous declared range `45–51`. The guide's range is consistent with `metadata.json`; the test is being corrected to compare each declared version numerically against the documented range. This is a test assertion defect, not a runtime failure.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `a8d49dce0e39e79bac07dd45050f65e329cfdc3c` | `docs: add live GNOME testing guide (#63)` | red | [42201552997](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201552997) | `node --test tests/*.test.mjs` | Version-range test incorrectly expected literal `46` in `45–51`; corrected in the next commit. |
+
+- Corrective test commit and final CI result: pending.
