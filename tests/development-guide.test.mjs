@@ -12,7 +12,7 @@ test('live GNOME guide documents the actual automated commands and runtime APIs'
     const readme = read('../README.md');
     const metadata = JSON.parse(read('../metadata.json'));
 
-    assert.match(guide, /node --test tests\/\*\.test\.mjs/);
+    assert.ok(guide.includes("node --test --experimental-test-coverage --test-coverage-include='lib/**/*.js' tests/*.test.mjs"));
     assert.match(guide, /\.\/scripts\/package\.sh/);
     assert.match(guide, /glib-compile-schemas --strict schemas\//);
     assert.match(guide, /journalctl --user -f -o cat \/usr\/bin\/gnome-shell/);

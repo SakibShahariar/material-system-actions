@@ -213,3 +213,12 @@ The initial coverage-report commit for issue #62 passed syntax validation but fa
 | `c448256cebc1d54d2324d48e9352df8be972694e` | `test: add Node module coverage reporting and baseline (#62)` | red | [42202752132](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202752132) | `node --test --experimental-test-coverage` | Invalid fixture and stale workflow-command assertion; corrected in the next commit. |
 
 - Corrective commit and final coverage baseline: pending.
+
+
+The first corrective coverage commit `d9c52cb36c8617b46c472f487ed0c50154c3519a` fixed the invalid custom-action fixture and updated the workflow assertion, but the guide assertion itself still expected the old plain Node test command. The guide contract now checks the exact coverage-enabled command in both `DEVELOPING.md` and the workflow.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `d9c52cb36c8617b46c472f487ed0c50154c3519a` | `test: correct coverage fixtures and CI guide (#62)` | red | [42202872383](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202872383) | `node --test --experimental-test-coverage` | Guide contract still expected the old non-coverage test command; corrected in the next commit. |
+
+- Corrective commit and final coverage baseline: pending.
