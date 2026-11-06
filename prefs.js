@@ -6,33 +6,16 @@ import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import {parseCustomActions} from './lib/custom-actions.js';
-import {normalizeActionOrder} from './lib/action-preferences.js';
+import {normalizeActionOrder} from './lib/action-preferences.js';\nimport {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const STYLE_NAMES = [
-    'card', 'list', 'split', 'grid', 'radial', 'bento', 'tui', 'dock',
-    'tiles', 'halo', 'capsule', 'circles', 'avatar', 'pill', 'banner',
-];
-
-// label shown in prefs — generic, no tool/dotfiles name
-const STYLE_LABELS = {
-    card: 'Card — header + pill buttons',
-    list: 'List — keyboard-first, key badges',
-    split: 'Split — big clock + circular dock',
-    grid: 'Grid — numbered icon tiles',
-    radial: 'Radial — icons around clock hub',
-    bento: 'Bento — asymmetric dashboard',
-    tui: 'TUI — whiptail box-drawing',
-    dock: 'Dock — edge vertical dock',
-    tiles: 'Tiles — square tile row',
-    halo: 'Halo — dot-ring hold-to-confirm',
-    capsule: 'Capsule — rounded pill rows',
-    circles: 'Circles — floating stack',
-    avatar: 'Avatar — big avatar + list',
-    pill: 'Pill — compact status + icons',
-    banner: 'Banner — wallpaper + icons',
-};
+const STYLE_NAMES = Object.keys(LAYOUT_METADATA);
+const STYLE_LABELS = Object.fromEntries(
+    Object.entries(LAYOUT_METADATA).map(([id, metadata]) =>
+        [id, `${metadata.displayName} — ${metadata.description}`]
+    )
+);
 
 const MODIFIER_KEYVALS = new Set([
     Gdk.KEY_Shift_L, Gdk.KEY_Shift_R,
@@ -68,7 +51,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const styleGroup = new Adw.PreferencesGroup({title: 'Style'});
         const styleRow = new Adw.ComboRow({
             title: 'System actions style',
-            subtitle: '15 generic layouts (renamed from tool names) — see README',
+            subtitle: `${STYLE_NAMES.length} generic layouts — see README for descriptions and recommendations`,
             model: Gtk.StringList.new(STYLE_NAMES.map(n => STYLE_LABELS[n] ?? n)),
         });
         const current = settings.get_string('style');
