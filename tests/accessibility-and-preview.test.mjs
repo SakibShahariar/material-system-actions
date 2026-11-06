@@ -38,10 +38,13 @@ test('all layouts delegate action activation to the shared confirmation and prev
 
 test('destructive confirmation buttons have explicit accessible names', () => {
     const base = source('../lib/layouts/base.js');
-    assert.match(base, /accessible_name:\s*`Cancel \$\{action\.label\.toLowerCase\(\)\}`/);
-    assert.match(base, /accessible_name:\s*`Confirm \$\{action\.label\.toLowerCase\(\)\}`/);
-    assert.match(base, /accessible_name:\s*'Cancel suspend'/);
-    assert.match(base, /accessible_name:\s*'Force suspend despite sleep inhibitors'/);
+    const confirmation = source('../lib/confirmation-overlay.js');
+    assert.ok(base.includes("cancelAccessibleName: 'Cancel ' + actionLabel"));
+    assert.ok(base.includes("confirmAccessibleName: 'Confirm ' + actionLabel"));
+    assert.ok(base.includes("cancelAccessibleName: 'Cancel suspend'"));
+    assert.ok(base.includes("confirmAccessibleName: 'Force suspend despite sleep inhibitors'"));
+    assert.ok(confirmation.includes('accessible_name: cancelAccessibleName'));
+    assert.ok(confirmation.includes('accessible_name: confirmAccessibleName'));
 });
 
 test('preview mode exits before any action can run', () => {
@@ -171,7 +174,7 @@ test('confirmation restores focus to the originating action when it remains avai
     assert.ok(base.includes('originWidget.get_stage() === global.stage'));
     assert.ok(base.includes('originWidget.grab_key_focus()'));
     assert.ok(base.includes('this._focusedIdx = this._navWidgets.indexOf(originWidget)'));
-    assert.equal((base.match(/this\._restoreFocus\(originWidget\)/g) ?? []).length, 2);
+    assert.equal((base.match(/this\._restoreFocus\(originWidget\)/g) ?? []).length, 1);
     assert.ok(base.includes('this.grabInitialFocus();'));
 });
 
