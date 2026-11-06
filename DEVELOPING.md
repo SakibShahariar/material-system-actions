@@ -28,8 +28,8 @@ On Debian/Ubuntu-based systems, the packaging workflow installs `glib2.0-bin` an
 Run these from the repository root:
 
 ```bash
-# All source-level tests
-node --test tests/*.test.mjs
+# All source-level tests with the CI-compatible Node 22 coverage report
+node --test --experimental-test-coverage --test-coverage-include='lib/**/*.js' tests/*.test.mjs
 
 # Packaging script syntax and extension metadata
 bash -n scripts/package.sh

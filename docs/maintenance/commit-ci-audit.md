@@ -200,3 +200,16 @@ Reviewed the commit after the previous checkpoint. Issue #55 now restores focus 
 | Commit SHA | Subject | CI result | Workflow run | Follow-up |
 |---|---|---|---|---|
 | `b1eae7c3b44582a7d7c7c6d2b02451ba795716cd` | `fix(a11y): restore focus after confirmation (#55)` | green | [42202443168](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202443168) | 83 tests passed; issue #55 remains Category B for live focus checks. |
+
+
+## 2026-11-06 coverage-report first CI attempt
+
+The initial coverage-report commit for issue #62 passed syntax validation but failed two tests:
+- The custom-action test used `not-symbolic`, which is actually a valid symbolic icon name under the parser's documented suffix rule. The invalid fixture is corrected to `not-an-icon`.
+- The live-guide contract test still expected the pre-coverage workflow command. It now checks the exact coverage-enabled Node 22 command, and the guide is updated to match.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `c448256cebc1d54d2324d48e9352df8be972694e` | `test: add Node module coverage reporting and baseline (#62)` | red | [42202752132](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202752132) | `node --test --experimental-test-coverage` | Invalid fixture and stale workflow-command assertion; corrected in the next commit. |
+
+- Corrective commit and final coverage baseline: pending.

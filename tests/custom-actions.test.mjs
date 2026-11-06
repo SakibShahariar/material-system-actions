@@ -68,7 +68,7 @@ test('labels, icons, and argv entries are bounded and validated', () => {
         validAction({label: 'x'.repeat(49)}),
     ])), /label must contain/);
     assert.throws(() => parseCustomActions(JSON.stringify([
-        validAction({icon: 'not-symbolic'}),
+        validAction({icon: 'not-an-icon'}),
     ])), /icon must be a symbolic icon name/);
     assert.throws(() => parseCustomActions(JSON.stringify([
         validAction({cmd: []}),

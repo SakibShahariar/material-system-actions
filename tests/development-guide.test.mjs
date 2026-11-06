@@ -20,7 +20,7 @@ test('live GNOME guide documents the actual automated commands and runtime APIs'
     assert.match(guide, /MaterialSystemActions\.GetStatus/);
     assert.match(guide, /Orca/);
     assert.match(guide, /multi-monitor/i);
-    assert.match(workflow, /node --test tests\/\*\.test\.mjs/);
+    assert.ok(workflow.includes("node --test --experimental-test-coverage --test-coverage-include='lib/**/*.js' tests/*.test.mjs"));
     assert.match(readme, /\[DEVELOPING\.md\]\(DEVELOPING\.md\)/);
 
     const rangeLine = guide.split('\n').find(line => line.includes('GNOME Shell **'));
