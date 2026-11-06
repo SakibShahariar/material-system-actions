@@ -68,9 +68,9 @@ test('confirmation mode only moves between buttons and activates the focused but
     assert.deepEqual(events, ['confirm-focus']);
     events.length = 0;
     assert.equal(handleKeyboardNavigation(makeEvent(keys.enter), context), stop);
-    assert.deepEqual(events, ['confirm-focus', 'confirm-flash', 'confirm-clicked']);
+    assert.deepEqual(events, ['confirm-flash', 'confirm-clicked']);
     assert.equal(handleKeyboardNavigation(makeEvent(keys.escape), context), stop);
-    assert.deepEqual(events, ['flash', 'clicked']);
+    assert.deepEqual(events, ['confirm-flash', 'confirm-clicked']);
 });
 
 test('Escape closes the dialog outside confirmation mode', () => {

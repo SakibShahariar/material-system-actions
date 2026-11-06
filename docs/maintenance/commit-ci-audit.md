@@ -265,3 +265,12 @@ The first refactor commit passed JavaScript syntax validation but one new confir
 | `1ad20095cdae7817f516c29d09d29bb04725e787` | `refactor(dialog): extract keyboard navigation module (#65)` | red | [42203668873](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203668873) | `node --test --experimental-test-coverage` | Confirmation-mode test fixture did not update its focused widget after the focus call; corrected in the next commit. |
 
 - Corrective commit and final CI result: pending.
+
+
+The focus-model correction `3b5e40a0cccf3129e42191f12d1223c64f4a5b43` still expected the focus-call event to remain in the array after the test explicitly cleared it before Enter activation. The expected sequence is corrected to contain only the activation flash and click events.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `3b5e40a0cccf3129e42191f12d1223c64f4a5b43` | `test(dialog): model confirmation focus changes (#65)` | red | [42203824724](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203824724) | `node --test --experimental-test-coverage` | Test expected the pre-reset focus event after clearing the event array; corrected in the next commit. |
+
+- Corrective commit and final CI result: pending.
