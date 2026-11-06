@@ -218,7 +218,8 @@ The extension exposes a session-bus D-Bus interface so another GNOME component c
 - **Bus name:** `org.gnome.Shell.Extensions.MaterialSystemActions`
 - **Object path:** `/org/gnome/Shell/Extensions/MaterialSystemActions`
 - **Interface:** `org.gnome.Shell.Extensions.MaterialSystemActions`
-- **Methods:** `Open`, `Close`, `Toggle`, and `Preview(s style)` (`Preview` is intended for the Preferences layout preview; normal integrations should use the first three).
+- **Methods:** `Open`, `Close`, `Toggle`, `Preview(s style)`, and read-only `GetStatus() → (ssb)`. `Preview` is intended for Preferences; normal integrations should use the first three.
+- **GetStatus result:** `(version, active-layout, preview)`. When the popup is closed, the layout field reports the configured default. Unreleased development builds report `unreleased` until extension metadata supplies a version.
 
 Open the sheet from a panel button or launcher with:
 
@@ -271,7 +272,19 @@ gdbus call --session \\
   "'list'"
 ```
 
-The `Preview` method is mainly for the Preferences UI and development tooling; ordinary panel and launcher integrations should use `Open`, `Close`, or `Toggle`. The interface is available while the extension is enabled and is released when it is disabled. These methods control the popup; they do not bypass the extension's confirmation UI.
+The `Preview` method is mainly for the Preferences UI and development tooling; ordinary panel and launcher integrations should use `Open`, `Close`, or `Toggle`. 
+Query the optional integration status without opening the popup:
+
+```bash
+gdbus call --session \\
+  --dest org.gnome.Shell.Extensions.MaterialSystemActions \\
+  --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \\
+  --method org.gnome.Shell.Extensions.MaterialSystemActions.GetStatus
+```
+
+The method returns the extension version (or `unreleased` in an unversioned development checkout), the effective layout ID, and whether the current dialog is a preview. It never changes settings or executes an action.
+
+The interface is available while the extension is enabled and is released when it is disabled. These methods control the popup; they do not bypass the extension's confirmation UI.
 
 ## Development and testing
 

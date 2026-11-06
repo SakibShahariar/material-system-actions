@@ -3,16 +3,18 @@
 import Meta from 'gi://Meta';
 import Shell from 'gi://Shell';
 import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
 
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import {SystemActionsDialog} from './lib/dialog.js';
 import {cleanupProcesses} from './lib/process.js';
+import {STYLES, DEFAULT_STYLE} from './lib/layouts/registry.js';
 
 const DBUS_NAME = 'org.gnome.Shell.Extensions.MaterialSystemActions';
 const DBUS_PATH = '/org/gnome/Shell/Extensions/MaterialSystemActions';
-const DBUS_XML = `<node><interface name="org.gnome.Shell.Extensions.MaterialSystemActions"><method name="Open"/><method name="Close"/><method name="Toggle"/><method name="Preview"><arg name="style" type="s" direction="in"/></method></interface></node>`;
+const DBUS_XML = `<node><interface name="org.gnome.Shell.Extensions.MaterialSystemActions"><method name="Open"/><method name="Close"/><method name="Toggle"/><method name="Preview"><arg name="style" type="s" direction="in"/></method><method name="GetStatus"><arg name="version" type="s" direction="out"/><arg name="layout" type="s" direction="out"/><arg name="preview" type="b" direction="out"/></method></interface></node>`;
 
 export default class MaterialSystemActionsExtension extends Extension {
     enable() {
@@ -29,6 +31,7 @@ export default class MaterialSystemActionsExtension extends Extension {
                     Close: () => this._close(),
                     Toggle: () => this._toggle(),
                     Preview: params => this._preview(params.deep_unpack()[0]),
+                    GetStatus: () => this._getStatus(),
                 });
                 this._dbusObject.export(connection, DBUS_PATH);
             },
@@ -56,6 +59,17 @@ export default class MaterialSystemActionsExtension extends Extension {
             this._dbusOwnerId = 0;
         }
         this._settings = null;
+    }
+
+    _getStatus() {
+        const configuredStyle = this._settings.get_string('style') || DEFAULT_STYLE;
+        const activeStyle = this._dialog?._styleName ??
+            (STYLES[configuredStyle] ? configuredStyle : DEFAULT_STYLE);
+        return new GLib.Variant('(ssb)', [
+            String(this.metadata?.version ?? 'unreleased'),
+            activeStyle,
+            Boolean(this._dialog?._previewMode),
+        ]);
     }
 
     _open() {

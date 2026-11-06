@@ -24,7 +24,7 @@ Persistent repository-specific record of commit-level CI checks and red-cross in
 
 - Repository: `SakibShahariar/material-system-actions`
 - Default branch: `main`
-- Checkpoint SHA: `37c8ee19d31aa2dea1ffbcee617759ac90cf299c`
+- Checkpoint SHA: `e1440d99a3c264918cc7085875b11caa04812c77`
 - Initialized: 2026-11-02
 - Baseline: latest branch tip queried through combined commit-status endpoint; empty status list recorded as **unavailable**, not green/red. Older history was not retroactively audited during setup.
 - Next session: review commits after this checkpoint, including the ledger and `AGENTS.md` setup commits; investigate any older red/pending commit specifically identified by the owner.
@@ -111,3 +111,12 @@ Reviewed the three commits after the previous checkpoint through `37c8ee19d31aa2
 | `37c8ee19d31aa2dea1ffbcee617759ac90cf299c` | `fix(prefs): separate layout metadata import statement (#89)` | green | [42200836907](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200836907) | JavaScript syntax, Node tests, strict schema compilation, archive build, and archive validation all passed. |
 
 Issue #89 was re-fetched after its implementation evidence was added, then closed as completed. Live GNOME visual validation is not part of this metadata issue's acceptance criteria.
+
+
+## 2026-11-06 grouped reset controls verification
+
+Reviewed the commit after the prior checkpoint. Issue #67's grouped reset implementation uses `Gio.Settings.reset()` for schema-defined defaults and passed all 78 Node tests, strict schema compilation, syntax checks, package build, and archive validation.
+
+| Commit SHA | Subject | CI result | Workflow run | Follow-up |
+|---|---|---|---|---|
+| `e1440d99a3c264918cc7085875b11caa04812c77` | `feat(prefs): add grouped reset-to-defaults controls (#67)` | green | [42201104316](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201104316) | Category B; live GTK/libadwaita reset-dialog and control-refresh checks remain open in issue #67. |
