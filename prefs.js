@@ -8,6 +8,7 @@ import GLib from 'gi://GLib';
 import {parseCustomActions} from './lib/custom-actions.js';
 import {normalizeActionOrder} from './lib/action-preferences.js';
 import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
+import {resetSettings} from './lib/settings-reset.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -358,6 +359,95 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         }));
         appearance.add(dimRow);
         page.add(appearance);
+
+
+        const resetGroup = new Adw.PreferencesGroup({
+            title: 'Reset preferences',
+            description: 'Restore selected settings to the defaults defined by the GSettings schema.',
+        });
+        const refreshAfterReset = () => {
+            const styleIndex = STYLE_NAMES.indexOf(settings.get_string('style'));
+            styleRow.selected = styleIndex === -1 ? 0 : styleIndex;
+            updateStyleApplyState();
+            renderActionRows();
+            confirmSwitchUserSwitch.active = settings.get_boolean('confirm-switch-user');
+            updateLabel();
+            updateFocusSelection();
+            scaleRow.value = settings.get_double('icon-scale');
+            opacityRow.value = settings.get_double('panel-opacity');
+            statusRow.active = settings.get_boolean('show-status-header');
+            densityRow.selected = STATUS_HEADER_DENSITIES.indexOf(
+                normalizeStatusHeaderDensity(settings.get_string('status-header-density')));
+            dimRow.active = settings.get_boolean('backdrop-dim-enabled');
+        };
+        const applyReset = group => {
+            resetSettings(settings, group);
+            refreshAfterReset();
+        };
+        const confirmReset = (group, heading, body) => {
+            const dialog = new Adw.MessageDialog({
+                transient_for: window,
+                modal: true,
+                heading,
+                body,
+            });
+            dialog.add_response('cancel', 'Cancel');
+            dialog.add_response('reset', 'Reset');
+            dialog.set_response_appearance('reset', Adw.ResponseAppearance.DESTRUCTIVE);
+            dialog.set_default_response('cancel');
+            dialog.set_close_response('cancel');
+            dialog.connect('response', (_dialog, response) => {
+                if (response === 'reset')
+                    applyReset(group);
+            });
+            dialog.present();
+        };
+        const addResetRow = (title, subtitle, buttonLabel, callback, destructive = false) => {
+            const row = new Adw.ActionRow({title, subtitle});
+            const button = new Gtk.Button({
+                label: buttonLabel,
+                valign: Gtk.Align.CENTER,
+                css_classes: destructive ? ['destructive-action'] : ['flat'],
+            });
+            button.connect('clicked', callback);
+            row.add_suffix(button);
+            resetGroup.add(row);
+        };
+        addResetRow(
+            'Appearance',
+            'Restore scale, transparency, status information, header density, and backdrop dimming.',
+            'Reset',
+            () => applyReset('appearance'),
+        );
+        addResetRow(
+            'Action settings',
+            'Restore layout, action order and visibility, focus, switch-user confirmation, and shortcut.',
+            'Reset',
+            () => applyReset('actions'),
+        );
+        addResetRow(
+            'Custom actions',
+            'Remove all saved custom command definitions. This does not execute any command.',
+            'Remove',
+            () => confirmReset(
+                'custom',
+                'Remove all custom actions?',
+                'This permanently removes your saved custom command definitions. Other preferences will remain unchanged.'
+            ),
+            true,
+        );
+        addResetRow(
+            'All preferences',
+            'Restore every setting, including the global shortcut and custom actions.',
+            'Reset all',
+            () => confirmReset(
+                'all',
+                'Reset all preferences?',
+                'This restores every setting to its schema default and removes all saved custom actions. This cannot be undone.'
+            ),
+            true,
+        );
+        page.add(resetGroup);
 
         window.add(page);
     }

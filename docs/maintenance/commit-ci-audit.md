@@ -24,7 +24,7 @@ Persistent repository-specific record of commit-level CI checks and red-cross in
 
 - Repository: `SakibShahariar/material-system-actions`
 - Default branch: `main`
-- Checkpoint SHA: `d5f8bd9520018b9a93ed5dca93a6ed366fcd2b81`
+- Checkpoint SHA: `37c8ee19d31aa2dea1ffbcee617759ac90cf299c`
 - Initialized: 2026-11-02
 - Baseline: latest branch tip queried through combined commit-status endpoint; empty status list recorded as **unavailable**, not green/red. Older history was not retroactively audited during setup.
 - Next session: review commits after this checkpoint, including the ledger and `AGENTS.md` setup commits; investigate any older red/pending commit specifically identified by the owner.
@@ -98,3 +98,16 @@ Two consecutive commits for issue #89 were checked and both failed at the JavaSc
 
 - Corrective change: replace the literal `\\n` between import statements in `prefs.js` with an actual newline.
 - Corrective commit and final CI result: pending.
+
+
+## 2026-11-06 structured layout metadata verification
+
+Reviewed the three commits after the previous checkpoint through `37c8ee19d31aa2dea1ffbcee617759ac90cf299c`. Both initial metadata commits failed JavaScript syntax validation due a literal escaped newline in the Preferences import; the final corrective commit fixed the import and passed the complete workflow. The two failed runs remain recorded as red.
+
+| Commit SHA | Subject | CI result | Workflow run | Diagnosis / resolution |
+|---|---|---|---|---|
+| `e29b9887e8da4fb72e8188c251d85f7be654d6be` | `feat(layouts): centralize structured layout metadata (#89)` | red | [42200578522](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200578522) | Literal escaped newline in `prefs.js` import; initial commit also omitted `metadata.js` and used literal README separators. |
+| `c668d1fd523d67d45a42093bfdde355eb3f7a1f6` | `fix(layouts): add shared metadata source and repair catalog (#89)` | red | [42200713785](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200713785) | Same escaped newline remained in `prefs.js`; fixed in the next commit. |
+| `37c8ee19d31aa2dea1ffbcee617759ac90cf299c` | `fix(prefs): separate layout metadata import statement (#89)` | green | [42200836907](https://github.com/SakibShahariar/material-system-actions/actions/runs/42200836907) | JavaScript syntax, Node tests, strict schema compilation, archive build, and archive validation all passed. |
+
+Issue #89 was re-fetched after its implementation evidence was added, then closed as completed. Live GNOME visual validation is not part of this metadata issue's acceptance criteria.

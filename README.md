@@ -100,6 +100,7 @@ Open **Extensions → Material System Actions → Preferences** (the exact route
 - **Custom actions:** edit and validate a JSON array of user-defined commands.
 - **Keyboard shortcut:** change the global toggle shortcut. The default is **Ctrl+Alt+End**.
 - **Appearance:** adjust UI scale (0.6–2.0), panel transparency (0–100%), backdrop dimming, whether status information is shown, and whether shared status headers use comfortable or compact density. Density affects only layouts that render the shared header; layouts without one are unchanged.
+- **Reset preferences:** restore appearance settings, action settings, custom actions, or everything to the GSettings schema defaults. Removing custom actions requires explicit confirmation.
 
 
 ### GSettings reference
