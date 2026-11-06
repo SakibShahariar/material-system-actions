@@ -222,3 +222,14 @@ The first corrective coverage commit `d9c52cb36c8617b46c472f487ed0c50154c3519a` 
 | `d9c52cb36c8617b46c472f487ed0c50154c3519a` | `test: correct coverage fixtures and CI guide (#62)` | red | [42202872383](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202872383) | `node --test --experimental-test-coverage` | Guide contract still expected the old non-coverage test command; corrected in the next commit. |
 
 - Corrective commit and final coverage baseline: pending.
+
+
+## 2026-11-06 coverage reporting verification
+
+Reviewed the three commits after the previous checkpoint. The first coverage commit and its first correction exposed invalid test fixtures and stale command assertions; the final correction passed. The successful report is now recorded in `docs/maintenance/coverage-baseline.md`.
+
+| Commit SHA | Subject | CI result | Workflow run | Diagnosis / resolution |
+|---|---|---|---|---|
+| `c448256cebc1d54d2324d48e9352df8be972694e` | `test: add Node module coverage reporting and baseline (#62)` | red | [42202752132](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202752132) | Invalid symbolic-icon fixture and stale workflow assertion. |
+| `d9c52cb36c8617b46c472f487ed0c50154c3519a` | `test: correct coverage fixtures and CI guide (#62)` | red | [42202872383](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202872383) | Guide assertion still expected the pre-coverage command. |
+| `75f6b1a7bc2bfe5c50a0ee720d80aefa4c85cee6` | `test(docs): align guide with coverage command (#62)` | green | [42203018612](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203018612) | 93 tests passed; line 99.17%, branch 95.41%, function 97.87%. Baseline recorded in `docs/maintenance/coverage-baseline.md`. |

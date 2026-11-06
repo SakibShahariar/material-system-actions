@@ -48,7 +48,9 @@ unzip -t dist/material-system-actions@sakib.dev.shell-extension.zip
 
 CI runs the same test suite, strict schema compilation, archive build, and archive-content checks. The package script stages runtime files in a temporary directory and does not intentionally modify the source tree.
 
-## Install a development checkout
+#The initial per-module coverage baseline and the list of GJS-only modules outside Node instrumentation are recorded in [coverage-baseline.md](docs/maintenance/coverage-baseline.md).
+
+# Install a development checkout
 
 From the repository root, create a symlink in the current user's extension directory. The guard below avoids replacing an existing non-symlink installation:
 
