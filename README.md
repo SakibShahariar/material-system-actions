@@ -38,7 +38,23 @@ Optional system integrations are best-effort: if logind cannot provide inhibitor
 ## Layouts
 
 <!-- BEGIN GENERATED LAYOUT CATALOG -->
-| Layout | Description | Recommended use | Shared status header | Preview position |\n|---|---|---|---|---|\n| `card` | Header with pill buttons | Balanced everyday controls | No | `center` |\n| `list` | Keyboard-first list with key badges | Compact, keyboard-led navigation | No | `center` |\n| `split` | Large clock with circular dock | Clock-focused presentation with prominent controls | No | `center` |\n| `grid` | Numbered icon tiles | Fast visual selection and numeric shortcuts | No | `center` |\n| `radial` | Icons arranged around a clock hub | Centered, clock-focused presentation | No | `center` |\n| `bento` | Asymmetric dashboard | Dashboard-style arrangement of actions | No | `center` |\n| `tui` | Terminal-inspired box drawing | Text-like, keyboard-oriented presentation | No | `center` |\n| `dock` | Vertical edge dock | Edge-aligned, space-efficient controls | Yes | `left-edge` |\n| `tiles` | Square tile row | Horizontal tile controls | Yes | `center` |\n| `halo` | Dot-ring hold-to-confirm interaction | Hold-to-confirm visual interaction | Yes | `center` |\n| `capsule` | Rounded pill rows | Grouped, touch-friendly action rows | No | `center` |\n| `circles` | Floating stack of circular actions | Compact floating controls | Yes | `center` |\n| `avatar` | Large avatar with action list | User-focused header with a clear action list | No | `center` |\n| `pill` | Compact status area with icons | Minimal, compact action strip | No | `center` |\n| `banner` | Wallpaper-style banner with actions | Wide presentation with prominent action buttons | No | `center` |
+| Layout | Description | Recommended use | Shared status header | Preview position |
+|---|---|---|---|---|
+| `card` | Header with pill buttons | Balanced everyday controls | No | `center` |
+| `list` | Keyboard-first list with key badges | Compact, keyboard-led navigation | No | `center` |
+| `split` | Large clock with circular dock | Clock-focused presentation with prominent controls | No | `center` |
+| `grid` | Numbered icon tiles | Fast visual selection and numeric shortcuts | No | `center` |
+| `radial` | Icons arranged around a clock hub | Centered, clock-focused presentation | No | `center` |
+| `bento` | Asymmetric dashboard | Dashboard-style arrangement of actions | No | `center` |
+| `tui` | Terminal-inspired box drawing | Text-like, keyboard-oriented presentation | No | `center` |
+| `dock` | Vertical edge dock | Edge-aligned, space-efficient controls | Yes | `left-edge` |
+| `tiles` | Square tile row | Horizontal tile controls | Yes | `center` |
+| `halo` | Dot-ring hold-to-confirm interaction | Hold-to-confirm visual interaction | Yes | `center` |
+| `capsule` | Rounded pill rows | Grouped, touch-friendly action rows | No | `center` |
+| `circles` | Floating stack of circular actions | Compact floating controls | Yes | `center` |
+| `avatar` | Large avatar with action list | User-focused header with a clear action list | No | `center` |
+| `pill` | Compact status area with icons | Minimal, compact action strip | No | `center` |
+| `banner` | Wallpaper-style banner with actions | Wide presentation with prominent action buttons | No | `center` |
 <!-- END GENERATED LAYOUT CATALOG -->
 
 Open **Preferences → Style** to select a layout, then choose **Preview** to inspect it without saving or **Apply** to make it the default. Preview opens the real Shell layout through the extension's session D-Bus interface; system/custom action activation is disabled and closes the preview. Older names (`rofi`, `quickshell`, `wlogout`, `dots`, and `end4`) remain accepted as aliases and are migrated to their generic names.
