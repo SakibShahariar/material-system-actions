@@ -160,3 +160,14 @@ Reviewed the three commits after the previous checkpoint. The initial guide and 
 | `a8d49dce0e39e79bac07dd45050f65e329cfdc3c` | `docs: add live GNOME testing guide (#63)` | red | [42201552997](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201552997) | Initial test incorrectly required literal version `46` in the compact range `45–51`. |
 | `950d10fd7e0232ddef5b6c6bde21cd713d607a64` | `test(docs): validate declared Shell version range (#63)` | red | [42201628643](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201628643) | First correction over-escaped the Markdown delimiter regex. |
 | `f3c79263d7a2f6f34d365e000c8827be567fcde2` | `test(docs): compare documented Shell compatibility range (#63)` | green | [42201715400](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201715400) | 80 tests passed; syntax, strict schema, package, and archive checks passed. Issue #63 was then closed. |
+
+
+## 2026-11-06 custom-action audit logging syntax follow-up
+
+The initial implementation commit for issue #52 failed JavaScript syntax validation because the generated logging statements contained escaped template-literal delimiters outside a template literal. The corrective change uses ordinary string concatenation; it does not change the logging scope or process lifecycle behavior.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `23543584a364c1bf8a2cf793f8f0780e04157548` | `feat(actions): add opt-in custom command audit logs (#52)` | red | [42201916502](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201916502) | Validate JavaScript syntax | Invalid escaped template-literal delimiters in `lib/process.js`; corrected in the next commit. |
+
+- Corrective commit and final CI result: pending.
