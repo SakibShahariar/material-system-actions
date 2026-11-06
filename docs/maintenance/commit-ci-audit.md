@@ -233,3 +233,12 @@ Reviewed the three commits after the previous checkpoint. The first coverage com
 | `c448256cebc1d54d2324d48e9352df8be972694e` | `test: add Node module coverage reporting and baseline (#62)` | red | [42202752132](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202752132) | Invalid symbolic-icon fixture and stale workflow assertion. |
 | `d9c52cb36c8617b46c472f487ed0c50154c3519a` | `test: correct coverage fixtures and CI guide (#62)` | red | [42202872383](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202872383) | Guide assertion still expected the pre-coverage command. |
 | `75f6b1a7bc2bfe5c50a0ee720d80aefa4c85cee6` | `test(docs): align guide with coverage command (#62)` | green | [42203018612](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203018612) | 93 tests passed; line 99.17%, branch 95.41%, function 97.87%. Baseline recorded in `docs/maintenance/coverage-baseline.md`. |
+
+
+The baseline-documentation commit `3c521efe164beabf28f1dcd4a97035651530a2ec` failed the new documentation test because its regular-expression literal was malformed. The assertion is replaced with literal content checks, and an accidental HTML-like wrapper is removed from the Markdown baseline.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Diagnosis / follow-up |
+|---|---|---|---|---|---|
+| `3c521efe164beabf28f1dcd4a97035651530a2ec` | `docs: record Node coverage baseline (#62)` | red | [42203190179](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203190179) | `node --test --experimental-test-coverage` | Malformed regex in coverage-baseline documentation test; corrected with literal assertions. |
+
+- Corrective commit and final coverage baseline: pending.

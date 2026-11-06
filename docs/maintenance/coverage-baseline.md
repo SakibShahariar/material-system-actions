@@ -1,6 +1,6 @@
 # Node module coverage baseline
 
-<text>Initial baseline recorded 2026-11-06 from the successful GitHub Actions run [42203018612](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203018612), commit [75f6b1a](https://github.com/SakibShahariar/material-system-actions/commit/75f6b1a7bc2bfe5c50a0ee720d80aefa4c85cee6).</text>
+Initial baseline recorded 2026-11-06 from the successful GitHub Actions run [42203018612](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203018612), commit [75f6b1a](https://github.com/SakibShahariar/material-system-actions/commit/75f6b1a7bc2bfe5c50a0ee720d80aefa4c85cee6).
 
 ## Command and scope
 
