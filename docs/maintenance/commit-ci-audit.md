@@ -242,3 +242,15 @@ The baseline-documentation commit `3c521efe164beabf28f1dcd4a97035651530a2ec` fai
 | `3c521efe164beabf28f1dcd4a97035651530a2ec` | `docs: record Node coverage baseline (#62)` | red | [42203190179](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203190179) | `node --test --experimental-test-coverage` | Malformed regex in coverage-baseline documentation test; corrected with literal assertions. |
 
 - Corrective commit and final coverage baseline: pending.
+
+
+## 2026-11-06 Node coverage baseline verification
+
+Reviewed the four commits after the previous checkpoint. The coverage command, custom-action tests, and baseline documentation are now in place. The final green run reports 94/94 tests and preserves the initial module metrics recorded in `docs/maintenance/coverage-baseline.md`.
+
+| Commit SHA | Subject | CI result | Workflow run | Diagnosis / resolution |
+|---|---|---|---|---|
+| `c448256cebc1d54d2324d48e9352df8be972694e` | `test: add Node module coverage reporting and baseline (#62)` | red | [42202752132](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202752132) | Invalid symbolic-icon fixture and stale workflow command assertion. |
+| `d9c52cb36c8617b46c472f487ed0c50154c3519a` | `test: correct coverage fixtures and CI guide (#62)` | red | [42202872383](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202872383) | Guide assertion still expected the old plain Node test command. |
+| `3c521efe164beabf28f1dcd4a97035651530a2ec` | `docs: record Node coverage baseline (#62)` | red | [42203190179](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203190179) | Malformed regex in the baseline consistency test. |
+| `3a10eecae37204d898a389096ef41042c8813faa` | `test(docs): validate coverage baseline with literal checks (#62)` | green | [42203296487](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203296487) | 94 tests passed; line 99.17%, branch 95.41%, function 97.87%. Baseline is recorded and linked from README/DEVELOPING. |
