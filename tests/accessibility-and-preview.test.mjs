@@ -63,7 +63,7 @@ test('focus and pressed states share one transition duration and replace stale t
     assert.ok(base.includes('this._setPressedState(widget, true, INTERACTION_STATE_DURATION_MS)'));
     assert.ok(base.includes('this._setPressedState(widget, false)'));
     assert.ok(base.includes("widget.connect('destroy', () => this._setPressedState(widget, false))"));
-    assert.ok(dialog.includes('--sa-state-transition-duration: ${INTERACTION_STATE_DURATION_MS}ms;'));
+    assert.ok(dialog.includes('--sa-state-transition-duration: ${stateDuration}ms;'));
     assert.ok(stylesheet.includes('transition-duration: var(--sa-state-transition-duration, 300ms);'));
 });
 

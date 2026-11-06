@@ -58,3 +58,18 @@ No red result was confirmed from the status data retrieved during setup.
 | Date | Reviewed range / checkpoint | Result summary |
 |---|---|---|
 | 2026-11-02 | Initial checkpoint: `0b3ee9538fbfbe59f349ce2e2050421b71125305` | Latest commit queried; empty status response recorded as unavailable. Earlier history not retroactively audited. |
+
+
+## 2026-11-06 investigation: repeated test failure
+
+The following push runs were checked against their exact commit SHAs and job logs. All failed in `node --test tests/*.test.mjs`, at `tests/accessibility-and-preview.test.mjs:66`, because the assertion expected the obsolete literal `--sa-state-transition-duration: ${INTERACTION_STATE_DURATION_MS}ms;`. Current `lib/dialog.js` computes `stateDuration` through `getStateTransitionDuration(St.Settings.get().enable_animations, INTERACTION_STATE_DURATION_MS)` and injects that computed value. This is a stale test expectation; it does not establish a runtime regression. The corrective test now asserts the computed interpolation. The test suite must still be rerun on the corrective commit before any of these red entries can be considered resolved.
+
+| Commit SHA | Subject | CI result | Workflow run | Failed step | Classification / follow-up |
+|---|---|---|---|---|---|
+| `8417abb31542f22e2fdd5d7c74cbe3b509b7acea` | `fix(a11y): respect reduced motion in sheet transitions (#34)` | red | [41505769127](https://github.com/SakibShahariar/material-system-actions/actions/runs/41505769127) | `node --test tests/*.test.mjs` | Stale assertion; corrected by test-only follow-up referencing #34. |
+| `fc9bb8b70f3192a7935a82f130dc5261a0565c1e` | `docs: define issue triage categories` | red | [41573430196](https://github.com/SakibShahariar/material-system-actions/actions/runs/41573430196) | `node --test tests/*.test.mjs` | Same inherited stale assertion; documentation commit did not introduce it. |
+| `7c46e88cfbd16d4114f2895ec3171b6c345805e3` | `docs(agents): define administrative commit hygiene` | red | [41598011564](https://github.com/SakibShahariar/material-system-actions/actions/runs/41598011564) | `node --test tests/*.test.mjs` | Same inherited stale assertion; documentation commit did not introduce it. |
+| `32405789216b249df0d9b877d7ac4f346f488e52` | `docs(agents): clarify acceptance criteria evidence` | red | [41864139558](https://github.com/SakibShahariar/material-system-actions/actions/runs/41864139558) | `node --test tests/*.test.mjs` | Same inherited stale assertion; latest HEAD remains red until corrective CI completes. |
+
+- Corrective commit: pending at time of ledger update.
+- Final verified outcome: pending; do not mark the historical runs green. Verify the corrective commit's own CI and record whether the test failure is resolved.
