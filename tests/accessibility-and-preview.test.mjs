@@ -162,6 +162,17 @@ test('action execution failures use safe action-label notifications and one proc
     assert.ok(!base.includes("cmd.join(' ')"));
 });
 
+test('confirmation restores focus to the originating action when it remains available', () => {
+    const base = source('../lib/layouts/base.js');
+    assert.ok(base.includes('this._navWidgets.find(widget => widget._saActionId === action.id)'));
+    assert.ok(base.includes('this._navWidgets.find(widget => widget._saActionId === action?.id)'));
+    assert.ok(base.includes('originWidget.get_stage() === global.stage'));
+    assert.ok(base.includes('originWidget.grab_key_focus()'));
+    assert.ok(base.includes('this._focusedIdx = this._navWidgets.indexOf(originWidget)'));
+    assert.equal((base.match(/this\._restoreFocus\(originWidget\)/g) ?? []).length, 2);
+    assert.ok(base.includes('this.grabInitialFocus();'));
+});
+
 test('reduced-motion setting disables decorative CSS transitions without changing interaction paths', () => {
     const dialog = source('../lib/dialog.js');
     const base = source('../lib/layouts/base.js');

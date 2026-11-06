@@ -24,7 +24,7 @@ Persistent repository-specific record of commit-level CI checks and red-cross in
 
 - Repository: `SakibShahariar/material-system-actions`
 - Default branch: `main`
-- Checkpoint SHA: `f3c79263d7a2f6f34d365e000c8827be567fcde2`
+- Checkpoint SHA: `63e4023715a5d1eb0207c7aa5a055b6d254fdceb`
 - Initialized: 2026-11-02
 - Baseline: latest branch tip queried through combined commit-status endpoint; empty status list recorded as **unavailable**, not green/red. Older history was not retroactively audited during setup.
 - Next session: review commits after this checkpoint, including the ledger and `AGENTS.md` setup commits; investigate any older red/pending commit specifically identified by the owner.
@@ -180,3 +180,14 @@ The first syntax correction commit `46751b4f27d57f0f66c98fa6a39b87b4a2761b08` pa
 | `46751b4f27d57f0f66c98fa6a39b87b4a2761b08` | `fix(actions): correct custom-action audit log syntax (#52)` | red | [42202082240](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202082240) | `node --test tests/*.test.mjs` | Existing test expected the old one-argument spawn call; updated to assert label and audit-flag forwarding. |
 
 - Corrective test commit and final CI result: pending.
+
+
+## 2026-11-06 custom-action audit logging verification
+
+Reviewed the three commits after the previous checkpoint. The initial logging commit had a JavaScript syntax defect; its first correction exposed an outdated test assertion for the shared process invocation. The final test correction passed the complete workflow.
+
+| Commit SHA | Subject | CI result | Workflow run | Diagnosis / resolution |
+|---|---|---|---|---|
+| `23543584a364c1bf8a2cf793f8f0780e04157548` | `feat(actions): add opt-in custom command audit logs (#52)` | red | [42201916502](https://github.com/SakibShahariar/material-system-actions/actions/runs/42201916502) | Escaped template-literal delimiters caused JavaScript syntax failure. |
+| `46751b4f27d57f0f66c98fa6a39b87b4a2761b08` | `fix(actions): correct custom-action audit log syntax (#52)` | red | [42202082240](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202082240) | Existing test still expected the old one-argument `spawnCommand` call. |
+| `63e4023715a5d1eb0207c7aa5a055b6d254fdceb` | `test(actions): cover custom audit metadata forwarding (#52)` | green | [42202183972](https://github.com/SakibShahariar/material-system-actions/actions/runs/42202183972) | 82 tests passed; JavaScript syntax, schema, package, and archive checks passed. Issue #52 remains Category B for live journal verification. |
