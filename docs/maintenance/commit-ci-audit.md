@@ -274,3 +274,14 @@ The focus-model correction `3b5e40a0cccf3129e42191f12d1223c64f4a5b43` still expe
 | `3b5e40a0cccf3129e42191f12d1223c64f4a5b43` | `test(dialog): model confirmation focus changes (#65)` | red | [42203824724](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203824724) | `node --test --experimental-test-coverage` | Test expected the pre-reset focus event after clearing the event array; corrected in the next commit. |
 
 - Corrective commit and final CI result: pending.
+
+
+## 2026-11-06 keyboard navigation extraction verification
+
+Reviewed the three commits after the previous checkpoint. The first extraction commit and its first test correction had a mismatched fake-focus expectation; the final correction passed all 103 tests and the full package workflow. The new `keyboard-navigation.js` module has 100% line/function coverage and 85% branch coverage in that run.
+
+| Commit SHA | Subject | CI result | Workflow run | Diagnosis / resolution |
+|---|---|---|---|---|
+| `1ad20095cdae7817f516c29d09d29bb04725e787` | `refactor(dialog): extract keyboard navigation module (#65)` | red | [42203668873](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203668873) | Confirmation test fake did not track focus changes after grab_key_focus. |
+| `3b5e40a0cccf3129e42191f12d1223c64f4a5b43` | `test(dialog): model confirmation focus changes (#65)` | red | [42203824724](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203824724) | Expected event list retained an entry after the test cleared it. |
+| `224e0615dc0139e58550a9c5d5a5a3507912a9c9` | `test(dialog): correct confirmation activation expectation (#65)` | green | [42203941198](https://github.com/SakibShahariar/material-system-actions/actions/runs/42203941198) | 103 tests passed; keyboard-navigation module line/function coverage 100%, branch 85%. Issue #65 was closed. |

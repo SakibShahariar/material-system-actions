@@ -116,11 +116,13 @@ test('preview mode is visible, announced, and remains non-executing', () => {
 
 test('destructive confirmation and inhibitor warnings expose accessible consequences', () => {
     const base = source('../lib/layouts/base.js');
-    assert.ok(base.includes('confirmBox.accessible_description'));
-    assert.ok(base.includes('detailLabel.accessible_description'));
-    assert.ok(base.includes('accessible_description: consequence'));
-    assert.ok(base.includes('accessible_description: `Cancel ${action.label.toLowerCase()}; no action will be taken.`'));
+    const confirmation = source('../lib/confirmation-overlay.js');
+    assert.ok(base.includes('accessibleDescription: consequence'));
+    assert.ok(base.includes("cancelAccessibleDescription: 'Cancel ' + actionLabel + '; no action will be taken.'"));
     assert.ok(base.includes('Force the computer to suspend even though applications are blocking sleep.'));
+    assert.ok(confirmation.includes('root.accessible_description = accessibleDescription'));
+    assert.ok(confirmation.includes('detailsLabel.accessible_description = detailsAccessibleDescription'));
+    assert.ok(confirmation.includes('confirmAccessibleDescription'));
 });
 
 test('initial focus prefers the configured visible action and safely falls back', () => {
