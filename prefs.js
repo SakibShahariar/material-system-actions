@@ -172,6 +172,24 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         settingsSignalIds.push(settings.connect('changed::hidden-actions', updateAllHiddenWarning));
         page.add(actionGroup);
 
+        const powerBehaviorGroup = new Adw.PreferencesGroup({
+            title: 'Power actions',
+            description: 'Optional safeguards for disruptive power operations.',
+        });
+        const powerCountdownRow = new Adw.ActionRow({
+            title: 'Countdown before shutdown or reboot',
+            subtitle: 'After confirmation, wait five seconds with a Cancel option. Disabled by default.',
+        });
+        const powerCountdownSwitch = new Gtk.Switch({
+            active: settings.get_boolean('power-countdown-enabled'),
+            valign: Gtk.Align.CENTER,
+        });
+        powerCountdownSwitch.connect('notify::active', () =>
+            settings.set_boolean('power-countdown-enabled', powerCountdownSwitch.active));
+        powerCountdownRow.add_suffix(powerCountdownSwitch);
+        powerBehaviorGroup.add(powerCountdownRow);
+        page.add(powerBehaviorGroup);
+
         const switchUserGroup = new Adw.PreferencesGroup({
             title: 'Switch users',
             description: 'Switching sessions can interrupt unsaved work.',
@@ -371,6 +389,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             updateStyleApplyState();
             renderActionRows();
             confirmSwitchUserSwitch.active = settings.get_boolean('confirm-switch-user');
+            powerCountdownSwitch.active = settings.get_boolean('power-countdown-enabled');
             updateLabel();
             updateFocusSelection();
             scaleRow.value = settings.get_double('icon-scale');

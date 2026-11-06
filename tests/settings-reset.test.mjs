@@ -25,7 +25,7 @@ test('appearance, action, and custom-action groups remain independently selectab
     ]);
     assert.deepEqual(RESET_SETTING_GROUPS.actions, [
         'style', 'action-order', 'hidden-actions', 'default-focused-action',
-        'confirm-switch-user', 'toggle-system-actions',
+        'confirm-switch-user', 'power-countdown-enabled', 'toggle-system-actions',
     ]);
     assert.deepEqual(RESET_SETTING_GROUPS.custom, ['custom-actions']);
 });

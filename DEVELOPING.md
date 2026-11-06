@@ -158,6 +158,7 @@ Record the GNOME Shell version, session type, hardware/monitor setup, and test d
 ### Confirmation and optional system actions
 
 - [ ] Verify logout, reboot, shutdown, hibernate, and switch-user confirmation presentation without executing a disruptive action on a machine containing important work.
+- [ ] With the optional power countdown enabled, confirm shutdown/reboot, cancel during the five-second countdown, and verify no command runs. Close the popup during countdown and verify it also cancels; do not let the countdown complete on a machine containing important work.
 - [ ] To inspect the suspend-inhibitor warning safely, create a temporary inhibitor in another terminal with `systemd-inhibit --what=sleep --who='Material System Actions test' --why='Verify inhibitor warning' sleep 60`, open the sheet, and confirm the warning can be cancelled. Do not choose Force suspend on a system where interruption is unsafe.
 - [ ] Verify Hibernate and Switch User are omitted when logind reports them unavailable; test positive paths only on a disposable test machine with the required capability/session.
 - [ ] Test a harmless custom command such as `/usr/bin/true`; verify confirmation settings and failure notifications without pasting untrusted commands.

@@ -26,6 +26,11 @@
       <summary>Confirm before switching users</summary>
       <description>Ask before activating another user's local graphical session.</description>
     </key>
+    <key name="power-countdown-enabled" type="b">
+      <default>false</default>
+      <summary>Countdown before shutdown or reboot</summary>
+      <description>After confirming shutdown or reboot, show a five-second countdown that can be cancelled.</description>
+    </key>
     <key name="hidden-actions" type="as">
       <default>[]</default>
       <summary>Hidden system actions</summary>

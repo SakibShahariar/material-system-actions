@@ -296,3 +296,13 @@ The first extraction commit for issue #66 revealed three stale test expectations
 | `cdf8cf1c99aed01aeb8db3d2e5fc9525cacf30af` | `refactor(a11y): share confirmation overlay component (#66)` | red | [42204162372](https://github.com/SakibShahariar/material-system-actions/actions/runs/42204162372) | `node --test --experimental-test-coverage` | Stale accessible-name/focus assertions and malformed regex in new source-contract test; corrected in the next commit. |
 
 - Corrective commit and final CI result: pending.
+
+
+## 2026-11-06 shared confirmation overlay verification
+
+Reviewed the two commits after the previous checkpoint. The initial extraction commit exposed stale source-contract assertions after moving accessible names and focus cleanup into the shared component; the correction updated those assertions. Final run passed all 105 tests and the full packaging workflow.
+
+| Commit SHA | Subject | CI result | Workflow run | Diagnosis / resolution |
+|---|---|---|---|---|
+| `cdf8cf1c99aed01aeb8db3d2e5fc9525cacf30af` | `refactor(a11y): share confirmation overlay component (#66)` | red | [42204162372](https://github.com/SakibShahariar/material-system-actions/actions/runs/42204162372) | Accessible-name/focus assertions still expected the pre-extraction ownership; new contract test used malformed regex. |
+| `45cfc1ee8b906da968558a413a7c8b6acf4bce05` | `test(a11y): align confirmation contracts with shared component (#66)` | green | [42204334557](https://github.com/SakibShahariar/material-system-actions/actions/runs/42204334557) | 105 tests passed; all syntax, schema, packaging, and archive checks passed. Issue #66 remains Category B for live Orca/keyboard checks. |

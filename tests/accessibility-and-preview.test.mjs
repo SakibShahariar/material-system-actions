@@ -167,6 +167,20 @@ test('action execution failures use safe action-label notifications and one proc
     assert.ok(!base.includes("cmd.join(' ')"));
 });
 
+test('power countdown is opt-in, limited to shutdown/reboot, and cancelled with its confirmation', () => {
+    const base = source('../lib/layouts/base.js');
+    const schema = source('../schemas/org.gnome.shell.extensions.material-system-actions.gschema.xml');
+    const prefs = source('../prefs.js');
+    assert.ok(schema.includes('<key name="power-countdown-enabled" type="b">'));
+    assert.ok(schema.includes('<default>false</default>'));
+    assert.ok(base.includes("['reboot', 'shutdown'].includes(action.id)"));
+    assert.ok(base.includes("this.dialog._settings.get_boolean('power-countdown-enabled')"));
+    assert.ok(base.includes('state.countdownSourceId'));
+    assert.ok(base.includes('GLib.source_remove(state.countdownSourceId)'));
+    assert.ok(base.includes("this.dialog.connect('closed', () => cleanup(false))"));
+    assert.ok(prefs.includes('Countdown before shutdown or reboot'));
+});
+
 test('confirmation restores focus to the originating action when it remains available', () => {
     const base = source('../lib/layouts/base.js');
     assert.ok(base.includes('this._navWidgets.find(widget => widget._saActionId === action.id)'));
