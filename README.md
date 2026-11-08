@@ -18,23 +18,23 @@ Designed for GNOME Shell **45–51**. The extension uses GNOME Shell's native UI
 ## Layouts
 
 <!-- BEGIN GENERATED LAYOUT CATALOG -->
-| Layout | Description |
-|---|---|
-| `card` | Header with pill buttons |
-| `list` | Keyboard-first list with key badges |
-| `split` | Large clock with circular dock |
-| `grid` | Numbered icon tiles |
-| `radial` | Actions arranged around a clock hub |
-| `bento` | Asymmetric dashboard |
-| `tui` | Terminal-inspired layout |
-| `dock` | Vertical edge dock |
-| `tiles` | Horizontal tile controls |
-| `halo` | Hold-to-confirm interaction |
-| `capsule` | Rounded action rows |
-| `circles` | Floating circular actions |
-| `avatar` | User-focused header and action list |
-| `pill` | Compact status and action strip |
-| `banner` | Wallpaper-style banner with actions |
+| Layout | Description | Recommended use | Shared status header | Preview position |
+|---|---|---|---|---|
+| `card` | Header with pill buttons | Balanced everyday controls | No | `center` |
+| `list` | Keyboard-first list with key badges | Compact, keyboard-led navigation | No | `center` |
+| `split` | Large clock with circular dock | Clock-focused presentation with prominent controls | No | `center` |
+| `grid` | Numbered icon tiles | Fast visual selection and numeric shortcuts | No | `center` |
+| `radial` | Icons arranged around a clock hub | Centered, clock-focused presentation | No | `center` |
+| `bento` | Asymmetric dashboard | Dashboard-style arrangement of actions | No | `center` |
+| `tui` | Terminal-inspired box drawing | Text-like, keyboard-oriented presentation | No | `center` |
+| `dock` | Vertical edge dock | Edge-aligned, space-efficient controls | Yes | `left-edge` |
+| `tiles` | Square tile row | Horizontal tile controls | Yes | `center` |
+| `halo` | Dot-ring hold-to-confirm interaction | Hold-to-confirm visual interaction | Yes | `center` |
+| `capsule` | Rounded pill rows | Grouped, touch-friendly action rows | No | `center` |
+| `circles` | Floating stack of circular actions | Compact floating controls | Yes | `center` |
+| `avatar` | Large avatar with action list | User-focused header with a clear action list | No | `center` |
+| `pill` | Compact status area with icons | Minimal, compact action strip | No | `center` |
+| `banner` | Wallpaper-style banner with actions | Wide presentation with prominent action buttons | No | `center` |
 <!-- END GENERATED LAYOUT CATALOG -->
 
 Choose a layout in **Preferences → Style**. Use **Preview** to inspect it without changing the saved default, or **Apply** to select it. Preview mode never executes actions.
@@ -117,7 +117,7 @@ Other GNOME components can control the same popup through the user's session D-B
 
 - **Bus name:** `org.gnome.Shell.Extensions.MaterialSystemActions`
 - **Object path:** `/org/gnome/Shell/Extensions/MaterialSystemActions`
-- **Methods:** `Open`, `Close`, `Toggle`, `Preview(s style)`, `GetStatus()`
+- **Methods:** `Open`, `Close`, `Toggle`, `Preview(s style)`, and read-only `GetStatus()` → `(ssb)`
 
 For example, open the menu from a launcher:
 
