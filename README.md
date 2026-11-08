@@ -120,7 +120,7 @@ Other GNOME components can control the same popup through the user's session D-B
 - **Methods:** `Open`, `Close`, `Toggle`, `Preview(s style)`, and read-only `GetStatus()` → `(ssb)`
 - **GetStatus result:** `(version, active-layout, preview)`
 
-Use `MaterialSystemActions.GetStatus` to inspect the active layout and preview state. Use `MaterialSystemActions.Preview` to request a temporary layout preview; to open a temporary preview, pass the layout ID to `Preview`. Preview mode does not execute actions.
+Use `MaterialSystemActions.GetStatus` to inspect the active layout and preview state. Use `MaterialSystemActions.Preview` to request a temporary layout preview. To open a temporary preview, pass the layout ID to `Preview`. Preview mode does not execute actions.
 
 For example, open the menu from a launcher:
 
