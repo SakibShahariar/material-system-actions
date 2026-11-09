@@ -75,7 +75,7 @@ This is a session and power menu, **not a replacement for your desktop's lock sc
 
 ## Matugen
 
-Matugen CSS is read when the popup opens. The extension checks `MATUGEN_COLORS_PATH`, `~/.config/matugen/matugen-colors.css`, then `~/.config/ags/colors.css`, with a built-in fallback. Reopen the popup to load updated colors.
+Matugen CSS is read when the popup opens. The extension checks `MATUGEN_COLORS_PATH`, then `~/.config/matugen/matugen-colors.css`, with a built-in fallback. Reopen the popup to load updated colors.
 
 ## Panel and launcher integration
 
