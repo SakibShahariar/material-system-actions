@@ -100,7 +100,7 @@ The extension must be enabled. D-Bus methods control the popup; they do not exec
 
 ## Documentation
 
-- [Development and live GNOME testing](DEVELOPING.md)
+- [DEVELOPING.md](DEVELOPING.md) — development and live GNOME testing
 - [Coverage baseline and exclusions](docs/maintenance/coverage-baseline.md)
 - [Issues and feature requests](https://github.com/SakibShahariar/material-system-actions/issues)
 
