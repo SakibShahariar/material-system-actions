@@ -225,6 +225,12 @@ test('detects when every available action is hidden without treating an empty li
     assert.equal(areAllActionsHidden(['lock'], ['stale-id']), false);
 });
 
+test('Preferences imports every action-preference helper it calls', () => {
+    const prefs = readFileSync(new URL('../prefs.js', import.meta.url), 'utf8');
+    assert.match(prefs, /import \{\s*areAllActionsHidden\s*,\s*normalizeActionOrder\s*\} from '\.\/lib\/action-preferences\.js';/);
+    assert.match(prefs, /areAllActionsHidden\(order, hidden\)/);
+});
+
 test('canonical built-in IDs match the actions exposed by getActions', () => {
     const source = readFileSync(new URL('../lib/actions.js', import.meta.url), 'utf8');
     const implementedIds = [...source.matchAll(/id: '([a-z-]+)'/g)].map(([, id]) => id);
