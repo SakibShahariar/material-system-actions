@@ -1,19 +1,17 @@
 # Material System Actions
 
-A customizable GNOME Shell session and power menu with **15 layouts**, keyboard controls, custom commands and Matugen colors.
+A customizable GNOME Shell session and power menu with **15 layouts**, keyboard navigation, custom commands and Matugen colors.
 
-Designed for GNOME Shell **45–51**. The extension uses GNOME Shell's native UI; Preferences use GTK4/libadwaita. The declared version range is not a claim that every release has been live-tested.
+**GNOME Shell:** 45–51 (declared compatibility range; not every version has been live-tested). Preferences use GTK4/libadwaita.
 
 ## Features
 
-- **15 switchable layouts** — from compact lists and docks to radial, bento and dashboard-style designs.
-- **Configurable actions** — show, hide and reorder system or custom actions.
-- **Keyboard navigation** — global shortcut, action shortcuts, focus controls and accessible labels.
-- **Custom commands** — define trusted commands with optional confirmation.
-- **Safer power actions** — confirmations for destructive actions and logind sleep-inhibitor checks before suspend.
-- **Smart availability** — show Hibernate and Switch User only when the required system/session support is available.
-- **Appearance** — scale, transparency, backdrop dimming, status header and Matugen color roles.
-- **Integration** — open, close or toggle the same menu from a panel button or launcher over the session D-Bus.
+- 15 layouts, from compact lists and docks to radial and dashboard designs.
+- Configurable system actions and trusted custom commands.
+- Keyboard shortcuts, accessible navigation and focus controls.
+- Matugen colors, scaling, transparency and backdrop dimming.
+- Safer power actions with confirmations and suspend-inhibitor checks.
+- Session D-Bus controls for panel buttons and launchers.
 
 ## Layouts
 
@@ -37,107 +35,68 @@ Designed for GNOME Shell **45–51**. The extension uses GNOME Shell's native UI
 | `banner` | Wallpaper-style banner with actions | Wide presentation with prominent action buttons | No | `center` |
 <!-- END GENERATED LAYOUT CATALOG -->
 
-Choose a layout in **Preferences → Style**. Use **Preview** to inspect it without changing the saved default, or **Apply** to select it. Preview mode never executes actions.
+Choose a layout in **Preferences → Style**. Preview lets you inspect it without changing the saved layout or executing actions.
 
 ## Install
 
-Build and install the extension ZIP:
+Build and install the ZIP:
 
 ```bash
 ./scripts/package.sh
-
 gnome-extensions install --force dist/material-system-actions@sakib.dev.shell-extension.zip
 gnome-extensions enable material-system-actions@sakib.dev
 ```
 
-If GNOME does not detect the extension, log out and back in. Open its Preferences from the Extensions app or with your usual GNOME Extensions workflow.
+Open Preferences from the GNOME Extensions app. If the extension is not detected, log out and back in.
 
-For a development checkout, see [DEVELOPING.md](DEVELOPING.md).
+## Configure and custom actions
 
-## Configure
-
-Open **Extensions → Material System Actions → Preferences**.
-
-- **Style:** choose and preview one of the 15 layouts.
-- **System actions:** show, hide and reorder built-in or custom actions.
-- **Custom actions:** create commands using a validated JSON array.
-- **Keyboard:** change the global toggle shortcut (default: **Ctrl+Alt+End**) and choose the initially focused action.
-- **Appearance:** adjust UI scale, panel opacity, backdrop dimming and status-header density.
-- **Reset:** restore selected preference groups or all settings to their defaults.
-
-The extension follows GNOME's animation setting; disabling animations removes decorative transitions without changing keyboard or confirmation behavior.
-
-## Custom actions
-
-Add actions in **Preferences → Custom actions → Edit JSON**. Each action has a unique ID, label, symbolic icon name and command argument array.
+In **Preferences**, choose a layout, reorder actions, set the global shortcut (default **Ctrl+Alt+End**), and adjust appearance. Custom commands are configured under **Custom actions → Edit JSON**:
 
 ```json
 [
   {
-    "id": "custom-vpn-toggle",
+    "id": "vpn-toggle",
     "label": "Toggle VPN",
     "icon": "network-vpn-symbolic",
     "cmd": ["nmcli", "connection", "up", "Work VPN"],
-    "confirm": true,
-    "key": "v"
+    "confirm": true
   }
 ]
 ```
 
-Replace the example command with one available on your system. Commands are launched directly as argument arrays, **not through a shell**; pipes, redirection, globbing and variable expansion are not interpreted.
+Commands run directly as argument arrays, **not through a shell**. They run with your user permissions and are not sandboxed. Only add commands you trust; confirmation is not a security boundary.
 
-**Only add commands you trust.** They run with your user permissions and are not sandboxed. Confirmation is enabled by default, but it is not a security boundary.
+## Power actions
 
-## Safety and system actions
+Logout, reboot, shutdown and hibernate require confirmation. Before suspend, the extension checks systemd-logind sleep inhibitors and lets you cancel or force suspend. Hibernate and Switch User appear only when supported by the current system/session.
 
-- Logout, reboot, shutdown and hibernate require confirmation.
-- Before suspend, the extension checks systemd-logind sleep inhibitors and lets you cancel or explicitly force suspend.
-- Hibernate is shown only when logind reports it as available.
-- Switch User lists other users' existing local graphical sessions when logind can identify them; it does not create accounts or sessions.
-- Optional integrations are best-effort. If logind cannot provide the relevant information, the related enhancement may be unavailable.
+This is a session and power menu, **not a replacement for your desktop's lock screen or security mechanisms**.
 
-This is a session and power menu, **not a replacement for your desktop's security or session-locking mechanisms**.
+## Matugen
 
-## Matugen colors
-
-The popup reads Matugen CSS roles when it opens. It checks:
-
-1. `MATUGEN_COLORS_PATH`, when set
-2. `~/.config/matugen/matugen-colors.css`
-3. `~/.config/ags/colors.css`
-4. Built-in fallback palette
-
-A missing or unreadable CSS file does not prevent the menu from opening. Close and reopen the popup to load updated colors.
-
-For optional diagnostics, set `MATERIAL_SYSTEM_ACTIONS_DEBUG=1` in GNOME Shell's environment before starting the session. Normal operation is quiet.
+Matugen CSS is read when the popup opens. The extension checks `MATUGEN_COLORS_PATH`, `~/.config/matugen/matugen-colors.css`, then `~/.config/ags/colors.css`, with a built-in fallback. Reopen the popup to load updated colors.
 
 ## Panel and launcher integration
 
-Other GNOME components can control the same popup through the user's session D-Bus:
+Control the popup over the user's session D-Bus:
 
-- **Bus name:** `org.gnome.Shell.Extensions.MaterialSystemActions`
-- **Object path:** `/org/gnome/Shell/Extensions/MaterialSystemActions`
+- **Bus:** `org.gnome.Shell.Extensions.MaterialSystemActions`
+- **Object:** `/org/gnome/Shell/Extensions/MaterialSystemActions`
 - **Methods:** `Open`, `Close`, `Toggle`, `Preview(s style)`, and read-only `GetStatus() → (ssb)`
 - **GetStatus result:** `(version, active-layout, preview)`
 
-Use `MaterialSystemActions.GetStatus` to inspect the active layout and preview state. Use `MaterialSystemActions.Preview` to request a temporary layout preview. To open a temporary preview, pass the layout ID to `Preview`. Preview mode does not execute actions.
+Use `MaterialSystemActions.GetStatus` to inspect the active layout and preview state. Use `MaterialSystemActions.Preview` to request a temporary preview. To open a temporary preview, pass the layout ID to `Preview`. Preview does not execute actions.
 
-For example, open the menu from a launcher:
+For example, open the menu:
 
 ```bash
-gdbus call --session \
-  --dest org.gnome.Shell.Extensions.MaterialSystemActions \
+gdbus call --session --dest org.gnome.Shell.Extensions.MaterialSystemActions \
   --object-path /org/gnome/Shell/Extensions/MaterialSystemActions \
   --method org.gnome.Shell.Extensions.MaterialSystemActions.Open
 ```
 
-The receiving extension must be enabled. These methods control the popup; they do not execute power actions or bypass its confirmation dialogs. Any local process with access to your user session bus can invoke them.
-
-## Development and testing
-
-Run the source tests and packaging checks described in [DEVELOPING.md](DEVELOPING.md). CI covers Node-compatible modules, schema validation and archive contents. These checks do **not** replace live GNOME testing.
-
-The live-session guide covers all 15 layouts, keyboard and Orca accessibility, D-Bus integration, power-action safeguards, Matugen fallback, packaging and environment-dependent checks. GNOME Shell compatibility and visual behavior must be verified in a real session.
+The extension must be enabled. D-Bus methods control the popup; they do not execute power actions or bypass confirmation dialogs. Processes with access to your session bus can invoke them.
 
 ## Documentation
 
