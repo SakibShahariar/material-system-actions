@@ -6,7 +6,7 @@ import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
 import {parseCustomActions} from './lib/custom-actions.js';
-import {normalizeActionOrder} from './lib/action-preferences.js';
+import {areAllActionsHidden, normalizeActionOrder} from './lib/action-preferences.js';
 import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 import {resetSettings} from './lib/settings-reset.js';
 
