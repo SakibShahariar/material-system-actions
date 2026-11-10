@@ -9,6 +9,7 @@ import {parseCustomActions} from './lib/custom-actions.js';
 import {areAllActionsHidden, normalizeActionOrder} from './lib/action-preferences.js';
 import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 import {resetSettings} from './lib/settings-reset.js';
+import {STATUS_HEADER_DENSITIES, normalizeStatusHeaderDensity} from './lib/status-header.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -31,7 +32,16 @@ const MODIFIER_KEYVALS = new Set([
 export default class MaterialSystemActionsPreferences extends ExtensionPreferences {
     fillPreferencesWindow(window) {
         const settings = this.getSettings();
-        const page = new Adw.PreferencesPage();
+        const makePage = (title, iconName) => new Adw.PreferencesPage({
+            title,
+            icon_name: iconName,
+        });
+        const menuPage = makePage('Menu', 'system-shutdown-symbolic');
+        const behaviorPage = makePage('Behavior', 'preferences-system-symbolic');
+        const appearancePage = makePage('Appearance', 'applications-graphics-symbolic');
+        const advancedPage = makePage('Advanced', 'preferences-other-symbolic');
+        window.default_width = 760;
+        window.default_height = 820;
         const settingsSignalIds = [];
         let signalsDisconnected = false;
         const disconnectSettingsSignals = () => {
@@ -43,6 +53,9 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             }
             settingsSignalIds.length = 0;
         };
+        const addRowIcon = (row, iconName) => {
+            row.add_prefix(new Gtk.Image({icon_name: iconName}));
+        };
         // Settings outlive a preferences window. Avoid retaining closed rows
         // through signal closures when the user opens Preferences repeatedly.
         window.connect('close-request', () => {
@@ -50,12 +63,28 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             return false;
         });
 
-        const styleGroup = new Adw.PreferencesGroup({title: 'Style'});
+        const introGroup = new Adw.PreferencesGroup();
+        const introRow = new Adw.ActionRow({
+            title: 'Material System Actions',
+            subtitle: 'Customize the look, behavior, and shortcuts of your system actions menu.',
+        });
+        introRow.add_prefix(new Gtk.Image({
+            icon_name: 'system-shutdown-symbolic',
+            pixel_size: 32,
+        }));
+        introGroup.add(introRow);
+        menuPage.add(introGroup);
+
+        const styleGroup = new Adw.PreferencesGroup({
+            title: 'Menu style',
+            description: 'Choose how the system actions menu looks and feels.',
+        });
         const styleRow = new Adw.ComboRow({
             title: 'System actions style',
             subtitle: `${STYLE_NAMES.length} generic layouts — see README for descriptions and recommendations`,
             model: Gtk.StringList.new(STYLE_NAMES.map(n => STYLE_LABELS[n] ?? n)),
         });
+        addRowIcon(styleRow, 'applications-graphics-symbolic');
         const current = settings.get_string('style');
         // migrate old tool names to generic
         const migrated = ({rofi: 'list', quickshell: 'split', wlogout: 'tiles', dots: 'halo', end4: 'capsule'})[current] ?? current;
@@ -88,7 +117,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
                 finally { previewButton.sensitive = true; }
             });
         });
-        page.add(styleGroup);
+        menuPage.add(styleGroup);
 
         const ACTIONS = [
             {id: 'lock', label: 'Lock', description: 'Lock the current session'},
@@ -170,7 +199,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         renderActionRows();
         settingsSignalIds.push(settings.connect('changed::custom-actions', renderActionRows));
         settingsSignalIds.push(settings.connect('changed::hidden-actions', updateAllHiddenWarning));
-        page.add(actionGroup);
+        menuPage.add(actionGroup);
 
         const powerBehaviorGroup = new Adw.PreferencesGroup({
             title: 'Power actions',
@@ -180,6 +209,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             title: 'Countdown before shutdown or reboot',
             subtitle: 'After confirmation, wait five seconds with a Cancel option. Disabled by default.',
         });
+        addRowIcon(powerCountdownRow, 'alarm-symbolic');
         const powerCountdownSwitch = new Gtk.Switch({
             active: settings.get_boolean('power-countdown-enabled'),
             valign: Gtk.Align.CENTER,
@@ -188,7 +218,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             settings.set_boolean('power-countdown-enabled', powerCountdownSwitch.active));
         powerCountdownRow.add_suffix(powerCountdownSwitch);
         powerBehaviorGroup.add(powerCountdownRow);
-        page.add(powerBehaviorGroup);
+        behaviorPage.add(powerBehaviorGroup);
 
         const switchUserGroup = new Adw.PreferencesGroup({
             title: 'Switch users',
@@ -198,6 +228,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             title: 'Confirm before switching users',
             subtitle: 'Ask before activating another user session. Enabled by default; changes apply next time the popup opens.',
         });
+        addRowIcon(confirmSwitchUserRow, 'system-users-symbolic');
         const confirmSwitchUserSwitch = new Gtk.Switch({
             active: settings.get_boolean('confirm-switch-user'),
             valign: Gtk.Align.CENTER,
@@ -206,7 +237,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             settings.set_boolean('confirm-switch-user', confirmSwitchUserSwitch.active));
         confirmSwitchUserRow.add_suffix(confirmSwitchUserSwitch);
         switchUserGroup.add(confirmSwitchUserRow);
-        page.add(switchUserGroup);
+        behaviorPage.add(switchUserGroup);
 
         const customGroup = new Adw.PreferencesGroup({
             title: 'Custom actions',
@@ -216,10 +247,11 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             title: 'Custom command list',
             subtitle: 'Edit a JSON array; each command is launched directly, without a shell.',
         });
+        addRowIcon(customRow, 'system-run-symbolic');
         const customButton = new Gtk.Button({label: 'Edit JSON', valign: Gtk.Align.CENTER});
         customRow.add_suffix(customButton);
         customGroup.add(customRow);
-        page.add(customGroup);
+        advancedPage.add(customGroup);
         customButton.connect('clicked', () => {
             const editor = new Gtk.Window({
                 title: 'Custom actions (JSON)', transient_for: window, modal: true,
@@ -264,9 +296,10 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
 
         const keybindGroup = new Adw.PreferencesGroup({
             title: 'Keyboard shortcut',
-            description: 'Default is Ctrl+Alt+End.',
+            description: 'Open the menu quickly from anywhere. Default: Ctrl+Alt+End.',
         });
         const keybindRow = new Adw.ActionRow({title: 'Toggle system actions'});
+        addRowIcon(keybindRow, 'input-keyboard-symbolic');
         const shortcutLabel = new Gtk.ShortcutLabel({valign: Gtk.Align.CENTER});
         const updateLabel = () => {
             const [accel] = settings.get_strv('toggle-system-actions');
@@ -282,15 +315,19 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         editButton.connect('clicked', () => this._openRecorder(window, settings, updateLabel));
         keybindRow.add_suffix(editButton);
         keybindGroup.add(keybindRow);
-        page.add(keybindGroup);
+        behaviorPage.add(keybindGroup);
 
-        const focusGroup = new Adw.PreferencesGroup({title: 'Keyboard navigation'});
+        const focusGroup = new Adw.PreferencesGroup({
+            title: 'Keyboard navigation',
+            description: 'Choose where keyboard focus starts when the menu opens.',
+        });
         const focusIds = ['auto', 'lock', 'logout', 'suspend', 'hibernate', 'reboot', 'shutdown'];
         const focusRow = new Adw.ComboRow({
             title: 'Default focused action',
             subtitle: 'Choose the initial keyboard focus. Hidden or unavailable actions fall back to the first visible action.',
             model: new Gtk.StringList({strings: ['Automatic', 'Lock', 'Log out', 'Suspend', 'Hibernate', 'Reboot', 'Shutdown']}),
         });
+        addRowIcon(focusRow, 'focus-windows-symbolic');
         const updateFocusSelection = () => {
             const index = focusIds.indexOf(settings.get_string('default-focused-action'));
             focusRow.selected = Math.max(0, index);
@@ -303,9 +340,12 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         });
         settingsSignalIds.push(settings.connect('changed::default-focused-action', updateFocusSelection));
         focusGroup.add(focusRow);
-        page.add(focusGroup);
+        behaviorPage.add(focusGroup);
 
-        const appearance = new Adw.PreferencesGroup({title: 'Appearance'});
+        const appearance = new Adw.PreferencesGroup({
+            title: 'Appearance',
+            description: 'Adjust scale, transparency, status details, and backdrop dimming.',
+        });
         const scaleRow = new Adw.SpinRow({
             title: 'UI scale',
             subtitle: 'Zoom the whole popup — text, icons, and geometry',
@@ -314,6 +354,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             }),
             digits: 2,
         });
+        addRowIcon(scaleRow, 'zoom-in-symbolic');
         scaleRow.connect('notify::value', () => settings.set_double('icon-scale', scaleRow.value));
         appearance.add(scaleRow);
 
@@ -325,6 +366,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             }),
             digits: 2,
         });
+        addRowIcon(opacityRow, 'weather-clear-symbolic');
         opacityRow.connect('notify::value', () => settings.set_double('panel-opacity', opacityRow.value));
         // keep in sync if changed elsewhere
         settingsSignalIds.push(settings.connect('changed::panel-opacity', () => {
@@ -337,6 +379,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             title: 'Show status information',
             subtitle: 'Show or hide user, clock, date, and uptime details where the layout provides them',
         });
+        addRowIcon(statusRow, 'view-reveal-symbolic');
         statusRow.active = settings.get_boolean('show-status-header');
         statusRow.connect('notify::active', () => settings.set_boolean('show-status-header', statusRow.active));
         settingsSignalIds.push(settings.connect('changed::show-status-header', () => {
@@ -350,6 +393,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             subtitle: 'Compact reduces spacing and text size. Only layouts with the shared status header are affected.',
             model: new Gtk.StringList({strings: ['Comfortable', 'Compact']}),
         });
+        addRowIcon(densityRow, 'view-list-symbolic');
         densityRow.selected = STATUS_HEADER_DENSITIES.indexOf(
             normalizeStatusHeaderDensity(settings.get_string('status-header-density')));
         densityRow.connect('notify::selected', () => {
@@ -369,6 +413,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             title: 'Dim backdrop',
             subtitle: 'Dim the desktop behind the popup',
         });
+        addRowIcon(dimRow, 'weather-clear-night-symbolic');
         dimRow.active = settings.get_boolean('backdrop-dim-enabled');
         dimRow.connect('notify::active', () => settings.set_boolean('backdrop-dim-enabled', dimRow.active));
         settingsSignalIds.push(settings.connect('changed::backdrop-dim-enabled', () => {
@@ -376,12 +421,12 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
                 dimRow.active = settings.get_boolean('backdrop-dim-enabled');
         }));
         appearance.add(dimRow);
-        page.add(appearance);
+        appearancePage.add(appearance);
 
 
         const resetGroup = new Adw.PreferencesGroup({
             title: 'Reset preferences',
-            description: 'Restore selected settings to the defaults defined by the GSettings schema.',
+            description: 'Restore selected settings to their defaults. Destructive resets ask for confirmation.',
         });
         const refreshAfterReset = () => {
             const styleIndex = STYLE_NAMES.indexOf(settings.get_string('style'));
@@ -466,9 +511,12 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             ),
             true,
         );
-        page.add(resetGroup);
+        advancedPage.add(resetGroup);
 
-        window.add(page);
+        window.add(menuPage);
+        window.add(behaviorPage);
+        window.add(appearancePage);
+        window.add(advancedPage);
     }
 
     _openRecorder(parentWindow, settings, updateLabel) {

@@ -128,6 +128,24 @@ test('destructive confirmation and inhibitor warnings expose accessible conseque
     assert.ok(confirmation.includes('confirmAccessibleDescription'));
 });
 
+test('confirmation overlays relayout and reposition after replacing the action sheet', () => {
+    const base = source('../lib/layouts/base.js');
+    const confirmation = source('../lib/confirmation-overlay.js');
+    assert.ok(base.includes('overlay.queue_relayout()'));
+    assert.ok(base.includes('this.dialog._applyPosition()'));
+    assert.ok(base.includes('component.root.raise_top()'));
+    assert.ok(confirmation.includes('x_align: Clutter.ActorAlign.CENTER'));
+    assert.ok(confirmation.includes('y_align: Clutter.ActorAlign.CENTER'));
+});
+
+test('confirmation button accessibility descriptions are assigned compatibly', () => {
+    const confirmation = source('../lib/confirmation-overlay.js');
+    assert.doesNotMatch(confirmation, /accessible_description: cancelAccessibleDescription/);
+    assert.doesNotMatch(confirmation, /accessible_description: confirmAccessibleDescription/);
+    assert.ok(confirmation.includes('cancelButton.accessible_description = cancelAccessibleDescription'));
+    assert.ok(confirmation.includes('confirmButton.accessible_description = confirmAccessibleDescription'));
+});
+
 test('initial focus prefers the configured visible action and safely falls back', () => {
     const helper = source('../lib/focus-preferences.js');
     const base = source('../lib/layouts/base.js');
