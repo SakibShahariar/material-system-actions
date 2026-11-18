@@ -489,23 +489,26 @@
     letter-spacing: 0.12em;
     margin-bottom: 12px;
 }
-.sa-layout-card .sa-card-action-row { spacing: 10px; }
+.sa-layout-card .sa-card-action-row { spacing: 6px; }
 
 /* Horizontal icon + label action pills. */
 .sa-layout-card .sa-card-action {
-    width: 108px;
-    min-width: 108px;
-    max-width: 108px;
+    /* Keep the horizontal padding inside the fixed card width; the generic
+       .sa-pill-btn padding otherwise pushes a four-button row past the edge. */
+    padding: 6px 0;
+    width: 84px;
+    min-width: 84px;
+    max-width: 84px;
     height: 42px;
     min-height: 42px;
     max-height: 42px;
     padding: 8px 12px;
     border-radius: 12px;
 }
-.sa-layout-card .sa-card-action-content { spacing: 8px; }
+.sa-layout-card .sa-card-action-content { spacing: 4px; }
 .sa-layout-card .sa-card-action-label {
     color: inherit;
-    font-size: 0.88em;
+    font-size: 0.8em;
     font-weight: 650;
 }
 .sa-layout-card .sa-card-action StIcon { color: inherit; }
