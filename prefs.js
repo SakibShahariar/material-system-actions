@@ -137,16 +137,22 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             subtitle: 'The popup will have no actions. Enable at least one action above to restore it.',
         });
         allHiddenRow.add_prefix(new Gtk.Image({icon_name: 'dialog-warning-symbolic'}));
+        // AdwPreferencesGroup wraps rows in an internal GtkListBox, so
+        // allHiddenRow.get_parent() is never the group itself. Track
+        // visibility explicitly instead of comparing parents.
+        let allHiddenVisible = false;
         const updateAllHiddenWarning = () => {
             const availableActions = getConfigurableActions();
             const order = normalizeActionOrder(availableActions, settings.get_strv('action-order'));
             const hidden = new Set(settings.get_strv('hidden-actions'));
             const shouldWarn = areAllActionsHidden(order, hidden);
-            const isVisible = allHiddenRow.get_parent() === actionGroup;
-            if (shouldWarn && !isVisible)
+            if (shouldWarn && !allHiddenVisible) {
                 actionGroup.add(allHiddenRow);
-            else if (!shouldWarn && isVisible)
+                allHiddenVisible = true;
+            } else if (!shouldWarn && allHiddenVisible) {
                 actionGroup.remove(allHiddenRow);
+                allHiddenVisible = false;
+            }
         };
         const getConfigurableActions = () => {
             let custom = [];

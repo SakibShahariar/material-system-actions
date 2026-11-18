@@ -231,6 +231,14 @@ test('Preferences imports every action-preference helper it calls', () => {
     assert.match(prefs, /areAllActionsHidden\(order, hidden\)/);
 });
 
+test('Preferences tracks all-hidden warning visibility without comparing widget parents', () => {
+    const prefs = readFileSync(new URL('../prefs.js', import.meta.url), 'utf8');
+    assert.match(prefs, /let allHiddenVisible = false;/);
+    assert.match(prefs, /if \(shouldWarn && !allHiddenVisible\) \{[\s\S]*?allHiddenVisible = true;/);
+    assert.match(prefs, /else if \(!shouldWarn && allHiddenVisible\) \{[\s\S]*?allHiddenVisible = false;/);
+    assert.doesNotMatch(prefs, /allHiddenRow\.get_parent\(\) === actionGroup/);
+});
+
 test('canonical built-in IDs match the actions exposed by getActions', () => {
     const source = readFileSync(new URL('../lib/actions.js', import.meta.url), 'utf8');
     const implementedIds = [...source.matchAll(/id: '([a-z-]+)'/g)].map(([, id]) => id);
