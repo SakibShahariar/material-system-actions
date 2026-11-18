@@ -32,6 +32,30 @@ test('every avatar-bearing layout uses the shared real-account avatar', () => {
     }
 });
 
+test('halo dots rely on stylesheet classes so hold progress is visible', () => {
+    const halo = read('../lib/layouts/halo.js');
+    const css = read('../stylesheet.css');
+    assert.match(halo, /style_class: 'sa-dot', style: 'width: 8px; height: 8px; border-radius: 999px;'/);
+    assert.doesNotMatch(halo, /sa-dot[^\n]*background-color/);
+    assert.match(css, /\.sa-dot-filled \{ background-color: var\(--error/);
+});
+
+test('capsule destructive tiles are equal width and fit the panel', () => {
+    const capsule = read('../lib/layouts/capsule.js');
+    assert.match(capsule, /this\._tile\(a, 78, 80, 18, true\)/);
+    assert.match(capsule, /min-width:\$\{w\}px; max-width:\$\{w\}px/);
+    const rowWidth = 4 * 78 + 3 * 8;
+    assert.ok(rowWidth <= 342, `destructive row ${rowWidth} exceeds the capsule content width`);
+});
+
+test('pill action row is centered with comfortable button spacing', () => {
+    const pill = read('../lib/layouts/pill.js');
+    assert.match(pill, /spacing: 12px;', x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(pill, /width: 44px; height: 44px; border-radius: 999px/);
+    const rowWidth = 6 * 44 + 5 * 12;
+    assert.ok(rowWidth <= 342, `pill row ${rowWidth} exceeds the panel content width`);
+});
+
 test('banner wallpaper covers the banner by center-cropping', () => {
     const banner = read('../lib/layouts/banner.js');
     assert.match(banner, /load_file_async\(\s*file, bannerWidth, -1, paintScale, 1\)/);
