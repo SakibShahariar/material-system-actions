@@ -5,7 +5,7 @@ import Gtk from 'gi://Gtk';
 import Gdk from 'gi://Gdk';
 import Gio from 'gi://Gio';
 import GLib from 'gi://GLib';
-import {parseCustomActions} from './lib/custom-actions.js';
+import {formatJsonErrorMessage, parseCustomActions} from './lib/custom-actions.js';
 import {areAllActionsHidden, normalizeActionOrder} from './lib/action-preferences.js';
 import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 import {resetSettings} from './lib/settings-reset.js';
@@ -277,25 +277,58 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             textView.buffer.text = settings.get_string('custom-actions') || '[]';
             scroll.set_child(textView);
             const status = new Gtk.Label({xalign: 0, wrap: true});
+            const setStatus = (message, kind) => {
+                status.label = message;
+                status.remove_css_class('error');
+                status.remove_css_class('success');
+                if (kind) status.add_css_class(kind);
+            };
+            const showError = error =>
+                setStatus(formatJsonErrorMessage(textView.buffer.text, error), 'error');
             const buttons = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, spacing: 8, halign: Gtk.Align.END});
+            const template = new Gtk.Button({label: 'Add action template'});
+            const format = new Gtk.Button({label: 'Format JSON'});
             const cancel = new Gtk.Button({label: 'Cancel'});
             const save = new Gtk.Button({label: 'Validate and save', css_classes: ['suggested-action']});
-            buttons.append(cancel); buttons.append(save);
+            buttons.append(template); buttons.append(format); buttons.append(cancel); buttons.append(save);
             editorBox.append(help); editorBox.append(scroll); editorBox.append(status); editorBox.append(buttons);
             editor.set_child(editorBox);
             cancel.connect('clicked', () => editor.close());
+            template.connect('clicked', () => {
+                let actions;
+                try {
+                    const parsed = JSON.parse(textView.buffer.text);
+                    actions = Array.isArray(parsed) ? parsed : [];
+                } catch (_e) {
+                    actions = [];
+                }
+                let index = 1;
+                let id = `custom-action-${index}`;
+                while (actions.some(item => item?.id === id)) id = `custom-action-${++index}`;
+                actions.push({
+                    id, label: 'New action', icon: 'dialog-information-symbolic',
+                    cmd: ['/usr/bin/true'], confirm: true, key: '',
+                });
+                textView.buffer.text = JSON.stringify(actions, null, 2);
+                setStatus('Template added. Edit the fields, then validate and save.', 'success');
+            });
+            format.connect('clicked', () => {
+                try {
+                    const parsed = JSON.parse(textView.buffer.text);
+                    textView.buffer.text = JSON.stringify(parsed, null, 2);
+                    setStatus('JSON formatted.', 'success');
+                } catch (error) {
+                    showError(error);
+                }
+            });
             save.connect('clicked', () => {
                 const serialized = textView.buffer.text;
                 try {
                     parseCustomActions(serialized);
                     settings.set_string('custom-actions', serialized);
-                    status.label = 'Saved. Reopen the popup to use the updated actions.';
-                    status.remove_css_class('error');
-                    status.add_css_class('success');
+                    setStatus('Saved. Reopen the popup to use the updated actions.', 'success');
                 } catch (error) {
-                    status.label = error.message;
-                    status.remove_css_class('success');
-                    status.add_css_class('error');
+                    showError(error);
                 }
             });
             editor.present();

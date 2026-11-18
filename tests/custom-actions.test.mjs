@@ -2,7 +2,8 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {parseCustomActions} from '../lib/custom-actions.js';
+import {formatJsonErrorMessage, jsonErrorLocation, parseCustomActions} from '../lib/custom-actions.js';
+import {readFileSync} from 'node:fs';
 
 const validAction = overrides => ({
     id: 'custom-example',
@@ -92,4 +93,24 @@ test('confirmation and shortcut values are validated and reserved keys cannot be
         validAction({key: 'x'}),
         validAction({id: 'custom-other', key: 'x'}),
     ])), /already reserved or used/);
+});
+
+test('JSON parse errors are reported with line and column', () => {
+    const text = '{"a": 1,}';
+    let error;
+    try { JSON.parse(text); } catch (e) { error = e; }
+    assert.ok(error);
+    assert.deepEqual(jsonErrorLocation(text, error), {line: 1, column: 9});
+    assert.match(formatJsonErrorMessage(text, error), /line 1, column 9/);
+    assert.equal(jsonErrorLocation(text, new Error('invalid JSON')), null);
+    assert.equal(formatJsonErrorMessage(text, new Error('invalid JSON')), 'invalid JSON');
+});
+
+test('Preferences JSON editor offers a template, formatting, and located errors', () => {
+    const prefs = readFileSync(new URL('../prefs.js', import.meta.url), 'utf8');
+    assert.match(prefs, /formatJsonErrorMessage, parseCustomActions/);
+    assert.match(prefs, /label: 'Add action template'/);
+    assert.match(prefs, /label: 'Format JSON'/);
+    assert.match(prefs, /JSON\.stringify\(parsed, null, 2\)/);
+    assert.match(prefs, /setStatus\(formatJsonErrorMessage\(textView\.buffer\.text, error\), 'error'\)/);
 });
