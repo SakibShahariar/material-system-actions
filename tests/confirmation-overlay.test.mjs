@@ -47,3 +47,22 @@ test('shared confirmation component exposes configurable accessible labels and d
     assert.ok(base.includes('cancelBtn: component.cancelButton'));
     assert.ok(base.includes('confirmBtn: component.confirmButton'));
 });
+
+test('inhibitor details render as a structured list with unchanged accessible text', () => {
+    const base = read('../lib/layouts/base.js');
+    const confirmation = read('../lib/confirmation-overlay.js');
+    const stylesheet = read('../stylesheet.css');
+
+    assert.ok(base.includes("detailsItems: inhibitors.map(({who, why, mode}) => ({who, why, mode}))"));
+    assert.ok(confirmation.includes('detailsItems = null'));
+    assert.ok(confirmation.includes("style_class: 'sa-confirm-details'"));
+    assert.ok(confirmation.includes("style_class: 'sa-confirm-details-item'"));
+    assert.ok(confirmation.includes("style_class: 'sa-confirm-details-title'"));
+    assert.ok(confirmation.includes('meta.clutter_text.line_wrap = true'));
+    assert.ok(confirmation.includes('detailsBox.accessible_name = detailsAccessibleName'));
+    assert.ok(confirmation.includes('detailsBox.accessible_description = detailsAccessibleDescription'));
+    assert.ok(confirmation.includes('detailsLabel: detailsBox'));
+    for (const selector of ['.sa-confirm-details', '.sa-confirm-details-item',
+        '.sa-confirm-details-title', '.sa-confirm-details-meta'])
+        assert.ok(stylesheet.includes(selector), selector + ' must be styled');
+});

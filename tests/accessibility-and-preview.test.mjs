@@ -124,7 +124,7 @@ test('destructive confirmation and inhibitor warnings expose accessible conseque
     assert.ok(base.includes("cancelAccessibleDescription: 'Cancel ' + actionLabel + '; no action will be taken.'"));
     assert.ok(base.includes('Force the computer to suspend even though applications are blocking sleep.'));
     assert.ok(confirmation.includes('root.accessible_description = accessibleDescription'));
-    assert.ok(confirmation.includes('detailsLabel.accessible_description = detailsAccessibleDescription'));
+    assert.ok(confirmation.includes('detailsBox.accessible_description = detailsAccessibleDescription'));
     assert.ok(confirmation.includes('confirmAccessibleDescription'));
 });
 
