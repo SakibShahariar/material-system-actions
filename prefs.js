@@ -10,6 +10,7 @@ import {areAllActionsHidden, normalizeActionOrder} from './lib/action-preference
 import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 import {resetSettings} from './lib/settings-reset.js';
 import {STATUS_HEADER_DENSITIES, normalizeStatusHeaderDensity} from './lib/status-header.js';
+import {getThemeSource, getThemeSourcePaths} from './lib/theme.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -427,6 +428,36 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
                 dimRow.active = settings.get_boolean('backdrop-dim-enabled');
         }));
         appearance.add(dimRow);
+
+        const themeSourceRow = new Adw.ActionRow({
+            title: 'Theme source',
+            subtitle: getThemeSource() ?? 'Fallback theme',
+        });
+        addRowIcon(themeSourceRow, 'color-select-symbolic');
+        const refreshThemeSource = () => {
+            themeSourceRow.subtitle = getThemeSource() ?? 'Fallback theme';
+        };
+        // Watch both the candidate directories and their parents so the row
+        // updates when a Matugen file is created, replaced, or removed.
+        const themeDirectories = new Set();
+        for (const path of getThemeSourcePaths()) {
+            const file = Gio.File.new_for_path(path);
+            let dir = file.get_parent();
+            for (let depth = 0; dir && depth < 2; depth++) {
+                if (dir.query_exists(null))
+                    themeDirectories.add(dir.get_path());
+                dir = dir.get_parent();
+            }
+        }
+        this._themeMonitors = [];
+        for (const path of themeDirectories) {
+            try {
+                const monitor = Gio.File.new_for_path(path).monitor(Gio.FileMonitorFlags.NONE, null);
+                monitor.connect('changed', refreshThemeSource);
+                this._themeMonitors.push(monitor);
+            } catch (_e) {}
+        }
+        appearance.add(themeSourceRow);
         appearancePage.add(appearance);
 
 
