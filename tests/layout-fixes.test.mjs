@@ -56,6 +56,28 @@ test('pill action row is centered with comfortable button spacing', () => {
     assert.ok(rowWidth <= 342, `pill row ${rowWidth} exceeds the panel content width`);
 });
 
+test('halo ring, dock icons, and banner actions are centered', () => {
+    const halo = read('../lib/layouts/halo.js');
+    const dock = read('../lib/layouts/dock.js');
+    const banner = read('../lib/layouts/banner.js');
+    assert.match(halo, /new Clutter\.Actor\(\{width: size, height: size, x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(dock, /min-width: 64px; x-align: center/);
+    assert.equal((dock.match(/x_align: Clutter\.ActorAlign\.CENTER/g) ?? []).length, 2);
+    assert.match(banner, /spacing: 8px;', x_align: Clutter\.ActorAlign\.CENTER/);
+});
+
+test('avatars are clipped to a circle everywhere', () => {
+    const css = read('../stylesheet.css');
+    assert.match(css, /\.sa-avatar \{\s*border-radius: 999px;\s*overflow: hidden;/);
+    assert.match(css, /\.sa-avatar-image \{ overflow: hidden; \}/);
+    assert.doesNotMatch(css, /\.sa-layout-card \.sa-avatar \{[^}]*border-radius: 12px/);
+});
+
+test('capsule tile labels are centered under their icons', () => {
+    const capsule = read('../lib/layouts/capsule.js');
+    assert.match(capsule, /font-size: 0\.8em;', x_align: Clutter\.ActorAlign\.CENTER, y_align: Clutter\.ActorAlign\.CENTER/);
+});
+
 test('banner wallpaper covers the banner by center-cropping', () => {
     const banner = read('../lib/layouts/banner.js');
     assert.match(banner, /load_file_async\(\s*file, bannerWidth, -1, paintScale, 1\)/);

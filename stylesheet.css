@@ -92,6 +92,7 @@
 }
 .sa-avatar {
     border-radius: 999px;
+    overflow: hidden;
     background-color: var(--primary_container, #2f4578);
     color: var(--on_primary_container, #d9e2ff);
     font-weight: 700;
@@ -100,6 +101,7 @@
     background-color: var(--surface_container_high, #282a2f);
     color: var(--primary, #b0c6ff);
 }
+.sa-avatar-image { overflow: hidden; }
 
 .sa-bar { padding: 6px 12px; font-size: 0.78em; color: var(--on_surface_variant, #c5c6d0); }
 .sa-bar-top { border-bottom: 1px solid var(--outline_variant, #44464f); }
@@ -465,7 +467,7 @@
     min-width: 44px;
     height: 44px;
     min-height: 44px;
-    border-radius: 12px;
+    border-radius: 999px;
     background-color: var(--primary_container, #2f4578);
     color: var(--on_primary_container, #d9e2ff);
 }
