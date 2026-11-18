@@ -60,10 +60,23 @@ test('halo ring, dock icons, and banner actions are centered', () => {
     const halo = read('../lib/layouts/halo.js');
     const dock = read('../lib/layouts/dock.js');
     const banner = read('../lib/layouts/banner.js');
-    assert.match(halo, /new Clutter\.Actor\(\{width: size, height: size, x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(halo, /new St\.Bin\(\{[\s\S]*?x_fill: false,[\s\S]*?x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(halo, /outer\.add_child\(ringBox\)/);
     assert.match(dock, /min-width: 64px; x-align: center/);
     assert.equal((dock.match(/x_align: Clutter\.ActorAlign\.CENTER/g) ?? []).length, 2);
-    assert.match(banner, /spacing: 8px;', x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(banner, /spacing: 8px;', x_fill: false, x_expand: false, x_align: Clutter\.ActorAlign\.CENTER/);
+});
+
+test('account avatar PNG is cropped circular and cached', () => {
+    const base = read('../lib/layouts/base.js');
+    assert.match(base, /import GdkPixbuf from 'gi:\/\/GdkPixbuf'/);
+    assert.match(base, /import Gdk from 'gi:\/\/Gdk\?version=4\.0'/);
+    assert.match(base, /import cairo from 'gi:\/\/cairo'/);
+    assert.match(base, /_circularAvatarPath\(path, size\)/);
+    assert.match(base, /context\.arc\(size \/ 2, size \/ 2, size \/ 2/);
+    assert.match(base, /context\.clip\(\)/);
+    assert.match(base, /surface\.writeToPNG\(output\)/);
+    assert.match(base, /Gio\.File\.new_for_path\(this\._circularAvatarPath\(path, size\)\)/);
 });
 
 test('avatars are clipped to a circle everywhere', () => {
