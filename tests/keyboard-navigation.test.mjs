@@ -73,6 +73,24 @@ test('confirmation mode only moves between buttons and activates the focused but
     assert.deepEqual(events, ['confirm-flash', 'confirm-clicked']);
 });
 
+test('confirmation mode prefers native button activation for Enter and Space', () => {
+    const events = [];
+    const confirm = {
+        grab_key_focus() {},
+        activate: () => events.push('activate'),
+        emit: signal => events.push(signal),
+    };
+    const context = makeContext({
+        style: {
+            _confirmation: {cancelBtn: {}, confirmBtn: confirm},
+            pressFlash: () => events.push('flash'),
+        },
+        getKeyFocus: () => confirm,
+    });
+    assert.equal(handleKeyboardNavigation(makeEvent(keys.enter), context), stop);
+    assert.deepEqual(events, ['flash', 'activate']);
+});
+
 test('Escape closes the dialog outside confirmation mode', () => {
     let closed = false;
     const context = makeContext({closeDialog: () => { closed = true; }});
