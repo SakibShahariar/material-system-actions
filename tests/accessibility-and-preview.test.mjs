@@ -133,7 +133,7 @@ test('confirmation overlays relayout and reposition after replacing the action s
     const confirmation = source('../lib/confirmation-overlay.js');
     assert.ok(base.includes('overlay.queue_relayout()'));
     assert.ok(base.includes('this.dialog._applyPosition()'));
-    assert.ok(base.includes('component.root.raise_top()'));
+    assert.ok(base.includes('raiseActorAboveSiblings(component.root)'));
     assert.ok(confirmation.includes('x_align: Clutter.ActorAlign.CENTER'));
     assert.ok(confirmation.includes('y_align: Clutter.ActorAlign.CENTER'));
 });
