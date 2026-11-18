@@ -29,10 +29,16 @@ test('exported D-Bus XML declares the supported method signatures', () => {
 test('every exported method has a handler and the interface is released on disable', () => {
     const extension = read('../extension.js');
     for (const method of ['Open', 'Close', 'Toggle', 'Preview', 'GetStatus'])
-        assert.match(extension, new RegExp(`${method}:\\s*\\(?\\s*(?:params)?\\s*\\)?\\s*=>`), `${method} needs a D-Bus handler`);
+        assert.match(extension, new RegExp(`${method}:\\s*\\(?\\s*\\w*\\s*\\)?\\s*=>`), `${method} needs a D-Bus handler`);
 
     assert.match(extension, /this\._dbusObject\?\.unexport\(\)/);
     assert.match(extension, /Gio\.bus_unown_name\(this\._dbusOwnerId\)/);
+});
+
+test('Preview consumes the unpacked string argument passed by GJS', () => {
+    const extension = read('../extension.js');
+    assert.match(extension, /Preview:\s*style\s*=>\s*this\._preview\(style\)/);
+    assert.doesNotMatch(extension, /Preview:[^\n]*deep_unpack/);
 });
 
 test('GetStatus returns a read-only version/layout/preview tuple and resolves unknown layouts safely', () => {

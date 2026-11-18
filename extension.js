@@ -30,7 +30,7 @@ export default class MaterialSystemActionsExtension extends Extension {
                     Open: () => this._open(),
                     Close: () => this._close(),
                     Toggle: () => this._toggle(),
-                    Preview: params => this._preview(params.deep_unpack()[0]),
+                    Preview: style => this._preview(style),
                     GetStatus: () => this._getStatus(),
                 });
                 this._dbusObject.export(connection, DBUS_PATH);
