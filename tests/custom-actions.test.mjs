@@ -106,6 +106,21 @@ test('JSON parse errors are reported with line and column', () => {
     assert.equal(formatJsonErrorMessage(text, new Error('invalid JSON')), 'invalid JSON');
 });
 
+test('parse failures keep the original error for line/column hints', () => {
+    const text = '[{"a": 1,}]';
+    let error;
+    try { parseCustomActions(text); } catch (e) { error = e; }
+    assert.ok(error);
+    assert.match(error.message, /Custom actions must be valid JSON/);
+    assert.ok(error.parseError, 'the JSON.parse error must be preserved');
+    assert.match(formatJsonErrorMessage(text, error), /line 1, column \d+/);
+
+    assert.deepEqual(
+        jsonErrorLocation(text, new Error('JSON.parse: expected token at line 2 column 7 of the JSON data')),
+        {line: 2, column: 7},
+    );
+});
+
 test('Preferences JSON editor offers a template, formatting, and located errors', () => {
     const prefs = readFileSync(new URL('../prefs.js', import.meta.url), 'utf8');
     assert.match(prefs, /formatJsonErrorMessage, parseCustomActions/);
