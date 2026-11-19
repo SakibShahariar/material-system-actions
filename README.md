@@ -77,6 +77,18 @@ This is a session and power menu, **not a replacement for your desktop's lock sc
 
 Matugen CSS is read when the popup opens. The extension checks `MATUGEN_COLORS_PATH`, then `~/.config/matugen/matugen-colors.css`, with a built-in fallback. Reopen the popup to load updated colors.
 
+## Blur my Shell integration
+
+The popup opts its visible surfaces into [Blur my Shell](https://github.com/SakibShahariar/blur-my-shell)'s per-surface blur using the `bms-popup-blur-target` and `bms-redraw-blur-instant` style classes from its [extension integration contract](https://github.com/SakibShahariar/blur-my-shell/blob/master/docs/extension-integration.md). These classes are **inert when Blur my Shell is not installed**, so the extension works unchanged without it.
+
+When Blur my Shell is installed:
+
+- The active layout panel and any confirmation sheet are blurred as individual surfaces, following the Popups blur settings (pipeline, static/dynamic mode, and override background).
+- Surfaces with a nested panel wrapper expose their inner panel as the blur target, so the blur follows the panel's own `border-radius`.
+- Blur redraws immediately when a confirmation replaces the sheet or a countdown changes its size.
+
+This is optional and does not replace Material System Actions' own panel opacity or backdrop dimming controls.
+
 ## Panel and launcher integration
 
 Control the popup over the user's session D-Bus:
