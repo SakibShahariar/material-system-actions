@@ -95,6 +95,8 @@ test('capsule tile labels are centered under their icons', () => {
     const capsule = read('../lib/layouts/capsule.js');
     assert.match(capsule, /font-size: 0\.8em;', x_align: Clutter\.ActorAlign\.CENTER, y_align: Clutter\.ActorAlign\.CENTER/);
     assert.match(capsule, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?rowWrap\.set_child\(row\)/);
+    assert.match(capsule, /sa-row-icon-badge[\s\S]*?x_align: Clutter\.ActorAlign\.CENTER,\s*y_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(capsule, /badge\.set_child\(this\.makeIcon\(action\.icon, 16\)\)/);
     const avatar = read('../lib/layouts/avatar.js');
     assert.match(avatar, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?contentWrap\.set_child\(content\)/);
 });
