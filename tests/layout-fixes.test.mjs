@@ -60,11 +60,16 @@ test('halo ring, dock icons, and banner actions are centered', () => {
     const halo = read('../lib/layouts/halo.js');
     const dock = read('../lib/layouts/dock.js');
     const banner = read('../lib/layouts/banner.js');
-    assert.match(halo, /new St\.Bin\(\{[\s\S]*?x_fill: false,[\s\S]*?x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(halo, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?ringBox\.set_child\(fixed\)/);
+    assert.match(halo, /x_align: Clutter\.ActorAlign\.CENTER,\s*layout_manager: new Clutter\.FixedLayout/);
     assert.match(halo, /outer\.add_child\(ringBox\)/);
     assert.match(dock, /min-width: 64px; x-align: center/);
     assert.equal((dock.match(/x_align: Clutter\.ActorAlign\.CENTER/g) ?? []).length, 2);
-    assert.match(banner, /spacing: 8px;', x_fill: false, x_expand: false, x_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(banner, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?rowWrap\.set_child\(row\)/);
+    for (const file of ['halo', 'banner', 'capsule', 'avatar']) {
+        const source = read(`../lib/layouts/${file}.js`);
+        assert.doesNotMatch(source, /x_fill/, `${file} must not use removed x_fill`);
+    }
 });
 
 test('account avatar PNG is cropped circular and cached', () => {
@@ -89,6 +94,9 @@ test('avatars are clipped to a circle everywhere', () => {
 test('capsule tile labels are centered under their icons', () => {
     const capsule = read('../lib/layouts/capsule.js');
     assert.match(capsule, /font-size: 0\.8em;', x_align: Clutter\.ActorAlign\.CENTER, y_align: Clutter\.ActorAlign\.CENTER/);
+    assert.match(capsule, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?rowWrap\.set_child\(row\)/);
+    const avatar = read('../lib/layouts/avatar.js');
+    assert.match(avatar, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?contentWrap\.set_child\(content\)/);
 });
 
 test('banner wallpaper covers the banner by center-cropping', () => {
