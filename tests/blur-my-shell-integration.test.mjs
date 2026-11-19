@@ -32,3 +32,14 @@ test('README documents the optional Blur my Shell integration', () => {
     assert.match(readme, /bms-redraw-blur-instant/);
     assert.match(readme, /inert when Blur my Shell is not installed/);
 });
+
+test('panel falls back to a solid background without a blur provider', () => {
+    const source = read('../lib/dialog.js');
+    assert.match(source, /ExtensionState/);
+    assert.match(source, /blur-my-shell@aunetx/);
+    assert.match(source, /material-blur@SakibShahariar\.github\.io/);
+    assert.match(source, /_blurIsActive\(\)/);
+    assert.match(source, /if \(!this\._blurIsActive\(\)\)\s*opacity = 1\.0;/);
+    const readme = read('../README.md');
+    assert.match(readme, /solid background/);
+});
