@@ -23,6 +23,12 @@ test('preferences renders a gallery card for every registered layout', () => {
     assert.equal(Object.keys(LAYOUT_METADATA).length, 15);
 });
 
+test('style dropdown shows short layout names so the selection is not clipped', () => {
+    const prefs = read('../prefs.js');
+    assert.match(prefs, /STYLE_NAMES\.map\(n => LAYOUT_METADATA\[n\]\.displayName\)/);
+    assert.doesNotMatch(prefs, /STYLE_LABELS/);
+});
+
 test('the redundant preview-selected row is gone and the combo applies directly', () => {
     const prefs = read('../prefs.js');
     assert.doesNotMatch(prefs, /Preview selected layout/);

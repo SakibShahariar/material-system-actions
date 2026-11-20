@@ -16,7 +16,6 @@ import {createPreferencesExport, parsePreferencesImport} from './lib/preferences
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 const STYLE_NAMES = Object.keys(LAYOUT_METADATA);
-const STYLE_LABELS = Object.fromEntries(Object.entries(LAYOUT_METADATA).map(([id, metadata]) => [id, `${metadata.displayName} — ${metadata.description}`]));
 
 const MODIFIER_KEYVALS = new Set([
     Gdk.KEY_Shift_L,
@@ -89,7 +88,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const styleRow = new Adw.ComboRow({
             title: 'System actions style',
             subtitle: `${STYLE_NAMES.length} generic layouts — see README for descriptions and recommendations`,
-            model: Gtk.StringList.new(STYLE_NAMES.map(n => STYLE_LABELS[n] ?? n))
+            model: Gtk.StringList.new(STYLE_NAMES.map(n => LAYOUT_METADATA[n].displayName))
         });
         addRowIcon(styleRow, 'applications-graphics-symbolic');
         const current = settings.get_string('style');
