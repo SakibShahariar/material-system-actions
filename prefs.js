@@ -140,20 +140,37 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             column_spacing: 12,
             row_spacing: 12,
             homogeneous: true,
+            min_children_per_line: 2,
             max_children_per_line: 3,
             margin_top: 8,
             margin_bottom: 8
         });
         for (const id of STYLE_NAMES) {
             const metadata = LAYOUT_METADATA[id];
-            const card = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL, spacing: 6, width_request: 200});
+            const card = new Gtk.Box({
+                orientation: Gtk.Orientation.VERTICAL,
+                spacing: 6,
+                width_request: 180,
+                hexpand: false
+            });
             card.set_tooltip_text(id);
             card.append(new Gtk.Image({icon_name: 'applications-graphics-symbolic', pixel_size: 48}));
-            card.append(new Gtk.Label({label: metadata.displayName, wrap: true}));
+            card.append(
+                new Gtk.Label({
+                    label: metadata.displayName,
+                    wrap: true,
+                    width_request: 172,
+                    hexpand: false
+                })
+            );
             card.append(
                 new Gtk.Label({
                     label: metadata.description,
                     wrap: true,
+                    wrap_mode: Gtk.WrapMode.WORD_CHAR,
+                    max_width_chars: 26,
+                    width_request: 172,
+                    hexpand: false,
                     css_classes: ['dim-label']
                 })
             );

@@ -11,6 +11,9 @@ test('preferences renders a gallery card for every registered layout', () => {
     const prefs = read('../prefs.js');
     assert.match(prefs, /title: 'Layout gallery'/);
     assert.match(prefs, /new Gtk\.FlowBox\(/);
+    assert.match(prefs, /min_children_per_line: 2/);
+    assert.match(prefs, /max_children_per_line: 3/);
+    assert.match(prefs, /max_width_chars: 26/);
     assert.match(prefs, /for \(const id of STYLE_NAMES\)/);
     assert.match(prefs, /metadata\.displayName/);
     assert.match(prefs, /metadata\.description/);
