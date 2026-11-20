@@ -380,6 +380,20 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         });
         settingsSignalIds.push(settings.connect('changed::default-focused-action', updateFocusSelection));
         focusGroup.add(focusRow);
+
+        const digitRow = new Adw.SwitchRow({
+            title: 'Show digit hints',
+            subtitle: 'Display 1–9 badges in layouts that support them; shortcuts work even when hidden',
+        });
+        addRowIcon(digitRow, 'input-keyboard-symbolic');
+        digitRow.active = settings.get_boolean('show-digit-hints');
+        digitRow.connect('notify::active', () => settings.set_boolean('show-digit-hints', digitRow.active));
+        settingsSignalIds.push(settings.connect('changed::show-digit-hints', () => {
+            const enabled = settings.get_boolean('show-digit-hints');
+            if (digitRow.active !== enabled)
+                digitRow.active = enabled;
+        }));
+        focusGroup.add(digitRow);
         behaviorPage.add(focusGroup);
 
         const appearance = new Adw.PreferencesGroup({

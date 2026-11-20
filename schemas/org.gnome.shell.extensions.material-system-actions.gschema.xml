@@ -58,6 +58,11 @@
       <summary>Status header density</summary>
       <description>Choose comfortable or compact spacing for layouts with a shared status header.</description>
     </key>
+    <key name="show-digit-hints" type="b">
+      <default>true</default>
+      <summary>Show numeric shortcut badges in layouts that support them</summary>
+      <description>Digit shortcuts 1–9 always work; this only controls the visible badges in layouts such as Grid.</description>
+    </key>
     <key name="backdrop-dim-enabled" type="b">
       <default>true</default>
       <summary>Dim the backdrop behind the popup</summary>

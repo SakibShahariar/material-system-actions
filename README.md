@@ -73,6 +73,10 @@ Logout, reboot, shutdown and hibernate require confirmation. Before suspend, the
 
 This is a session and power menu, **not a replacement for your desktop's lock screen or security mechanisms**.
 
+## Keyboard shortcuts
+
+Press **1–9** (main row or keypad) to activate the first nine actions in the **current visible order** — reordering actions in Preferences updates both the shortcuts and the badges. Layouts that support numeric hints (such as Grid) show small `1–9` badges by default; turn them off with **Show digit hints** in Preferences → Behavior. Hiding hints does not disable the shortcuts. TUI and List also expose letter keys where available.
+
 ## Matugen
 
 Matugen CSS is read when the popup opens. The extension checks `MATUGEN_COLORS_PATH`, then `~/.config/matugen/matugen-colors.css`, with a built-in fallback. Reopen the popup to load updated colors.
