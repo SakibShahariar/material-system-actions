@@ -496,12 +496,9 @@
 
 /* Horizontal icon + label action pills. */
 .sa-layout-card .sa-card-action {
-    /* Keep the horizontal padding inside the fixed card width; the generic
-       .sa-pill-btn padding otherwise pushes a four-button row past the edge. */
-    padding: 6px 0;
-    width: 84px;
-    min-width: 84px;
-    max-width: 84px;
+    /* Buttons expand to fill the card row; the minimum keeps up to six
+       actions readable without overflowing the fixed card width. */
+    min-width: 72px;
     height: 42px;
     min-height: 42px;
     max-height: 42px;
