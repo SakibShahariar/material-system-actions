@@ -4,7 +4,7 @@ This guide separates automated source/package checks from validation that must h
 
 ## Declared compatibility
 
-`metadata.json` currently declares GNOME Shell **45–51**. Treat that as the project's declared target range, not proof that every release has been manually tested. Record the exact Shell version and desktop/session type when reporting a runtime result:
+`metadata.json` currently declares GNOME Shell **45–51**. Treat that as the project's declared target range, not proof that every release has been manually tested. Per-version status and the API-review inventory are tracked in the [compatibility matrix](docs/compatibility.md). Record the exact Shell version and desktop/session type when reporting a runtime result:
 
 ```bash
 gnome-shell --version
