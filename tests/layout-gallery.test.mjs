@@ -20,6 +20,14 @@ test('preferences renders a gallery card for every registered layout', () => {
     assert.equal(Object.keys(LAYOUT_METADATA).length, 15);
 });
 
+test('the redundant preview-selected row is gone and the combo applies directly', () => {
+    const prefs = read('../prefs.js');
+    assert.doesNotMatch(prefs, /Preview selected layout/);
+    assert.doesNotMatch(prefs, /updateStyleApplyState/);
+    assert.match(prefs, /styleRow\.connect\('notify::selected'/);
+    assert.match(prefs, /settings\.set_string\('style', id\)/);
+});
+
 test('gallery apply updates the saved style through the shared setting', () => {
     const prefs = read('../prefs.js');
     assert.match(prefs, /settings\.connect\('changed::style'/);

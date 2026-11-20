@@ -99,22 +99,10 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         styleRow.selected = idx === -1 ? 0 : idx;
         if (migrated !== current) settings.set_string('style', migrated);
         styleGroup.add(styleRow);
-        const previewRow = new Adw.ActionRow({title: 'Preview selected layout', subtitle: 'Preview without saving, or apply this layout as your default.'});
-        const previewButton = new Gtk.Button({label: 'Preview', valign: Gtk.Align.CENTER});
-        const applyButton = new Gtk.Button({label: 'Apply', valign: Gtk.Align.CENTER, css_classes: ['suggested-action'], sensitive: STYLE_NAMES[styleRow.selected] !== settings.get_string('style')});
-        const updateStyleApplyState = () => {
-            const isPending = STYLE_NAMES[styleRow.selected] !== settings.get_string('style');
-            applyButton.sensitive = isPending;
-            previewRow.subtitle = isPending ? 'Preview without saving, or apply this layout as your default.' : 'Current default selected. Preview remains available.';
-        };
-        styleRow.connect('notify::selected', updateStyleApplyState);
-        applyButton.connect('clicked', () => {
-            settings.set_string('style', STYLE_NAMES[styleRow.selected]);
-            updateStyleApplyState();
+        styleRow.connect('notify::selected', () => {
+            const id = STYLE_NAMES[styleRow.selected];
+            if (id && id !== settings.get_string('style')) settings.set_string('style', id);
         });
-        previewRow.add_suffix(previewButton);
-        previewRow.add_suffix(applyButton);
-        styleGroup.add(previewRow);
         const previewLayout = (id, onError = null) => {
             Gio.DBus.session.call(
                 'org.gnome.Shell.Extensions.MaterialSystemActions',
@@ -135,18 +123,10 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
                 }
             );
         };
-        previewButton.connect('clicked', () => {
-            previewButton.sensitive = false;
-            previewLayout(STYLE_NAMES[styleRow.selected], message => {
-                previewRow.subtitle = 'Could not open preview: ' + message;
-            });
-            previewButton.sensitive = true;
-        });
         settingsSignalIds.push(
             settings.connect('changed::style', () => {
                 const index = STYLE_NAMES.indexOf(settings.get_string('style'));
                 if (index >= 0) styleRow.selected = index;
-                updateStyleApplyState();
             })
         );
         menuPage.add(styleGroup);
@@ -650,7 +630,6 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         const refreshAfterReset = () => {
             const styleIndex = STYLE_NAMES.indexOf(settings.get_string('style'));
             styleRow.selected = styleIndex === -1 ? 0 : styleIndex;
-            updateStyleApplyState();
             renderActionRows();
             confirmSwitchUserSwitch.active = settings.get_boolean('confirm-switch-user');
             powerCountdownSwitch.active = settings.get_boolean('power-countdown-enabled');
