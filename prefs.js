@@ -304,6 +304,23 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         powerCountdownSwitch.connect('notify::active', () => settings.set_boolean('power-countdown-enabled', powerCountdownSwitch.active));
         powerCountdownRow.add_suffix(powerCountdownSwitch);
         powerBehaviorGroup.add(powerCountdownRow);
+        const holdRow = new Adw.ActionRow({
+            title: 'Hold to confirm',
+            subtitle: 'In Card and List, hold the Confirm button for 1.2 seconds. Keyboard confirmation stays immediate.'
+        });
+        addRowIcon(holdRow, 'input-touchpad-symbolic');
+        const holdSwitch = new Gtk.Switch({
+            active: settings.get_boolean('hold-to-confirm-enabled'),
+            valign: Gtk.Align.CENTER
+        });
+        holdSwitch.connect('notify::active', () => settings.set_boolean('hold-to-confirm-enabled', holdSwitch.active));
+        settingsSignalIds.push(
+            settings.connect('changed::hold-to-confirm-enabled', () => {
+                holdSwitch.active = settings.get_boolean('hold-to-confirm-enabled');
+            })
+        );
+        holdRow.add_suffix(holdSwitch);
+        powerBehaviorGroup.add(holdRow);
         behaviorPage.add(powerBehaviorGroup);
 
         const switchUserGroup = new Adw.PreferencesGroup({
@@ -637,6 +654,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             renderActionRows();
             confirmSwitchUserSwitch.active = settings.get_boolean('confirm-switch-user');
             powerCountdownSwitch.active = settings.get_boolean('power-countdown-enabled');
+            holdSwitch.active = settings.get_boolean('hold-to-confirm-enabled');
             updateLabel();
             updateFocusSelection();
             scaleRow.value = settings.get_double('icon-scale');

@@ -24,7 +24,8 @@ test('appearance, action, and custom-action groups remain independently selectab
         'confirm-switch-user',
         'power-countdown-enabled',
         'toggle-system-actions',
-        'show-digit-hints'
+        'show-digit-hints',
+        'hold-to-confirm-enabled'
     ]);
     assert.deepEqual(RESET_SETTING_GROUPS.custom, ['custom-actions']);
 });

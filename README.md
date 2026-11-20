@@ -91,7 +91,7 @@ When Blur my Shell is installed:
 - Surfaces with a nested panel wrapper expose their inner panel as the blur target, so the blur follows the panel's own `border-radius`.
 - Blur redraws immediately when a confirmation replaces the sheet or a countdown changes its size.
 
-**Fallback:** when neither Blur my Shell nor Material Blur is enabled, the panel renders with a **solid background** even if `panel-opacity` is set below 1. Translucency without a blur behind it is unreadable, so the opacity setting only takes effect while a blur provider is active. Backdrop dimming is independent of this behavior. **Stronger backdrop dim** in Preferences → Appearance darkens the desktop further and has no effect while backdrop dimming is disabled.
+**Fallback:** when neither Blur my Shell nor Material Blur is enabled, the panel renders with a **solid background** even if `panel-opacity` is set below 1. Translucency without a blur behind it is unreadable, so the opacity setting only takes effect while a blur provider is active. Backdrop dimming is independent of this behavior. **Stronger backdrop dim** in Preferences → Appearance darkens the desktop further and has no effect while backdrop dimming is disabled. **Hold to confirm** in Preferences → Behavior makes the Card and List layouts require a 1.2-second hold on the Confirm button; Cancel and Escape still abort, and keyboard confirmation stays immediate.
 
 ## Panel and launcher integration
 
