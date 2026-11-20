@@ -87,7 +87,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         });
         const styleRow = new Adw.ComboRow({
             title: 'System actions style',
-            subtitle: `${STYLE_NAMES.length} generic layouts — see README for descriptions and recommendations`,
+            subtitle: `${STYLE_NAMES.length} layouts — preview or apply below`,
             model: Gtk.StringList.new(STYLE_NAMES.map(n => LAYOUT_METADATA[n].displayName))
         });
         addRowIcon(styleRow, 'applications-graphics-symbolic');

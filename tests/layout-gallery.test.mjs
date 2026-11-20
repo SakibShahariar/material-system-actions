@@ -26,6 +26,8 @@ test('preferences renders a gallery card for every registered layout', () => {
 test('style dropdown shows short layout names so the selection is not clipped', () => {
     const prefs = read('../prefs.js');
     assert.match(prefs, /STYLE_NAMES\.map\(n => LAYOUT_METADATA\[n\]\.displayName\)/);
+    assert.match(prefs, /layouts — preview or apply below/);
+    assert.doesNotMatch(prefs, /see README for descriptions and recommendations/);
     assert.doesNotMatch(prefs, /STYLE_LABELS/);
 });
 
