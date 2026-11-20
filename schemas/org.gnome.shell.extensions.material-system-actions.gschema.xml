@@ -58,6 +58,11 @@
       <summary>Status header density</summary>
       <description>Choose comfortable or compact spacing for layouts with a shared status header.</description>
     </key>
+    <key name="backdrop-strong-enabled" type="b">
+      <default>false</default>
+      <summary>Use a stronger backdrop dim behind the popup</summary>
+      <description>Has no effect when backdrop dimming is disabled.</description>
+    </key>
     <key name="show-digit-hints" type="b">
       <default>true</default>
       <summary>Show numeric shortcut badges in layouts that support them</summary>

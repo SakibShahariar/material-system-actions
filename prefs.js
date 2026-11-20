@@ -477,6 +477,19 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         }));
         appearance.add(dimRow);
 
+        const strongDimRow = new Adw.SwitchRow({
+            title: 'Stronger backdrop dim',
+            subtitle: 'Darken the desktop further. Has no effect while Dim backdrop is off.',
+            sensitive: dimRow.active,
+        });
+        strongDimRow.active = settings.get_boolean('backdrop-strong-enabled');
+        strongDimRow.connect('notify::active', () => settings.set_boolean('backdrop-strong-enabled', strongDimRow.active));
+        settingsSignalIds.push(settings.connect('changed::backdrop-strong-enabled', () => {
+            strongDimRow.active = settings.get_boolean('backdrop-strong-enabled');
+        }));
+        dimRow.connect('notify::active', () => { strongDimRow.sensitive = dimRow.active; });
+        appearance.add(strongDimRow);
+
         const themeSourceRow = new Adw.ActionRow({
             title: 'Theme source',
             subtitle: getThemeSource() ?? 'Fallback theme',
@@ -528,6 +541,8 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             densityRow.selected = STATUS_HEADER_DENSITIES.indexOf(
                 normalizeStatusHeaderDensity(settings.get_string('status-header-density')));
             dimRow.active = settings.get_boolean('backdrop-dim-enabled');
+            strongDimRow.active = settings.get_boolean('backdrop-strong-enabled');
+            strongDimRow.sensitive = dimRow.active;
         };
         const applyReset = group => {
             resetSettings(settings, group);

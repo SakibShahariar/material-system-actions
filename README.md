@@ -9,7 +9,7 @@ A customizable GNOME Shell session and power menu with **15 layouts**, keyboard 
 - 15 layouts, from compact lists and docks to radial and dashboard designs.
 - Configurable system actions and trusted custom commands.
 - Keyboard shortcuts, accessible navigation and focus controls.
-- Matugen colors, scaling, transparency and backdrop dimming.
+- Matugen colors, scaling, transparency and backdrop dimming (with an optional stronger dim).
 - Safer power actions with confirmations and suspend-inhibitor checks.
 - Session D-Bus controls for panel buttons and launchers.
 
@@ -91,7 +91,7 @@ When Blur my Shell is installed:
 - Surfaces with a nested panel wrapper expose their inner panel as the blur target, so the blur follows the panel's own `border-radius`.
 - Blur redraws immediately when a confirmation replaces the sheet or a countdown changes its size.
 
-**Fallback:** when neither Blur my Shell nor Material Blur is enabled, the panel renders with a **solid background** even if `panel-opacity` is set below 1. Translucency without a blur behind it is unreadable, so the opacity setting only takes effect while a blur provider is active. Backdrop dimming is independent of this behavior.
+**Fallback:** when neither Blur my Shell nor Material Blur is enabled, the panel renders with a **solid background** even if `panel-opacity` is set below 1. Translucency without a blur behind it is unreadable, so the opacity setting only takes effect while a blur provider is active. Backdrop dimming is independent of this behavior. **Stronger backdrop dim** in Preferences → Appearance darkens the desktop further and has no effect while backdrop dimming is disabled.
 
 ## Panel and launcher integration
 

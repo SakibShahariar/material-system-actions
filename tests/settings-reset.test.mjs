@@ -22,6 +22,7 @@ test('appearance, action, and custom-action groups remain independently selectab
     assert.deepEqual(RESET_SETTING_GROUPS.appearance, [
         'icon-scale', 'panel-opacity', 'show-status-header',
         'status-header-density', 'backdrop-dim-enabled',
+        'backdrop-strong-enabled',
     ]);
     assert.deepEqual(RESET_SETTING_GROUPS.actions, [
         'style', 'action-order', 'hidden-actions', 'default-focused-action',
