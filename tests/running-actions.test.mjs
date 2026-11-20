@@ -58,6 +58,8 @@ test('custom action spawning carries an id and the indicator watches it', () => 
 test('indicator uses a grace period, a Cancel action, and cleans up', () => {
     const source = read('../lib/running-indicator.js');
     assert.match(source, /GRACE_MS = 1500/);
+    assert.match(source, /source\.addNotification\(notification\)/);
+    assert.match(source, /source\.showNotification\(notification\)/);
     assert.match(source, /notification\.addAction\('Cancel'/);
     assert.match(source, /terminateCustomAction\(id\)/);
     assert.match(source, /clear\(\)/);
