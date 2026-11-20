@@ -11,6 +11,7 @@ import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 import {resetSettings} from './lib/settings-reset.js';
 import {STATUS_HEADER_DENSITIES, normalizeStatusHeaderDensity} from './lib/status-header.js';
 import {getThemeSource, getThemeSourcePaths} from './lib/theme.js';
+import {createPreferencesExport, parsePreferencesImport} from './lib/preferences-io.js';
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
@@ -596,6 +597,85 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             true,
         );
         advancedPage.add(resetGroup);
+
+        const backupGroup = new Adw.PreferencesGroup({
+            title: 'Preferences backup',
+            description: 'Export layout, action order/visibility, and custom actions for dotfiles, or import a validated snapshot.',
+        });
+        const backupRow = new Adw.ActionRow({
+            title: 'Preferences JSON',
+            subtitle: 'Copy the exported JSON, or paste a snapshot to import it. Commands are never executed on import.',
+        });
+        addRowIcon(backupRow, 'document-save-symbolic');
+        const openJsonWindow = (title, initialText, applyLabel, onApply) => {
+            const dialog = new Gtk.Window({
+                title, transient_for: window, modal: true,
+                default_width: 620, default_height: 480,
+            });
+            const box = new Gtk.Box({
+                orientation: Gtk.Orientation.VERTICAL, spacing: 12,
+                margin_top: 16, margin_bottom: 16, margin_start: 16, margin_end: 16,
+            });
+            const scroll = new Gtk.ScrolledWindow({vexpand: true, hexpand: true});
+            const textView = new Gtk.TextView({monospace: true, wrap_mode: Gtk.WrapMode.NONE});
+            textView.buffer.text = initialText;
+            scroll.set_child(textView);
+            const status = new Gtk.Label({xalign: 0, wrap: true});
+            const buttons = new Gtk.Box({
+                orientation: Gtk.Orientation.HORIZONTAL, spacing: 8, halign: Gtk.Align.END,
+            });
+            const close = new Gtk.Button({label: 'Close'});
+            close.connect('clicked', () => dialog.close());
+            buttons.append(close);
+            const setStatus = (message, kind) => {
+                status.label = message;
+                status.remove_css_class('error');
+                status.remove_css_class('success');
+                if (kind) status.add_css_class(kind);
+            };
+            if (onApply) {
+                const apply = new Gtk.Button({label: applyLabel, css_classes: ['suggested-action']});
+                apply.connect('clicked', () => {
+                    try {
+                        onApply(textView.buffer.text);
+                        setStatus('Imported. Review the updated controls.', 'success');
+                    } catch (error) {
+                        setStatus(error.message, 'error');
+                    }
+                });
+                buttons.append(apply);
+            }
+            box.append(scroll); box.append(status); box.append(buttons);
+            dialog.set_child(box);
+            dialog.present();
+        };
+        const exportButton = new Gtk.Button({label: 'Export', valign: Gtk.Align.CENTER});
+        exportButton.connect('clicked', () => {
+            const values = {
+                style: settings.get_string('style'),
+                'action-order': settings.get_strv('action-order'),
+                'hidden-actions': settings.get_strv('hidden-actions'),
+                'custom-actions': settings.get_string('custom-actions'),
+            };
+            openJsonWindow('Preferences export', createPreferencesExport(values), null, null);
+        });
+        const importButton = new Gtk.Button({label: 'Import', valign: Gtk.Align.CENTER});
+        importButton.connect('clicked', () => {
+            openJsonWindow('Preferences import', '{\n  "version": 1,\n  "settings": {}\n}\n', 'Validate and import', text => {
+                const values = parsePreferencesImport(text);
+                // Validate the command definitions without ever running them.
+                parseCustomActions(values['custom-actions'] ?? '[]');
+                if (values.style !== undefined) settings.set_string('style', values.style);
+                if (values['action-order'] !== undefined) settings.set_strv('action-order', values['action-order']);
+                if (values['hidden-actions'] !== undefined) settings.set_strv('hidden-actions', values['hidden-actions']);
+                if (values['custom-actions'] !== undefined) settings.set_string('custom-actions', values['custom-actions']);
+                refreshAfterReset();
+            });
+        });
+        backupRow.add_suffix(exportButton);
+        backupRow.add_suffix(importButton);
+        backupGroup.add(backupRow);
+        advancedPage.add(backupGroup);
 
         window.add(menuPage);
         window.add(behaviorPage);
