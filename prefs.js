@@ -362,11 +362,11 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             title: 'Keyboard navigation',
             description: 'Choose where keyboard focus starts when the menu opens.',
         });
-        const focusIds = ['auto', 'lock', 'logout', 'suspend', 'hibernate', 'hybrid-sleep', 'reboot', 'shutdown'];
+        const focusIds = ['auto', 'lock', 'lock-suspend', 'logout', 'suspend', 'hibernate', 'hybrid-sleep', 'reboot', 'shutdown'];
         const focusRow = new Adw.ComboRow({
             title: 'Default focused action',
             subtitle: 'Choose the initial keyboard focus. Hidden or unavailable actions fall back to the first visible action.',
-            model: new Gtk.StringList({strings: ['Automatic', 'Lock', 'Log out', 'Suspend', 'Hibernate', 'Hybrid Sleep', 'Reboot', 'Shutdown']}),
+            model: new Gtk.StringList({strings: ['Automatic', 'Lock', 'Lock & Suspend', 'Log out', 'Suspend', 'Hibernate', 'Hybrid Sleep', 'Reboot', 'Shutdown']}),
         });
         addRowIcon(focusRow, 'focus-windows-symbolic');
         const updateFocusSelection = () => {

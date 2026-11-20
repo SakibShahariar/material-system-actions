@@ -69,7 +69,7 @@ Commands run directly as argument arrays, **not through a shell**. They run with
 
 ## Power actions
 
-Logout, reboot, shutdown and hibernate require confirmation. Before suspend, the extension checks systemd-logind sleep inhibitors and lets you cancel or force suspend. Hibernate and Switch User appear only when supported by the current system/session.
+Logout, reboot, shutdown, hibernate and hybrid sleep require confirmation. Before suspend — including **Lock & Suspend**, which locks the session first — the extension checks systemd-logind sleep inhibitors and lets you cancel or force suspend. Hibernate, hybrid sleep and Switch User appear only when supported by the current system/session.
 
 This is a session and power menu, **not a replacement for your desktop's lock screen or security mechanisms**.
 
