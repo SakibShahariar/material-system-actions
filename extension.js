@@ -11,6 +11,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {SystemActionsDialog} from './lib/dialog.js';
 import {cleanupProcesses} from './lib/process.js';
 import {runningIndicator} from './lib/running-indicator.js';
+import {discoverDynamicActions, setCachedDynamicActions} from './lib/actions.js';
 import {STYLES, DEFAULT_STYLE} from './lib/layouts/registry.js';
 
 const DBUS_NAME = 'org.gnome.Shell.Extensions.MaterialSystemActions';
@@ -20,6 +21,16 @@ const DBUS_XML = `<node><interface name="org.gnome.Shell.Extensions.MaterialSyst
 export default class MaterialSystemActionsExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
+        // Warm optional logind discovery once at idle so opening the popup
+        // never blocks on session enumeration or capability checks.
+        GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+            try {
+                setCachedDynamicActions(discoverDynamicActions(this._settings));
+            } catch (_e) {
+                setCachedDynamicActions({session: [], power: []});
+            }
+            return GLib.SOURCE_REMOVE;
+        });
         this._dialog = null;
         this._dbusObject = null;
         this._dbusOwnerId = Gio.bus_own_name(
