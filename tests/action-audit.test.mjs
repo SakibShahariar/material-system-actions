@@ -18,7 +18,7 @@ test('custom-action audit logging is opt-in and records lifecycle diagnostics', 
     assert.ok(process.includes('get_term_sig()'));
     assert.ok(process.includes('elapsedMs()'));
     assert.ok(process.includes('error.message'));
-    assert.ok(base.includes('spawnCommand(cmd, actionLabel, auditCustomAction)'));
+    assert.ok(base.includes('spawnCommand(cmd, actionLabel, auditCustomAction, actionId)'));
     assert.ok(base.includes("action.id.startsWith('custom-')"));
 });
 

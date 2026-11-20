@@ -35,6 +35,7 @@ The following module specifiers are used by runtime or Preferences code. `tests/
 - `resource:///org/gnome/shell/extensions/extension.js`
 - `resource:///org/gnome/shell/misc/extensionUtils.js`
 - `resource:///org/gnome/shell/ui/main.js`
+- `resource:///org/gnome/shell/ui/messageTray.js`
 - `resource:///org/gnome/shell/ui/modalDialog.js`
 
 ## Known Shell 51 differences

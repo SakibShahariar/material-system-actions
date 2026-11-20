@@ -10,6 +10,7 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
 import {SystemActionsDialog} from './lib/dialog.js';
 import {cleanupProcesses} from './lib/process.js';
+import {runningIndicator} from './lib/running-indicator.js';
 import {STYLES, DEFAULT_STYLE} from './lib/layouts/registry.js';
 
 const DBUS_NAME = 'org.gnome.Shell.Extensions.MaterialSystemActions';
@@ -46,6 +47,7 @@ export default class MaterialSystemActionsExtension extends Extension {
         Main.wm.removeKeybinding('toggle-system-actions');
         this._close();
         cleanupProcesses();
+        runningIndicator.clear();
         this._dbusObject?.unexport();
         this._dbusObject = null;
         if (this._dbusOwnerId) {

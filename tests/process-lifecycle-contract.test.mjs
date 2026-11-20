@@ -9,7 +9,7 @@ test('extension disable releases subprocess wait tracking without killing childr
     const process = readFileSync(new URL('../lib/process.js', import.meta.url), 'utf8');
     const tracker = readFileSync(new URL('../lib/process-tracker.js', import.meta.url), 'utf8');
     assert.ok(extension.includes('cleanupProcesses()'));
-    assert.ok(process.includes('processTracker.track(process, cancellable)'));
+    assert.ok(process.includes('processTracker.track(process, cancellable, actionId ?'));
     assert.ok(tracker.includes('cancellable.cancel()'));
     assert.ok(!process.includes('force_exit'));
     assert.ok(!process.includes('send_signal'));

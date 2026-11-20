@@ -67,6 +67,8 @@ In **Preferences**, choose a layout, reorder actions, set the global shortcut (d
 
 Commands run directly as argument arrays, **not through a shell**. They run with your user permissions and are not sandboxed. Only add commands you trust; confirmation is not a security boundary.
 
+If a custom command is still running after 1.5 seconds, the extension shows a resident notification with its label and a **Cancel** action that terminates that process. Short commands produce no notification. Extension disable never terminates child processes — cancel is always an explicit user action.
+
 ## Power actions
 
 Logout, reboot, shutdown, hibernate and hybrid sleep require confirmation. Before suspend — including **Lock & Suspend**, which locks the session first — the extension checks systemd-logind sleep inhibitors and lets you cancel or force suspend. Hibernate, hybrid sleep and Switch User appear only when supported by the current system/session.
