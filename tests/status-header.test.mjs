@@ -17,8 +17,5 @@ test('accepts compact and comfortable density values', () => {
 
 test('Preferences imports the status-header helpers it uses', () => {
     const prefs = readFileSync(new URL('../prefs.js', import.meta.url), 'utf8');
-    assert.match(
-        prefs,
-        /import \{STATUS_HEADER_DENSITIES, normalizeStatusHeaderDensity\} from '\.\/lib\/status-header\.js';/
-    );
+    assert.match(prefs, /import \{STATUS_HEADER_DENSITIES, normalizeStatusHeaderDensity\} from '\.\/lib\/status-header\.js';/);
 });

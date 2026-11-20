@@ -9,14 +9,8 @@ const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 test('both confirmation flows use the same overlay component and lifecycle', () => {
     const base = read('../lib/layouts/base.js');
     const component = read('../lib/confirmation-overlay.js');
-    const suspend = base.slice(
-        base.indexOf('    _confirmSuspendWithInhibitors('),
-        base.indexOf('    _confirmThenRun('),
-    );
-    const destructive = base.slice(
-        base.indexOf('    _confirmThenRun('),
-        base.indexOf('    handleDialogKeyPress('),
-    );
+    const suspend = base.slice(base.indexOf('    _confirmSuspendWithInhibitors('), base.indexOf('    _confirmThenRun('));
+    const destructive = base.slice(base.indexOf('    _confirmThenRun('), base.indexOf('    handleDialogKeyPress('));
 
     assert.equal(base.split('createConfirmationOverlay(').length - 1, 1);
     assert.equal(base.split('this._showConfirmation({').length - 1, 2);
@@ -35,10 +29,15 @@ test('shared confirmation component exposes configurable accessible labels and d
     const component = read('../lib/confirmation-overlay.js');
     const base = read('../lib/layouts/base.js');
     for (const property of [
-        'accessibleName', 'accessibleDescription', 'bodyAccessibleDescription',
-        'detailsAccessibleName', 'detailsAccessibleDescription',
-        'cancelAccessibleName', 'cancelAccessibleDescription',
-        'confirmAccessibleName', 'confirmAccessibleDescription',
+        'accessibleName',
+        'accessibleDescription',
+        'bodyAccessibleDescription',
+        'detailsAccessibleName',
+        'detailsAccessibleDescription',
+        'cancelAccessibleName',
+        'cancelAccessibleDescription',
+        'confirmAccessibleName',
+        'confirmAccessibleDescription'
     ])
         assert.ok(component.includes(property), property + ' must be configurable');
     assert.ok(base.includes('originWidget'));
@@ -53,7 +52,7 @@ test('inhibitor details render as a structured list with unchanged accessible te
     const confirmation = read('../lib/confirmation-overlay.js');
     const stylesheet = read('../stylesheet.css');
 
-    assert.ok(base.includes("detailsItems: inhibitors.map(({who, why, mode}) => ({who, why, mode}))"));
+    assert.ok(base.includes('detailsItems: inhibitors.map(({who, why, mode}) => ({who, why, mode}))'));
     assert.ok(confirmation.includes('detailsItems = null'));
     assert.ok(confirmation.includes("style_class: 'sa-confirm-details'"));
     assert.ok(confirmation.includes("style_class: 'sa-confirm-details-item'"));
@@ -62,7 +61,6 @@ test('inhibitor details render as a structured list with unchanged accessible te
     assert.ok(confirmation.includes('detailsBox.accessible_name = detailsAccessibleName'));
     assert.ok(confirmation.includes('detailsBox.accessible_description = detailsAccessibleDescription'));
     assert.ok(confirmation.includes('detailsLabel: detailsBox'));
-    for (const selector of ['.sa-confirm-details', '.sa-confirm-details-item',
-        '.sa-confirm-details-title', '.sa-confirm-details-meta'])
+    for (const selector of ['.sa-confirm-details', '.sa-confirm-details-item', '.sa-confirm-details-title', '.sa-confirm-details-meta'])
         assert.ok(stylesheet.includes(selector), selector + ' must be styled');
 });

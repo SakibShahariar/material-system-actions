@@ -10,6 +10,5 @@ test('logind affirmative and challenge results expose Hibernate', () => {
 });
 
 test('logind negative, unavailable, and unknown results fail closed', () => {
-    for (const value of ['no', 'na', '', 'unknown', null, undefined, 1])
-        assert.equal(isHibernateCapabilityAvailable(value), false);
+    for (const value of ['no', 'na', '', 'unknown', null, undefined, 1]) assert.equal(isHibernateCapabilityAvailable(value), false);
 });

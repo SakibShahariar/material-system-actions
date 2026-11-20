@@ -6,6 +6,18 @@ import {readFileSync} from 'node:fs';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
+test('CI runs lint and deterministic formatting checks', () => {
+    const workflow = read('../.github/workflows/package.yml');
+    const packageJson = JSON.parse(read('../package.json'));
+    assert.match(workflow, /npm ci/);
+    assert.match(workflow, /npm run lint/);
+    assert.match(workflow, /npm run format:check/);
+    assert.equal(packageJson.scripts.lint, 'eslint extension.js prefs.js lib tests');
+    assert.match(packageJson.scripts['format:check'], /prettier --check/);
+    const config = read('../eslint.config.js');
+    assert.match(config, /no-unused-vars/);
+});
+
 test('live GNOME guide documents the actual automated commands and runtime APIs', () => {
     const guide = read('../DEVELOPING.md');
     const workflow = read('../.github/workflows/package.yml');
@@ -30,7 +42,6 @@ test('live GNOME guide documents the actual automated commands and runtime APIs'
     assert.equal(range[0], Math.min(...declaredVersions));
     assert.equal(range[1], Math.max(...declaredVersions));
     for (const version of declaredVersions) {
-        assert.ok(version >= range[0] && version <= range[1],
-            'declared Shell versions must fall inside the documented range');
+        assert.ok(version >= range[0] && version <= range[1], 'declared Shell versions must fall inside the documented range');
     }
 });

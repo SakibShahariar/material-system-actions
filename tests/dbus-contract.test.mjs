@@ -11,25 +11,19 @@ test('exported D-Bus XML declares the supported method signatures', () => {
     const xml = extension.match(/const DBUS_XML = `([\s\S]*?)`;/)?.[1];
     assert.ok(xml, 'extension must define an introspection XML string');
 
-    for (const method of ['Open', 'Close', 'Toggle'])
-        assert.match(xml, new RegExp(`<method name="${method}"\\s*/>`), `${method} must be exported`);
+    for (const method of ['Open', 'Close', 'Toggle']) assert.match(xml, new RegExp(`<method name="${method}"\\s*/>`), `${method} must be exported`);
 
-    assert.match(
-        xml,
-        /<method name="Preview"><arg name="style" type="s" direction="in"\/>\s*<\/method>/,
-        'Preview must accept one string style ID',
-    );
+    assert.match(xml, /<method name="Preview"><arg name="style" type="s" direction="in"\/>\s*<\/method>/, 'Preview must accept one string style ID');
     assert.match(
         xml,
         /<method name="GetStatus"><arg name="version" type="s" direction="out"\/><arg name="layout" type="s" direction="out"\/><arg name="preview" type="b" direction="out"\/><\/method>/,
-        'GetStatus must return version, active layout, and preview state',
+        'GetStatus must return version, active layout, and preview state'
     );
 });
 
 test('every exported method has a handler and the interface is released on disable', () => {
     const extension = read('../extension.js');
-    for (const method of ['Open', 'Close', 'Toggle', 'Preview', 'GetStatus'])
-        assert.match(extension, new RegExp(`${method}:\\s*\\(?\\s*\\w*\\s*\\)?\\s*=>`), `${method} needs a D-Bus handler`);
+    for (const method of ['Open', 'Close', 'Toggle', 'Preview', 'GetStatus']) assert.match(extension, new RegExp(`${method}:\\s*\\(?\\s*\\w*\\s*\\)?\\s*=>`), `${method} needs a D-Bus handler`);
 
     assert.match(extension, /this\._dbusObject\?\.unexport\(\)/);
     assert.match(extension, /Gio\.bus_unown_name\(this\._dbusOwnerId\)/);

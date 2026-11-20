@@ -14,6 +14,6 @@ test('failure notice identifies the action without exposing argv', () => {
 test('failure notice uses a safe fallback for missing labels', () => {
     assert.deepEqual(getActionFailureNotice(''), {
         title: 'Action failed',
-        message: 'Could not start or complete Action. Check the GNOME Shell log for details.',
+        message: 'Could not start or complete Action. Check the GNOME Shell log for details.'
     });
 });

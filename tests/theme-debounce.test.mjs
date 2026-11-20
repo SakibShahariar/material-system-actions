@@ -15,8 +15,11 @@ test('rapid calls collapse into one trailing call with the latest arguments', ()
     const debounce = createDebouncer(
         250,
         (...args) => fired.push(args),
-        (delay, fn) => { scheduled = {delay, fn}; return ++nextId; },
-        id => cancelled.push(id),
+        (delay, fn) => {
+            scheduled = {delay, fn};
+            return ++nextId;
+        },
+        id => cancelled.push(id)
     );
 
     debounce('first');
@@ -30,7 +33,15 @@ test('rapid calls collapse into one trailing call with the latest arguments', ()
 test('cancel prevents a pending call from firing', () => {
     let fired = 0;
     let scheduled;
-    const debounce = createDebouncer(250, () => fired++, () => { scheduled = true; return 7; }, () => {});
+    const debounce = createDebouncer(
+        250,
+        () => fired++,
+        () => {
+            scheduled = true;
+            return 7;
+        },
+        () => {}
+    );
     debounce();
     debounce.cancel();
     assert.equal(fired, 0);

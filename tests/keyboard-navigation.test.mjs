@@ -5,9 +5,24 @@ import assert from 'node:assert/strict';
 import {handleKeyboardNavigation} from '../lib/keyboard-navigation.js';
 
 const keys = {
-    escape: 1, enter: 2, keypadEnter: 3, space: 4, tab: 5, isoLeftTab: 6,
-    left: 7, right: 8, up: 9, down: 10, h: 11, k: 12, l: 13, j: 14,
-    one: 20, nine: 28, keypadOne: 30, keypadNine: 38,
+    escape: 1,
+    enter: 2,
+    keypadEnter: 3,
+    space: 4,
+    tab: 5,
+    isoLeftTab: 6,
+    left: 7,
+    right: 8,
+    up: 9,
+    down: 10,
+    h: 11,
+    k: 12,
+    l: 13,
+    j: 14,
+    one: 20,
+    nine: 28,
+    keypadOne: 30,
+    keypadNine: 38
 };
 const stop = Symbol('stop');
 const propagate = Symbol('propagate');
@@ -19,8 +34,12 @@ const makeContext = overrides => {
             _navWidgets: [],
             _focusedIdx: 0,
             trigger() {},
-            moveNav() { return false; },
-            onKeyPress() { return false; },
+            moveNav() {
+                return false;
+            },
+            onKeyPress() {
+                return false;
+            }
         },
         actions: {all: []},
         keys,
@@ -29,7 +48,7 @@ const makeContext = overrides => {
         eventPropagate: propagate,
         getKeyFocus: () => null,
         closeDialog() {},
-        ...overrides,
+        ...overrides
     };
     return state;
 };
@@ -37,7 +56,12 @@ const makeContext = overrides => {
 test('layout confirmation handler gets first refusal', () => {
     let called = false;
     const context = makeContext({
-        style: {handleDialogKeyPress: () => { called = true; return true; }},
+        style: {
+            handleDialogKeyPress: () => {
+                called = true;
+                return true;
+            }
+        }
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.escape), context), stop);
     assert.equal(called, true);
@@ -47,12 +71,18 @@ test('confirmation mode only moves between buttons and activates the focused but
     const events = [];
     let focused = null;
     const cancel = {
-        grab_key_focus: () => { events.push('cancel-focus'); focused = cancel; },
-        emit: signal => events.push('cancel-' + signal),
+        grab_key_focus: () => {
+            events.push('cancel-focus');
+            focused = cancel;
+        },
+        emit: signal => events.push('cancel-' + signal)
     };
     const confirm = {
-        grab_key_focus: () => { events.push('confirm-focus'); focused = confirm; },
-        emit: signal => events.push('confirm-' + signal),
+        grab_key_focus: () => {
+            events.push('confirm-focus');
+            focused = confirm;
+        },
+        emit: signal => events.push('confirm-' + signal)
     };
     focused = cancel;
     const context = makeContext({
@@ -60,9 +90,9 @@ test('confirmation mode only moves between buttons and activates the focused but
             _confirmation: {cancelBtn: cancel, confirmBtn: confirm},
             _keyMap: {l: {id: 'lock'}},
             pressFlash: widget => events.push(widget === confirm ? 'confirm-flash' : 'cancel-flash'),
-            trigger: () => events.push('trigger'),
+            trigger: () => events.push('trigger')
         },
-        getKeyFocus: () => focused,
+        getKeyFocus: () => focused
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.tab), context), stop);
     assert.deepEqual(events, ['confirm-focus']);
@@ -78,14 +108,14 @@ test('confirmation mode prefers native button activation for Enter and Space', (
     const confirm = {
         grab_key_focus() {},
         activate: () => events.push('activate'),
-        emit: signal => events.push(signal),
+        emit: signal => events.push(signal)
     };
     const context = makeContext({
         style: {
             _confirmation: {cancelBtn: {}, confirmBtn: confirm},
-            pressFlash: () => events.push('flash'),
+            pressFlash: () => events.push('flash')
         },
-        getKeyFocus: () => confirm,
+        getKeyFocus: () => confirm
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.enter), context), stop);
     assert.deepEqual(events, ['flash', 'activate']);
@@ -93,7 +123,11 @@ test('confirmation mode prefers native button activation for Enter and Space', (
 
 test('Escape closes the dialog outside confirmation mode', () => {
     let closed = false;
-    const context = makeContext({closeDialog: () => { closed = true; }});
+    const context = makeContext({
+        closeDialog: () => {
+            closed = true;
+        }
+    });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.escape), context), stop);
     assert.equal(closed, true);
 });
@@ -105,10 +139,16 @@ test('letter action hotkeys take priority over layout navigation', () => {
         style: {
             _keyMap: {l: action},
             trigger: value => events.push(value.id),
-            onKeyPress: () => { events.push('layout'); return true; },
-            moveNav: () => { events.push('move'); return true; },
+            onKeyPress: () => {
+                events.push('layout');
+                return true;
+            },
+            moveNav: () => {
+                events.push('move');
+                return true;
+            }
         },
-        keysymToUnicode: () => 'l'.charCodeAt(0),
+        keysymToUnicode: () => 'l'.charCodeAt(0)
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.l), context), stop);
     assert.deepEqual(events, ['lock']);
@@ -119,9 +159,15 @@ test('layout-specific handlers run before generic directional navigation', () =>
     const context = makeContext({
         style: {
             _keyMap: {},
-            onKeyPress: () => { events.push('layout'); return true; },
-            moveNav: () => { events.push('move'); return true; },
-        },
+            onKeyPress: () => {
+                events.push('layout');
+                return true;
+            },
+            moveNav: () => {
+                events.push('move');
+                return true;
+            }
+        }
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.left), context), stop);
     assert.deepEqual(events, ['layout']);
@@ -130,13 +176,27 @@ test('layout-specific handlers run before generic directional navigation', () =>
 test('directional and hjkl keys move navigation in the expected direction', () => {
     for (const sym of [keys.left, keys.up, keys.h, keys.k, keys.isoLeftTab]) {
         let delta = 0;
-        const context = makeContext({style: {moveNav: value => { delta = value; return true; }}});
+        const context = makeContext({
+            style: {
+                moveNav: value => {
+                    delta = value;
+                    return true;
+                }
+            }
+        });
         assert.equal(handleKeyboardNavigation(makeEvent(sym), context), stop);
         assert.equal(delta, -1);
     }
     for (const sym of [keys.right, keys.down, keys.l, keys.j, keys.tab]) {
         let delta = 0;
-        const context = makeContext({style: {moveNav: value => { delta = value; return true; }}});
+        const context = makeContext({
+            style: {
+                moveNav: value => {
+                    delta = value;
+                    return true;
+                }
+            }
+        });
         assert.equal(handleKeyboardNavigation(makeEvent(sym), context), stop);
         assert.equal(delta, 1);
     }
@@ -149,9 +209,9 @@ test('Enter activates the focused widget or falls back to the selected navigatio
         style: {
             _focusedIdx: 0,
             _navWidgets: [{emit: signal => events.push('fallback-' + signal)}],
-            pressFlash: widget => events.push(widget === focused ? 'focused-flash' : 'fallback-flash'),
+            pressFlash: widget => events.push(widget === focused ? 'focused-flash' : 'fallback-flash')
         },
-        getKeyFocus: () => focused,
+        getKeyFocus: () => focused
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.enter), context), stop);
     assert.deepEqual(events, ['focused-flash', 'focused-clicked']);
@@ -167,7 +227,7 @@ test('main and keypad digits activate actions in the current visible order', () 
     const actions = Array.from({length: 9}, (_, index) => ({id: 'action-' + index}));
     const context = makeContext({
         actions: {all: actions},
-        style: {trigger: action => events.push(action.id)},
+        style: {trigger: action => events.push(action.id)}
     });
     assert.equal(handleKeyboardNavigation(makeEvent(keys.one + 2), context), stop);
     assert.equal(handleKeyboardNavigation(makeEvent(keys.keypadOne + 4), context), stop);

@@ -8,11 +8,13 @@ test('legacy Shell actors are raised with raise_top()', () => {
     let raiseCalls = 0;
     let parentCalls = 0;
     const actor = {
-        raise_top: () => { raiseCalls++; },
+        raise_top: () => {
+            raiseCalls++;
+        },
         get_parent: () => {
             parentCalls++;
             return {set_child_above_sibling: () => {}};
-        },
+        }
     };
 
     assert.equal(raiseActorAboveSiblings(actor), true);
@@ -23,7 +25,7 @@ test('legacy Shell actors are raised with raise_top()', () => {
 test('newer Shell actors are raised above their siblings', () => {
     const calls = [];
     const parent = {
-        set_child_above_sibling: (child, sibling) => calls.push([child, sibling]),
+        set_child_above_sibling: (child, sibling) => calls.push([child, sibling])
     };
     const actor = {get_parent: () => parent};
 
@@ -40,7 +42,9 @@ test('an actor without either z-order API is ignored without throwing', () => {
 
 test('a destroyed actor cannot abort the confirmation lifecycle', () => {
     const actor = {
-        get_parent: () => { throw new Error('actor was finalized'); },
+        get_parent: () => {
+            throw new Error('actor was finalized');
+        }
     };
 
     assert.equal(raiseActorAboveSiblings(actor), false);

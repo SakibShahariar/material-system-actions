@@ -31,21 +31,15 @@ export default class MaterialSystemActionsExtension extends Extension {
                     Close: () => this._close(),
                     Toggle: () => this._toggle(),
                     Preview: style => this._preview(style),
-                    GetStatus: () => this._getStatus(),
+                    GetStatus: () => this._getStatus()
                 });
                 this._dbusObject.export(connection, DBUS_PATH);
             },
             () => {},
-            () => log('material-system-actions: could not own D-Bus session name'),
+            () => log('material-system-actions: could not own D-Bus session name')
         );
 
-        Main.wm.addKeybinding(
-            'toggle-system-actions',
-            this._settings,
-            Meta.KeyBindingFlags.NONE,
-            Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW,
-            () => this._toggle()
-        );
+        Main.wm.addKeybinding('toggle-system-actions', this._settings, Meta.KeyBindingFlags.NONE, Shell.ActionMode.NORMAL | Shell.ActionMode.OVERVIEW, () => this._toggle());
     }
 
     disable() {
@@ -63,18 +57,12 @@ export default class MaterialSystemActionsExtension extends Extension {
 
     _getStatus() {
         const configuredStyle = this._settings.get_string('style') || DEFAULT_STYLE;
-        const activeStyle = this._dialog?._styleName ??
-            (STYLES[configuredStyle] ? configuredStyle : DEFAULT_STYLE);
-        return new GLib.Variant('(ssb)', [
-            String(this.metadata?.version ?? 'unreleased'),
-            activeStyle,
-            Boolean(this._dialog?._previewMode),
-        ]);
+        const activeStyle = this._dialog?._styleName ?? (STYLES[configuredStyle] ? configuredStyle : DEFAULT_STYLE);
+        return new GLib.Variant('(ssb)', [String(this.metadata?.version ?? 'unreleased'), activeStyle, Boolean(this._dialog?._previewMode)]);
     }
 
     _open() {
-        if (this._dialog)
-            return;
+        if (this._dialog) return;
         const dialog = new SystemActionsDialog(this._settings);
         this._dialog = dialog;
         dialog.connect('closed', () => {
@@ -84,8 +72,7 @@ export default class MaterialSystemActionsExtension extends Extension {
     }
 
     _close() {
-        if (!this._dialog)
-            return;
+        if (!this._dialog) return;
         const dialog = this._dialog;
         this._dialog = null;
         dialog.close();
@@ -102,9 +89,7 @@ export default class MaterialSystemActionsExtension extends Extension {
     }
 
     _toggle() {
-        if (this._dialog)
-            this._close();
-        else
-            this._open();
+        if (this._dialog) this._close();
+        else this._open();
     }
 }

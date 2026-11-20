@@ -12,15 +12,13 @@ const values = {
     'action-order': ['lock', 'suspend'],
     'hidden-actions': ['hibernate'],
     'custom-actions': '[{"id":"custom-x","label":"X","icon":"dialog-information-symbolic","cmd":["/bin/true"]}]',
-    'panel-opacity': 0.5,
+    'panel-opacity': 0.5
 };
 
 test('export contains only the dotfile-relevant keys', () => {
     const snapshot = JSON.parse(createPreferencesExport(values));
     assert.equal(snapshot.version, 1);
-    assert.deepEqual(Object.keys(snapshot.settings).sort(), [
-        'action-order', 'custom-actions', 'hidden-actions', 'style',
-    ]);
+    assert.deepEqual(Object.keys(snapshot.settings).sort(), ['action-order', 'custom-actions', 'hidden-actions', 'style']);
     assert.equal(snapshot.settings.style, 'card');
 });
 
@@ -30,10 +28,9 @@ test('valid imports are accepted and partially applied', () => {
         style: 'card',
         'action-order': ['lock', 'suspend'],
         'hidden-actions': ['hibernate'],
-        'custom-actions': values['custom-actions'],
+        'custom-actions': values['custom-actions']
     });
-    assert.deepEqual(parsePreferencesImport(JSON.stringify({version: 1, settings: {style: 'grid'}})),
-        {style: 'grid'});
+    assert.deepEqual(parsePreferencesImport(JSON.stringify({version: 1, settings: {style: 'grid'}})), {style: 'grid'});
 });
 
 test('invalid imports are rejected safely', () => {

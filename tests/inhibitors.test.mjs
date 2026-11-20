@@ -10,7 +10,7 @@ test('keeps only sleep block/delay inhibitors and groups details by application'
         ['sleep:shutdown', 'Firefox', 'Background update', 'delay', 1000, 123],
         ['sleep:idle', 'Music player', 'Playback active', 'block', 1000, 456],
         ['shutdown', 'Session manager', 'Logout', 'block', 1000, 789],
-        ['sleep:idle', 'Indexer', 'Indexing', 'notify', 1000, 321],
+        ['sleep:idle', 'Indexer', 'Indexing', 'notify', 1000, 321]
     ]);
 
     assert.deepEqual(inhibitors, [
@@ -18,39 +18,36 @@ test('keeps only sleep block/delay inhibitors and groups details by application'
             what: 'sleep:idle, sleep:shutdown',
             who: 'Firefox',
             why: 'Download in progress; Background update',
-            mode: 'block, delay',
+            mode: 'block, delay'
         },
         {
             what: 'sleep:idle',
             who: 'Music player',
             why: 'Playback active',
-            mode: 'block',
-        },
+            mode: 'block'
+        }
     ]);
 });
 
 test('missing application and reason metadata receive safe fallback labels', () => {
-    assert.deepEqual(getSleepInhibitors([
-        ['sleep:idle', '', '', 'block', 1000, 123],
-    ]), [{
-        what: 'sleep:idle',
-        who: 'Unknown application',
-        why: 'No reason provided',
-        mode: 'block',
-    }]);
+    assert.deepEqual(getSleepInhibitors([['sleep:idle', '', '', 'block', 1000, 123]]), [
+        {
+            what: 'sleep:idle',
+            who: 'Unknown application',
+            why: 'No reason provided',
+            mode: 'block'
+        }
+    ]);
 });
 
 test('malformed inhibitor input degrades to an empty list', () => {
     assert.deepEqual(getSleepInhibitors(null), []);
-    assert.deepEqual(getSleepInhibitors([
-        null,
-        ['sleep:idle', 'app', 'reason', 'notify', 1000, 123],
-        ['shutdown', 'app', 'reason', 'block', 1000, 123],
-        ['sleep:idle', 'app', 'reason', 'block'],
-    ]), [{
-        what: 'sleep:idle',
-        who: 'app',
-        why: 'reason',
-        mode: 'block',
-    }]);
+    assert.deepEqual(getSleepInhibitors([null, ['sleep:idle', 'app', 'reason', 'notify', 1000, 123], ['shutdown', 'app', 'reason', 'block', 1000, 123], ['sleep:idle', 'app', 'reason', 'block']]), [
+        {
+            what: 'sleep:idle',
+            who: 'app',
+            why: 'reason',
+            mode: 'block'
+        }
+    ]);
 });

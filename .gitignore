@@ -9,3 +9,4 @@ schemas/gschemas.compiled
 # Generated package and Python bytecode
 dist/
 __pycache__/
+node_modules/

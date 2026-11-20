@@ -21,8 +21,7 @@ test('trigger locks first and then follows the suspend inhibitor flow', () => {
     assert.match(handler, /_querySleepInhibitors\(\)/);
     assert.match(handler, /_confirmSuspendWithInhibitors\(inhibitors, action\)/);
     assert.match(handler, /_run\(\['systemctl', 'suspend'\], action\.label\)/);
-    assert.ok(handler.indexOf('spawnCommand') < handler.indexOf('_querySleepInhibitors'),
-        'lock must run before suspend discovery');
+    assert.ok(handler.indexOf('spawnCommand') < handler.indexOf('_querySleepInhibitors'), 'lock must run before suspend discovery');
 });
 
 test('lock-then-suspend is selectable as the initial focus and documented', () => {

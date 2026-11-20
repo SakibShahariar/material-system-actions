@@ -5,10 +5,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const source = path => readFileSync(new URL(path, import.meta.url), 'utf8');
-const layouts = [
-    'card', 'list', 'split', 'grid', 'radial', 'bento', 'tui', 'dock',
-    'tiles', 'halo', 'capsule', 'circles', 'avatar', 'pill', 'banner',
-];
+const layouts = ['card', 'list', 'split', 'grid', 'radial', 'bento', 'tui', 'dock', 'tiles', 'halo', 'capsule', 'circles', 'avatar', 'pill', 'banner'];
 
 test('base navigation gives action controls an accessible name', () => {
     const base = source('../lib/layouts/base.js');
@@ -20,11 +17,7 @@ test('every layout registers its action controls with the shared navigation help
     for (const layout of layouts) {
         const code = source(`../lib/layouts/${layout}.js`);
         assert.match(code, /registerNav\(/, `${layout} has no registered navigation controls`);
-        assert.match(
-            code,
-            /registerNav\(\w+,\s*(?:action|a|this\._destructive\[0\]|\{label:\s*'Cancel'\})\)/,
-            `${layout} does not pass action labels to the accessibility helper`,
-        );
+        assert.match(code, /registerNav\(\w+,\s*(?:action|a|this\._destructive\[0\]|\{label:\s*'Cancel'\})\)/, `${layout} does not pass action labels to the accessibility helper`);
     }
 });
 
@@ -74,7 +67,7 @@ test('Preferences displays and refreshes the all-actions-hidden warning', () => 
     const prefs = source('../prefs.js');
     assert.ok(prefs.includes('All actions are hidden'));
     assert.ok(prefs.includes('areAllActionsHidden(order, hidden)'));
-    assert.ok(prefs.includes("changed::hidden-actions"));
+    assert.ok(prefs.includes('changed::hidden-actions'));
 });
 
 test('Preferences exposes the switch-user confirmation setting', () => {
@@ -102,7 +95,7 @@ test('status-header density is shared and scoped to layouts that render the head
     const stylesheet = source('../stylesheet.css');
     const helper = source('../lib/status-header.js');
     assert.ok(helper.includes("['comfortable', 'compact']"));
-    assert.ok(base.includes('normalizeStatusHeaderDensity(this.dialog._settings.get_string(\'status-header-density\'))'));
+    assert.ok(base.includes("normalizeStatusHeaderDensity(this.dialog._settings.get_string('status-header-density'))"));
     assert.ok(prefs.includes("settings.set_string('status-header-density'"));
     assert.ok(stylesheet.includes('.sa-shared-status-header.sa-status-header-compact'));
 });

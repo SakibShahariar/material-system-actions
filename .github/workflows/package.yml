@@ -20,6 +20,15 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install lint and format dependencies
+        run: npm ci
+
+      - name: Lint JavaScript
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
       - name: Install packaging dependencies
         run: |
           sudo apt-get update

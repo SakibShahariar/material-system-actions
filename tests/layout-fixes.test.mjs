@@ -18,8 +18,8 @@ test('grid tiles fit six actions inside the fixed grid width', () => {
 
 test('vertical dock is pinned left but vertically centered', () => {
     const dialog = read('../lib/dialog.js');
-    assert.match(dialog, /case 'left-edge': x = monitor\.x \+ margin; break;/);
-    assert.doesNotMatch(dialog, /case 'left-edge':[^\n]*y = monitor\.y \+ margin/);
+    assert.match(dialog, /case 'left-edge':\s*x = monitor\.x \+ margin;\s*break;/);
+    assert.doesNotMatch(dialog, /case 'left-edge':[\s\S]{0,80}?y = monitor\.y \+ margin/);
 });
 
 test('every avatar-bearing layout uses the shared real-account avatar', () => {

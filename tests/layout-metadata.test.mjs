@@ -11,8 +11,7 @@ test('structured metadata covers every generic layout without changing compatibi
     const registry = source('../lib/layouts/registry.js');
     const styles = registry.match(/export const STYLES = \{([\s\S]*?)\n\};/);
     assert.ok(styles, 'the public style registry must exist');
-    const registeredIds = [...styles[1].matchAll(/^\s*([a-z0-9_]+):\s*\w+,/gm)]
-        .map(([, id]) => id);
+    const registeredIds = [...styles[1].matchAll(/^\s*([a-z0-9_]+):\s*\w+,/gm)].map(([, id]) => id);
     const layoutIds = Object.keys(LAYOUT_METADATA);
 
     assert.equal(layoutIds.length, 15);
@@ -53,7 +52,9 @@ test('shared status-header and preview-position metadata match layout implementa
         .map(([id]) => id);
     assert.deepEqual(sharedHeaderLayouts, ['dock', 'tiles', 'halo', 'circles']);
     assert.equal(LAYOUT_METADATA.dock.previewPosition, 'left-edge');
-    assert.ok(Object.entries(LAYOUT_METADATA)
-        .filter(([id]) => id !== 'dock')
-        .every(([, metadata]) => metadata.previewPosition === 'center'));
+    assert.ok(
+        Object.entries(LAYOUT_METADATA)
+            .filter(([id]) => id !== 'dock')
+            .every(([, metadata]) => metadata.previewPosition === 'center')
+    );
 });

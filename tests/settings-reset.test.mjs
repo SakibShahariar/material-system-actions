@@ -3,11 +3,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {
-    RESET_SETTING_GROUPS,
-    RESET_ALL_SETTING_KEYS,
-    resetSettings,
-} from '../lib/settings-reset.js';
+import {RESET_SETTING_GROUPS, RESET_ALL_SETTING_KEYS, resetSettings} from '../lib/settings-reset.js';
 
 const source = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
@@ -19,15 +15,16 @@ test('reset groups cover every GSettings key exactly once', () => {
 });
 
 test('appearance, action, and custom-action groups remain independently selectable', () => {
-    assert.deepEqual(RESET_SETTING_GROUPS.appearance, [
-        'icon-scale', 'panel-opacity', 'show-status-header',
-        'status-header-density', 'backdrop-dim-enabled',
-        'backdrop-strong-enabled',
-    ]);
+    assert.deepEqual(RESET_SETTING_GROUPS.appearance, ['icon-scale', 'panel-opacity', 'show-status-header', 'status-header-density', 'backdrop-dim-enabled', 'backdrop-strong-enabled']);
     assert.deepEqual(RESET_SETTING_GROUPS.actions, [
-        'style', 'action-order', 'hidden-actions', 'default-focused-action',
-        'confirm-switch-user', 'power-countdown-enabled', 'toggle-system-actions',
-        'show-digit-hints',
+        'style',
+        'action-order',
+        'hidden-actions',
+        'default-focused-action',
+        'confirm-switch-user',
+        'power-countdown-enabled',
+        'toggle-system-actions',
+        'show-digit-hints'
     ]);
     assert.deepEqual(RESET_SETTING_GROUPS.custom, ['custom-actions']);
 });

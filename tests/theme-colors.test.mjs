@@ -12,25 +12,22 @@ test('normalizes three-digit hex colors and preserves six- and eight-digit color
 });
 
 test('rejects malformed and unsupported hex colors', () => {
-    for (const value of ['#12', '#12345', '#ggg', '#1122334455', 'red', null, 123])
-        assert.equal(normalizeHexColor(value), null);
+    for (const value of ['#12', '#12345', '#ggg', '#1122334455', 'red', null, 123]) assert.equal(normalizeHexColor(value), null);
 });
 
 test('parses CSS roles with three-, six-, and eight-digit hex values', () => {
-    assert.deepEqual(parseCssColors([
-        ':root {',
-        '  --primary: #abc;',
-        '  --secondary: #112233;',
-        '  --tertiary: #11223380;',
-        '  --invalid-short: #12;',
-        '  --invalid-alpha: #1122334455;',
-        '  --invalid-name: #ggg;',
-        '}',
-    ].join('\n')), {
-        primary: '#aabbcc',
-        secondary: '#112233',
-        tertiary: '#11223380',
-    });
+    assert.deepEqual(
+        parseCssColors(
+            [':root {', '  --primary: #abc;', '  --secondary: #112233;', '  --tertiary: #11223380;', '  --invalid-short: #12;', '  --invalid-alpha: #1122334455;', '  --invalid-name: #ggg;', '}'].join(
+                '\n'
+            )
+        ),
+        {
+            primary: '#aabbcc',
+            secondary: '#112233',
+            tertiary: '#11223380'
+        }
+    );
 });
 
 test('converts short hex colors to RGBA', () => {
@@ -39,10 +36,7 @@ test('converts short hex colors to RGBA', () => {
 
 test('combines embedded eight-digit alpha with requested glow opacity', () => {
     const expectedAlpha = (128 / 255) * 0.5;
-    assert.equal(
-        hexToRgba('#11223380', 0.5),
-        `rgba(17,34,51,${expectedAlpha})`,
-    );
+    assert.equal(hexToRgba('#11223380', 0.5), `rgba(17,34,51,${expectedAlpha})`);
 });
 
 test('keeps fully opaque CSS hex values and handles zero opacity', () => {
@@ -55,18 +49,9 @@ test('lists missing known roles that use fallback values', () => {
     const fallbackTheme = {
         background: '#000000',
         primary: '#ffffff',
-        outline: '#777777',
+        outline: '#777777'
     };
-    assert.deepEqual(
-        getMissingThemeRoles({primary: '#112233', unknown: '#abcdef'}, fallbackTheme),
-        ['background', 'outline'],
-    );
-    assert.deepEqual(
-        getMissingThemeRoles(null, fallbackTheme),
-        ['background', 'primary', 'outline'],
-    );
-    assert.deepEqual(
-        getMissingThemeRoles(fallbackTheme, fallbackTheme),
-        [],
-    );
+    assert.deepEqual(getMissingThemeRoles({primary: '#112233', unknown: '#abcdef'}, fallbackTheme), ['background', 'outline']);
+    assert.deepEqual(getMissingThemeRoles(null, fallbackTheme), ['background', 'primary', 'outline']);
+    assert.deepEqual(getMissingThemeRoles(fallbackTheme, fallbackTheme), []);
 });

@@ -2,11 +2,7 @@
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
-    POWER_ACTION_COUNTDOWN_SECONDS,
-    createCountdownTick,
-    formatPowerActionCountdown,
-} from '../lib/power-countdown.js';
+import {POWER_ACTION_COUNTDOWN_SECONDS, createCountdownTick, formatPowerActionCountdown} from '../lib/power-countdown.js';
 
 test('shutdown and reboot countdown messages are explicit and cancellable', () => {
     assert.equal(POWER_ACTION_COUNTDOWN_SECONDS, 5);
@@ -19,7 +15,11 @@ test('shutdown and reboot countdown messages are explicit and cancellable', () =
 test('countdown ticks once per second and completes exactly once', () => {
     const updates = [];
     let completed = 0;
-    const tick = createCountdownTick(3, value => updates.push(value), () => completed++);
+    const tick = createCountdownTick(
+        3,
+        value => updates.push(value),
+        () => completed++
+    );
     assert.equal(tick(), true);
     assert.equal(tick(), true);
     assert.equal(tick(), false);
@@ -29,6 +29,14 @@ test('countdown ticks once per second and completes exactly once', () => {
 });
 
 test('countdown rejects invalid durations and callbacks', () => {
-    assert.throws(() => createCountdownTick(0, () => {}, () => {}), /positive integer/);
+    assert.throws(
+        () =>
+            createCountdownTick(
+                0,
+                () => {},
+                () => {}
+            ),
+        /positive integer/
+    );
     assert.throws(() => createCountdownTick(3, null, () => {}), /callbacks are required/);
 });

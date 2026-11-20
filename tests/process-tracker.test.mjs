@@ -7,7 +7,12 @@ import {ProcessTracker} from '../lib/process-tracker.js';
 test('completion removes a subprocess wait from tracking', () => {
     const tracker = new ProcessTracker();
     const child = {};
-    const cancellable = {cancelled: false, cancel() { this.cancelled = true; }};
+    const cancellable = {
+        cancelled: false,
+        cancel() {
+            this.cancelled = true;
+        }
+    };
     tracker.track(child, cancellable);
     assert.equal(tracker.size, 1);
     tracker.complete(child);
@@ -18,7 +23,12 @@ test('completion removes a subprocess wait from tracking', () => {
 test('disable cancels wait operations but never terminates child processes', () => {
     const tracker = new ProcessTracker();
     const child = {terminated: false};
-    const cancellable = {cancelled: false, cancel() { this.cancelled = true; }};
+    const cancellable = {
+        cancelled: false,
+        cancel() {
+            this.cancelled = true;
+        }
+    };
     tracker.track(child, cancellable);
     assert.equal(tracker.cancelWaits(), 1);
     assert.equal(cancellable.cancelled, true);

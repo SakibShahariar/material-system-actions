@@ -1,0 +1,14 @@
+{
+  "name": "material-system-actions",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "lint": "eslint extension.js prefs.js lib tests",
+    "format:check": "prettier --check extension.js prefs.js 'lib/**/*.js' 'tests/**/*.mjs'",
+    "format": "prettier --write extension.js prefs.js 'lib/**/*.js' 'tests/**/*.mjs'"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0"
+  }
+}
