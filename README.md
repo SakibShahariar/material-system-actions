@@ -118,6 +118,7 @@ The extension must be enabled. D-Bus methods control the popup; they do not exec
 
 - [DEVELOPING.md](DEVELOPING.md) — development and live GNOME testing
 - [Compatibility matrix](docs/compatibility.md) — declared Shell versions and live-test status
+- [Layout readability audit](docs/layout-audit.md) — per-layout status and repeatable checks
 - [Coverage baseline and exclusions](docs/maintenance/coverage-baseline.md)
 - [Issues and feature requests](https://github.com/SakibShahariar/material-system-actions/issues)
 
