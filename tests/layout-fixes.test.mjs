@@ -6,14 +6,15 @@ import {readFileSync} from 'node:fs';
 
 const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
-test('grid tiles fit six actions inside the fixed grid width', () => {
+test('grid tiles use roomy rows inside the fixed grid width', () => {
     const grid = read('../lib/layouts/grid.js');
     const width = Number(grid.match(/width: (\d+)px; height: 96px/)?.[1]);
     assert.ok(Number.isFinite(width));
-    const rowWidth = 6 * (width + 2) + 5; // CSS width + border, 1px seams
+    const rowWidth = 3 * (width + 2) + 2 * 4; // CSS width + border + 4px seams
     assert.ok(rowWidth <= 480, `grid row ${rowWidth} exceeds the 480px panel`);
-    assert.match(grid, /const perRow = 6;/);
+    assert.match(grid, /const perRow = 3;/);
     assert.match(grid, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?rowWrap\.set_child\(row\)/);
+    assert.match(grid, /1-9 select/);
 });
 
 test('vertical dock is pinned left but vertically centered', () => {

@@ -19,7 +19,7 @@ test('digit hints are configurable and default on', () => {
 test('grid badges follow the visible action order and can be hidden', () => {
     const grid = read('../lib/layouts/grid.js');
     assert.match(grid, /this\._tile\(this\.actions\.all\[i\], i \+ 1\)/);
-    assert.match(grid, /const perRow = 6;/);
+    assert.match(grid, /const perRow = 3;/);
     assert.match(grid, /get_boolean\('show-digit-hints'\) !== false/);
     const navigation = read('../lib/keyboard-navigation.js');
     assert.match(navigation, /index < actions\.all\.length/);
