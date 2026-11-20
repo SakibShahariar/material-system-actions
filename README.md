@@ -37,6 +37,18 @@ A customizable GNOME Shell session and power menu with **15 layouts**, keyboard 
 
 Choose a layout in **Preferences → Style**. Preview lets you inspect it without changing the saved layout or executing actions.
 
+### Style gallery
+
+Thumbnails below are generated placeholders that show each layout's composition; real screenshots are still pending.
+
+| `card` | `list` | `split` | `grid` |
+| ![Card](screenshots/card.png) | ![List](screenshots/list.png) | ![Split](screenshots/split.png) | ![Grid](screenshots/grid.png) |
+| `radial` | `bento` | `tui` | `dock` |
+| ![Radial](screenshots/radial.png) | ![Bento](screenshots/bento.png) | ![TUI](screenshots/tui.png) | ![Dock](screenshots/dock.png) |
+| `tiles` | `halo` | `capsule` | `circles` |
+| ![Tiles](screenshots/tiles.png) | ![Halo](screenshots/halo.png) | ![Capsule](screenshots/capsule.png) | ![Circles](screenshots/circles.png) |
+| `avatar` | `pill` | `banner` |
+| ![Avatar](screenshots/avatar.png) | ![Pill](screenshots/pill.png) | ![Banner](screenshots/banner.png) |
 ## Install
 
 Build and install the ZIP:

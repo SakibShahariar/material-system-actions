@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+<rect width="320" height="180" rx="14" fill="#1a1b20"/>
+<text x="16" y="24" fill="#e2e2e9" font-size="16" font-weight="700" font-family="sans-serif">Banner</text>
+<text x="16" y="166" fill="#888b95" font-size="11" font-family="sans-serif">placeholder — real screenshot pending</text>
+<rect x="34" y="38" width="252" height="52" rx="10" fill="#2f4578"/><circle cx="60" cy="122" r="15" fill="#33363e"/><circle cx="102" cy="122" r="15" fill="#33363e"/><circle cx="144" cy="122" r="15" fill="#33363e"/><circle cx="186" cy="122" r="15" fill="#33363e"/><circle cx="228" cy="122" r="15" fill="#33363e"/><circle cx="270" cy="122" r="15" fill="#33363e"/>
+</svg>

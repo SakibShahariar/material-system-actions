@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180">
+<rect width="320" height="180" rx="14" fill="#1a1b20"/>
+<text x="16" y="24" fill="#e2e2e9" font-size="16" font-weight="700" font-family="sans-serif">Radial</text>
+<text x="16" y="166" fill="#888b95" font-size="11" font-family="sans-serif">placeholder — real screenshot pending</text>
+<circle cx="260" cy="92" r="5" fill="#ffb4ab"/><circle cx="247" cy="118" r="5" fill="#ffb4ab"/><circle cx="210" cy="137" r="5" fill="#ffb4ab"/><circle cx="160" cy="144" r="5" fill="#ffb4ab"/><circle cx="110" cy="137" r="5" fill="#ffb4ab"/><circle cx="73" cy="118" r="5" fill="#ffb4ab"/><circle cx="60" cy="92" r="5" fill="#ffb4ab"/><circle cx="73" cy="66" r="5" fill="#ffb4ab"/><circle cx="110" cy="47" r="5" fill="#ffb4ab"/><circle cx="160" cy="40" r="5" fill="#ffb4ab"/><circle cx="210" cy="47" r="5" fill="#ffb4ab"/><circle cx="247" cy="66" r="5" fill="#ffb4ab"/><circle cx="160" cy="92" r="28" fill="#2f4578"/>
+</svg>
