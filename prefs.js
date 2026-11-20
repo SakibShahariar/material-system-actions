@@ -115,14 +115,13 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         previewRow.add_suffix(previewButton);
         previewRow.add_suffix(applyButton);
         styleGroup.add(previewRow);
-        previewButton.connect('clicked', () => {
-            previewButton.sensitive = false;
+        const previewLayout = (id, onError = null) => {
             Gio.DBus.session.call(
                 'org.gnome.Shell.Extensions.MaterialSystemActions',
                 '/org/gnome/Shell/Extensions/MaterialSystemActions',
                 'org.gnome.Shell.Extensions.MaterialSystemActions',
                 'Preview',
-                new GLib.Variant('(s)', [STYLE_NAMES[styleRow.selected]]),
+                new GLib.Variant('(s)', [id]),
                 null,
                 Gio.DBusCallFlags.NONE,
                 3000,
@@ -131,14 +130,65 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
                     try {
                         connection.call_finish(result);
                     } catch (error) {
-                        previewRow.subtitle = 'Could not open preview: ' + error.message;
-                    } finally {
-                        previewButton.sensitive = true;
+                        if (onError) onError(error.message);
                     }
                 }
             );
+        };
+        previewButton.connect('clicked', () => {
+            previewButton.sensitive = false;
+            previewLayout(STYLE_NAMES[styleRow.selected], message => {
+                previewRow.subtitle = 'Could not open preview: ' + message;
+            });
+            previewButton.sensitive = true;
         });
+        settingsSignalIds.push(
+            settings.connect('changed::style', () => {
+                const index = STYLE_NAMES.indexOf(settings.get_string('style'));
+                if (index >= 0) styleRow.selected = index;
+                updateStyleApplyState();
+            })
+        );
         menuPage.add(styleGroup);
+
+        const galleryGroup = new Adw.PreferencesGroup({
+            title: 'Layout gallery',
+            description: 'Preview or apply any layout directly. Thumbnails use a placeholder until screenshots are available.'
+        });
+        const gallery = new Gtk.FlowBox({
+            selection_mode: Gtk.SelectionMode.NONE,
+            column_spacing: 12,
+            row_spacing: 12,
+            homogeneous: true,
+            max_children_per_line: 3,
+            margin_top: 8,
+            margin_bottom: 8
+        });
+        for (const id of STYLE_NAMES) {
+            const metadata = LAYOUT_METADATA[id];
+            const card = new Gtk.Box({orientation: Gtk.Orientation.VERTICAL, spacing: 6, width_request: 200});
+            card.set_tooltip_text(id);
+            card.append(new Gtk.Image({icon_name: 'applications-graphics-symbolic', pixel_size: 48}));
+            card.append(new Gtk.Label({label: metadata.displayName, wrap: true}));
+            card.append(
+                new Gtk.Label({
+                    label: metadata.description,
+                    wrap: true,
+                    css_classes: ['dim-label']
+                })
+            );
+            const buttons = new Gtk.Box({orientation: Gtk.Orientation.HORIZONTAL, spacing: 6, halign: Gtk.Align.CENTER});
+            const cardPreview = new Gtk.Button({label: 'Preview'});
+            cardPreview.connect('clicked', () => previewLayout(id));
+            const cardApply = new Gtk.Button({label: 'Apply'});
+            cardApply.connect('clicked', () => settings.set_string('style', id));
+            buttons.append(cardPreview);
+            buttons.append(cardApply);
+            card.append(buttons);
+            gallery.append(card);
+        }
+        galleryGroup.add(gallery);
+        menuPage.add(galleryGroup);
 
         const ACTIONS = [
             {id: 'lock', label: 'Lock', description: 'Lock the current session'},
