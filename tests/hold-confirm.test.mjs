@@ -32,6 +32,9 @@ test('hold mode uses press timers and keeps keyboard confirmation', () => {
     assert.match(overlay, /confirmButton\.connect\('button-release-event'/);
     assert.match(overlay, /confirmButton\.connect\('key-press-event'/);
     assert.match(overlay, /Clutter\.KEY_Return, Clutter\.KEY_KP_Enter, Clutter\.KEY_space/);
+    assert.match(overlay, /let holdSatisfied = false/);
+    assert.match(overlay, /if \(!holdSatisfied\) return/);
+    assert.match(overlay, /skipClick = true/);
     assert.match(overlay, /else \{\s*confirmButton\.connect\('clicked'/);
     assert.match(read('../stylesheet.css'), /\.sa-hold-complete/);
     assert.match(read('../README.md'), /Hold to confirm/);
