@@ -12,6 +12,8 @@ test('grid tiles fit six actions inside the fixed grid width', () => {
     assert.ok(Number.isFinite(width));
     const rowWidth = 6 * (width + 2) + 5; // CSS width + border, 1px seams
     assert.ok(rowWidth <= 480, `grid row ${rowWidth} exceeds the 480px panel`);
+    assert.match(grid, /const perRow = 6;/);
+    assert.match(grid, /new St\.Bin\(\{x_expand: true\}\)[\s\S]*?rowWrap\.set_child\(row\)/);
 });
 
 test('vertical dock is pinned left but vertically centered', () => {
