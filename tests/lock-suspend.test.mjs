@@ -12,6 +12,8 @@ test('lock-then-suspend is a regular built-in action that can be hidden', () => 
     const actions = read('../lib/actions.js');
     assert.match(actions, /id: 'lock-suspend'[\s\S]*?destructive: false/);
     assert.match(actions, /cmd: \['loginctl', 'lock-session'\]/);
+    assert.match(actions, /id: 'lock-suspend'[\s\S]*?key: 'c'/);
+    assert.match(read('../lib/custom-actions.js'), /RESERVED_KEYS = new Set\(\[[^\]]*'c'/);
 });
 
 test('trigger locks first and then follows the suspend inhibitor flow', () => {

@@ -388,6 +388,7 @@
 
 .sa-rofi-row { border-radius: 12px; border-left: 3px solid transparent; padding: 8px 12px; }
 .sa-rofi-key { min-width: 24px; padding: 1px 5px; border: 1px solid var(--outline_variant, #44464f); border-radius: 6px; color: var(--on_surface_variant, #c5c6d0); font-size: 0.72em; font-weight: 700; }
+.sa-rofi-key-blank { border-color: transparent; color: transparent; }
 .sa-rofi-row.sa-tier-error StLabel { color: var(--error, #ffb4ab); }
 
 .sa-row-icon-badge { background-color: var(--surface_container_high, #282a2f); border: 1px solid var(--outline_variant, #44464f); }
