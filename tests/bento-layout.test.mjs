@@ -19,9 +19,11 @@ test('bento hero uses a themed fill instead of solid black', () => {
     assert.match(source, /heroStyle/);
 });
 
-test('bento has no decorative caption that can overflow the panel', () => {
+test('bento vertical caption stays inside a fixed-width column', () => {
     const source = read('../lib/layouts/bento.js');
+    assert.match(source, /for \(const ch of 'SYSTEM'\)/);
+    assert.match(source, /width: 28,/);
+    assert.match(source, /sa-bento-caption-letter/);
     assert.doesNotMatch(source, /set_rotation_angle/);
-    assert.doesNotMatch(source, /for \(const ch of 'SYSTEM'\)/);
-    assert.doesNotMatch(source, /col0/);
+    assert.match(read('../stylesheet.css'), /\.sa-bento-caption-letter \{ width: 28px;/);
 });

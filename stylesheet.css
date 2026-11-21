@@ -109,6 +109,7 @@
 .sa-grid-seam { background-color: var(--outline_variant, #44464f); }
 .sa-guide-circle { border-radius: 999px; border: 1px dashed var(--outline_variant, #44464f); }
 .sa-layout-radial { color: var(--on_surface, #e2e2e9); }
+.sa-bento-caption-letter { width: 28px; text-align: center; font-size: 0.85em; }
 .sa-banner-badge {
     background-color: var(--surface_container, #1e1f25);
     border: 1px solid var(--outline_variant, #44464f);
