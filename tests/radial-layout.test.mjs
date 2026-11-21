@@ -10,7 +10,7 @@ test('radial layout has no rectangular panel behind the ring', () => {
     const source = read('../lib/layouts/radial.js');
     assert.match(source, /style_class: 'sa-layout-radial'/);
     assert.doesNotMatch(source, /sa-panel sa-layout-radial/);
-    assert.match(source, /background-color: transparent; border: none; box-shadow: none;/);
+    assert.match(source, /background-color: transparent; border: none; box-shadow: none; border-radius: 999px;/);
     assert.match(read('../stylesheet.css'), /\.sa-layout-radial \{ color:/);
 });
 
