@@ -14,7 +14,7 @@ test('TUI keyless rows align with letter-shortcut rows', () => {
 
 test('TUI row buttons do not shift the box-drawing borders', () => {
     const source = read('../lib/layouts/tui.js');
-    assert.match(source, /style: 'padding: 2px 0; margin: 0; margin-left: -2px;'/);
+    assert.match(source, /label\.set_translation\(-2, 0\)/);
     assert.match(source, /style: 'padding: 0; margin: 0; border: 0;'/);
     assert.match(read('../stylesheet.css'), /\.sa-tui-row \{[^}]*margin: 0; padding: 0;/);
 });
