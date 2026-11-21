@@ -12,3 +12,10 @@ test('radial opts out of the rectangular panel background', () => {
     const dialog = read('../lib/dialog.js');
     assert.match(dialog, /if \(!target \|\| this\._style\?\.transparentRoot\) return/);
 });
+
+test('stylesheet overrides blur providers forced modal background', () => {
+    const css = read('../stylesheet.css');
+    assert.match(css, /\.bms-popup-surface-dark \.modal-dialog\.system-actions-dialog/);
+    assert.match(css, /background-color: transparent !important/);
+    assert.match(css, /\.bms-popup-blur-target\.sa-layout-radial/);
+});

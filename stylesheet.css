@@ -3,10 +3,16 @@
  * IMPORTANT: colors are Material roles, not fixed palette values. The values
  * are supplied at runtime from Matugen's matugen-colors.css.
  */
-.modal-dialog.system-actions-dialog {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
+/* Blur my Shell's dark/light popup styles force a background on .modal-dialog
+ * with !important. Be more specific so our sheet stays background-free. */
+.modal-dialog.system-actions-dialog,
+.bms-popup-background-dark .modal-dialog.system-actions-dialog,
+.bms-popup-surface-dark .modal-dialog.system-actions-dialog,
+.bms-popup-background-light .modal-dialog.system-actions-dialog,
+.bms-popup-surface-light .modal-dialog.system-actions-dialog {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
     padding: 0;
 }
 
@@ -109,6 +115,11 @@
 .sa-grid-seam { background-color: var(--outline_variant, #44464f); }
 .sa-guide-circle { border-radius: 999px; border: 1px dashed var(--outline_variant, #44464f); }
 .sa-layout-radial { color: var(--on_surface, #e2e2e9); }
+/* Opted-in surfaces that want no built-in background can declare this. */
+.bms-popup-blur-target.sa-layout-radial {
+    background-color: transparent !important;
+    border-color: transparent !important;
+}
 .sa-bento-caption-letter { width: 28px; text-align: center; font-size: 0.85em; }
 .sa-banner-badge {
     background-color: var(--surface_container, #1e1f25);
