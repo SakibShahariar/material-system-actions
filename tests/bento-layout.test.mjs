@@ -19,9 +19,9 @@ test('bento hero uses a themed fill instead of solid black', () => {
     assert.match(source, /heroStyle/);
 });
 
-test('bento caption is one rotated label, not stacked letters', () => {
+test('bento has no decorative caption that can overflow the panel', () => {
     const source = read('../lib/layouts/bento.js');
-    assert.match(source, /text: 'SYSTEM'/);
-    assert.match(source, /set_rotation_angle\(Clutter\.RotateAxis\.Z_AXIS, 270\)/);
+    assert.doesNotMatch(source, /set_rotation_angle/);
     assert.doesNotMatch(source, /for \(const ch of 'SYSTEM'\)/);
+    assert.doesNotMatch(source, /col0/);
 });
