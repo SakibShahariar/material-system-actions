@@ -18,3 +18,10 @@ test('bento hero uses a themed fill instead of solid black', () => {
     assert.match(source, /border: 1px solid var\(--outline_variant/);
     assert.match(source, /heroStyle/);
 });
+
+test('bento caption is one rotated label, not stacked letters', () => {
+    const source = read('../lib/layouts/bento.js');
+    assert.match(source, /text: 'SYSTEM'/);
+    assert.match(source, /set_rotation_angle\(Clutter\.RotateAxis\.Z_AXIS, 270\)/);
+    assert.doesNotMatch(source, /for \(const ch of 'SYSTEM'\)/);
+});
