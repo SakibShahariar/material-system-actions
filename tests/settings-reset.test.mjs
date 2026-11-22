@@ -15,7 +15,15 @@ test('reset groups cover every GSettings key exactly once', () => {
 });
 
 test('appearance, action, and custom-action groups remain independently selectable', () => {
-    assert.deepEqual(RESET_SETTING_GROUPS.appearance, ['icon-scale', 'panel-opacity', 'show-status-header', 'status-header-density', 'backdrop-dim-enabled', 'backdrop-strong-enabled']);
+    assert.deepEqual(RESET_SETTING_GROUPS.appearance, [
+        'icon-scale',
+        'panel-opacity',
+        'show-status-header',
+        'status-header-density',
+        'clock-format',
+        'backdrop-dim-enabled',
+        'backdrop-strong-enabled'
+    ]);
     assert.deepEqual(RESET_SETTING_GROUPS.actions, [
         'style',
         'action-order',

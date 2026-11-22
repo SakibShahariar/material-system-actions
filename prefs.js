@@ -10,6 +10,7 @@ import {areAllActionsHidden, normalizeActionOrder} from './lib/action-preference
 import {LAYOUT_METADATA} from './lib/layouts/metadata.js';
 import {resetSettings} from './lib/settings-reset.js';
 import {STATUS_HEADER_DENSITIES, normalizeStatusHeaderDensity} from './lib/status-header.js';
+import {CLOCK_FORMATS, normalizeClockFormat} from './lib/clock-format.js';
 import {getThemeSource, getThemeSourcePaths} from './lib/theme.js';
 import {createPreferencesExport, parsePreferencesImport} from './lib/preferences-io.js';
 
@@ -578,6 +579,25 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
         );
         appearance.add(densityRow);
 
+        const clockRow = new Adw.ComboRow({
+            title: 'Clock format',
+            subtitle: 'Show the status clock in 24-hour or 12-hour time',
+            model: new Gtk.StringList({strings: ['24-hour', '12-hour']})
+        });
+        addRowIcon(clockRow, 'preferences-system-time-symbolic');
+        clockRow.selected = CLOCK_FORMATS.indexOf(normalizeClockFormat(settings.get_string('clock-format')));
+        clockRow.connect('notify::selected', () => {
+            const value = CLOCK_FORMATS[clockRow.selected];
+            if (value && value !== settings.get_string('clock-format')) settings.set_string('clock-format', value);
+        });
+        settingsSignalIds.push(
+            settings.connect('changed::clock-format', () => {
+                const selected = CLOCK_FORMATS.indexOf(normalizeClockFormat(settings.get_string('clock-format')));
+                if (clockRow.selected !== selected) clockRow.selected = selected;
+            })
+        );
+        appearance.add(clockRow);
+
         const dimRow = new Adw.SwitchRow({
             title: 'Dim backdrop',
             subtitle: 'Dim the desktop behind the popup'
@@ -656,6 +676,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             opacityRow.value = settings.get_double('panel-opacity');
             statusRow.active = settings.get_boolean('show-status-header');
             densityRow.selected = STATUS_HEADER_DENSITIES.indexOf(normalizeStatusHeaderDensity(settings.get_string('status-header-density')));
+            clockRow.selected = CLOCK_FORMATS.indexOf(normalizeClockFormat(settings.get_string('clock-format')));
             dimRow.active = settings.get_boolean('backdrop-dim-enabled');
             strongDimRow.active = settings.get_boolean('backdrop-strong-enabled');
             strongDimRow.sensitive = dimRow.active;
@@ -692,7 +713,7 @@ export default class MaterialSystemActionsPreferences extends ExtensionPreferenc
             row.add_suffix(button);
             resetGroup.add(row);
         };
-        addResetRow('Appearance', 'Restore scale, transparency, status information, header density, and backdrop dimming.', 'Reset', () => applyReset('appearance'));
+        addResetRow('Appearance', 'Restore scale, transparency, status information, header density, clock format, and backdrop dimming.', 'Reset', () => applyReset('appearance'));
         addResetRow('Action settings', 'Restore layout, action order and visibility, focus, switch-user confirmation, and shortcut.', 'Reset', () => applyReset('actions'));
         addResetRow(
             'Custom actions',

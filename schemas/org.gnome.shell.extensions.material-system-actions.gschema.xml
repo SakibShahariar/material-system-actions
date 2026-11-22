@@ -58,6 +58,11 @@
       <summary>Status header density</summary>
       <description>Choose comfortable or compact spacing for layouts with a shared status header.</description>
     </key>
+    <key name="clock-format" type="s">
+      <default>'24h'</default>
+      <summary>Clock format</summary>
+      <description>Show the status clock in 24-hour (%H:%M) or 12-hour (%I:%M %p) time.</description>
+    </key>
     <key name="hold-to-confirm-enabled" type="b">
       <default>false</default>
       <summary>Require a hold before destructive confirmation in Card and List</summary>
