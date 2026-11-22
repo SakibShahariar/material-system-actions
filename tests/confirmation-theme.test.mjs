@@ -20,7 +20,8 @@ test('confirmation sheets keep the theme surface while using BMS blur', () => {
 
 test('confirmation reuses the existing BMS blur target so its surface is not lost', () => {
     const base = read('../lib/layouts/base.js');
-    assert.match(base, /const carrier = this\._style\.bmsBlurTargets\?\.\[0\] \?\? this\._styleRoot/);
+    assert.match(base, /const carrier = this\.bmsBlurTargets\?\.\[0\] \?\? this\.dialog\._styleRoot/);
+    assert.match(base, /if \(carrier && this\.transparentRoot\)/);
     assert.match(base, /\(carrier \?\? overlay\)\.add_child\(component\.root\)/);
     assert.match(base, /for \(const child of carrier\.get_children\(\)\)/);
     assert.match(base, /if \(child\.visible\) \{[\s\S]*?hiddenChildren\.push\(child\)/);
