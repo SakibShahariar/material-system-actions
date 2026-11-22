@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+
+const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
+
+test('confirmation sheets keep the theme surface while using BMS blur', () => {
+    const base = read('../lib/layouts/base.js');
+    assert.match(base, /createConfirmationOverlay\(\{/);
+    assert.match(base, /component\.root\.add_style_class_name\('bms-popup-blur-target'\)/);
+    assert.match(base, /component\.root\.add_style_class_name\('bms-redraw-blur-instant'\)/);
+
+    const css = read('../stylesheet.css');
+    assert.match(css, /\.bms-popup-blur-target\.sa-panel \{/);
+    assert.match(css, /background-color: var\(--surface_container_low/);
+    assert.match(css, /border-color: var\(--outline_variant/);
+});

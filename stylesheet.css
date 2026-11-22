@@ -120,6 +120,12 @@
     background-color: transparent !important;
     border-color: transparent !important;
 }
+/* Confirmation sheets keep the Matugen theme surface while still being
+ * blurred by BMS, despite BMS forcing a generic dark/light background. */
+.bms-popup-blur-target.sa-panel {
+    background-color: var(--surface_container_low, #1a1b20) !important;
+    border-color: var(--outline_variant, #44464f) !important;
+}
 .sa-bento-caption-letter { width: 28px; text-align: center; font-size: 0.85em; }
 .sa-banner-badge {
     background-color: var(--surface_container, #1e1f25);
