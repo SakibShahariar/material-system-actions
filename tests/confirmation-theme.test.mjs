@@ -17,3 +17,14 @@ test('confirmation sheets keep the theme surface while using BMS blur', () => {
     assert.match(css, /background-color: var\(--surface_container_low/);
     assert.match(css, /border-color: var\(--outline_variant/);
 });
+
+test('confirmation reuses the existing BMS blur target so its surface is not lost', () => {
+    const base = read('../lib/layouts/base.js');
+    assert.match(base, /const carrier = this\._style\.bmsBlurTargets\?\.\[0\] \?\? this\._styleRoot/);
+    assert.match(base, /\(carrier \?\? overlay\)\.add_child\(component\.root\)/);
+    assert.match(base, /for \(const child of carrier\.get_children\(\)\)/);
+    assert.match(base, /if \(child\.visible\) \{[\s\S]*?hiddenChildren\.push\(child\)/);
+    assert.match(base, /for \(const child of hiddenChildren\) child\.show\(\)/);
+    assert.match(base, /previousCarrierStyle/);
+    assert.match(base, /carrier\.set_style\?\.\(style\.replace\(\/border-radius:\\s\*999px\/, 'border-radius: 20px'\)\)/);
+});
