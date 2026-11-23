@@ -10,6 +10,8 @@ test('confirmation buttons have an explicit compact height', () => {
     const source = read('../lib/confirmation-overlay.js');
     assert.match(source, /style_class: 'sa-pill-btn sa-confirm-btn'/);
     assert.match(source, /style_class: `\$\{confirmStyleClass\} sa-confirm-btn`/);
+    assert.match(source, /const compactStyle = 'height: 38px; min-height: 38px; padding: 4px 18px;'/);
+    assert.equal((source.match(/style: compactStyle/g) ?? []).length, 2);
     const css = read('../stylesheet.css');
     assert.match(css, /\.sa-confirm-btn \{[\s\S]*?height: 38px !important/);
     assert.match(css, /\.sa-confirm-btn \{[\s\S]*?padding: 4px 18px !important/);
