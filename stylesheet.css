@@ -60,6 +60,7 @@
 .sa-muted { color: var(--on_surface_variant, #c5c6d0); font-size: 0.78em; }
 
 /* Suspend-inhibitor details: one row per application, name then reason/mode. */
+.sa-confirm-body { max-width: 420px; }
 .sa-confirm-details { spacing: 10px; max-width: 420px; }
 .sa-confirm-details-item { spacing: 2px; }
 .sa-confirm-details-title { font-weight: 700; }
