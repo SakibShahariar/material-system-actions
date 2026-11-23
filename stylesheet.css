@@ -271,8 +271,38 @@
     outline-color: var(--error, #ffb4ab);
 }
 
-/* GTK parity: while hovering, the outline is cleared (frame only shows on
- * :focus:not(:hover):not(:active) — restored on button press below). */
+/* Hover clears the outline for the plain (unfocused) case, but a focused
+ * button must keep its ring even when the pointer rests on it. These compound
+ * selectors are more specific than the plain :hover rule below. */
+.sa-pill-btn:focus:hover,
+.sa-pill-btn.sa-focus-ring:hover,
+.sa-pill-btn:hover.sa-focus-ring,
+.sa-circle-btn:focus:hover,
+.sa-circle-btn.sa-focus-ring:hover,
+.sa-circle-btn:hover.sa-focus-ring,
+.sa-text-row:focus:hover,
+.sa-text-row.sa-focus-ring:hover,
+.sa-text-row:hover.sa-focus-ring,
+.sa-rofi-row:focus:hover,
+.sa-rofi-row.sa-focus-ring:hover,
+.sa-rofi-row:hover.sa-focus-ring {
+    outline-style: solid;
+    outline-width: 3px;
+    outline-offset: 2px;
+    outline-color: var(--on_surface, #f5f5f5);
+}
+.sa-pill-btn.sa-tier-secondary:focus:hover,
+.sa-circle-btn.sa-tier-secondary:focus:hover,
+.sa-pill-btn.sa-tier-secondary.sa-focus-ring:hover {
+    outline-color: var(--secondary, #c0c6dc);
+}
+.sa-pill-btn.sa-tier-error:focus:hover,
+.sa-circle-btn.sa-tier-error:focus:hover,
+.sa-pill-btn.sa-tier-error.sa-focus-ring:hover {
+    outline-color: var(--error, #ffb4ab);
+}
+
+/* GTK parity: while hovering an otherwise unfocused button, clear the outline. */
 .sa-pill-btn:hover,
 .sa-circle-btn:hover,
 .sa-tile-btn:hover,
