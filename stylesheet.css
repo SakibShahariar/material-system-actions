@@ -120,6 +120,9 @@
 .bms-popup-blur-target.sa-layout-radial {
     background-color: transparent !important;
     border-color: transparent !important;
+    /* Blur my Shell reads the corner radius from this theme node. Keep it in
+     * the stylesheet as well as inline so the blur stays circular. */
+    border-radius: 999px !important;
 }
 /* Confirmation sheets keep the Matugen theme surface while still being
  * blurred by BMS, despite BMS forcing a generic dark/light background. */

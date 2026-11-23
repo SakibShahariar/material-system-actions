@@ -18,4 +18,10 @@ test('stylesheet overrides blur providers forced modal background', () => {
     assert.match(css, /\.bms-popup-surface-dark \.modal-dialog\.system-actions-dialog/);
     assert.match(css, /background-color: transparent !important/);
     assert.match(css, /\.bms-popup-blur-target\.sa-layout-radial/);
+    assert.match(css, /\.bms-popup-blur-target\.sa-layout-radial \{[\s\S]*?border-radius: 999px !important/);
+});
+
+test('panel-opacity updates do not rewrite transparent layout inline styles', () => {
+    const dialog = read('../lib/dialog.js');
+    assert.match(dialog, /this\._style\?\.transparentRoot \? \[\] : \[this\._styleRoot/);
 });
