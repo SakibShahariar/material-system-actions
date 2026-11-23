@@ -14,8 +14,19 @@ test('confirmation sheets keep the theme surface while using BMS blur', () => {
 
     const css = read('../stylesheet.css');
     assert.match(css, /\.bms-popup-blur-target\.sa-panel \{/);
-    assert.match(css, /background-color: var\(--surface_container_low/);
+    assert.match(css, /background-color: var\(--sa-panel-surface, var\(--surface_container_low/);
     assert.match(css, /border-color: var\(--outline_variant/);
+});
+
+test('confirmation and panel surfaces share the panel-opacity transparency', () => {
+    const dialog = read('../lib/dialog.js');
+    assert.match(dialog, /--sa-panel-surface: \$\{bg\}/);
+    assert.match(dialog, /this\._style\?\._confirmation\?\.root/);
+    assert.match(dialog, /\.\.\.\(this\._style\?\.bmsBlurTargets \?\? \[\]\)/);
+
+    const base = read('../lib/layouts/base.js');
+    assert.match(base, /root: component\.root,/);
+    assert.match(base, /this\.dialog\._applyPanelOpacity\?\.\(\);/);
 });
 
 test('confirmation reuses the existing BMS blur target so its surface is not lost', () => {

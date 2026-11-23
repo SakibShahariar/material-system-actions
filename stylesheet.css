@@ -123,7 +123,9 @@
 /* Confirmation sheets keep the Matugen theme surface while still being
  * blurred by BMS, despite BMS forcing a generic dark/light background. */
 .bms-popup-blur-target.sa-panel {
-    background-color: var(--surface_container_low, #1a1b20) !important;
+    /* --sa-panel-surface is set per popup from the panel-opacity setting so
+     * the surface stays translucent and BMS's blur shows through. */
+    background-color: var(--sa-panel-surface, var(--surface_container_low, #1a1b20)) !important;
     border-color: var(--outline_variant, #44464f) !important;
 }
 .sa-bento-caption-letter { width: 28px; text-align: center; font-size: 0.85em; }
