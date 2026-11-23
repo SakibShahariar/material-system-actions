@@ -60,6 +60,8 @@
 .sa-muted { color: var(--on_surface_variant, #c5c6d0); font-size: 0.78em; }
 
 /* Suspend-inhibitor details: one row per application, name then reason/mode. */
+/* Confirmation buttons stay compact next to the sheet heading and text. */
+.sa-panel .sa-confirm-btn { min-height: 34px; padding: 6px 16px; }
 .sa-confirm-body { max-width: 420px; }
 .sa-confirm-details { spacing: 10px; max-width: 420px; }
 .sa-confirm-details-item { spacing: 2px; }
