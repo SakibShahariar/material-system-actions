@@ -228,11 +228,15 @@
 .sa-tile-btn:focus,
 .sa-text-row:focus,
 .sa-rofi-row:focus {
+    /* The shell theme's .button:focus paints a solid dark fill. Keep our own
+     * surface so focus is shown by the ring/glow, not by recoloring the pill. */
+    background-color: var(--surface_container, #1e1f25);
+    color: var(--on_surface, #e2e2e9);
     outline-style: solid;
     outline-width: 2px;
     outline-offset: 2px;
     outline-color: var(--primary, #b0c6ff);
-    box-shadow: 0 0 0 6px var(--sa-glow-primary, rgba(176, 198, 255, 0.2));
+    box-shadow: 0 0 0 6px var(--sa-glow-primary, rgba(176, 198, 255, 0.2)) !important;
 }
 .sa-pill-btn.sa-tier-secondary.sa-focus-ring,
 .sa-circle-btn.sa-tier-secondary.sa-focus-ring,
@@ -240,8 +244,10 @@
 .sa-pill-btn.sa-tier-secondary:focus,
 .sa-circle-btn.sa-tier-secondary:focus,
 .sa-tile-btn.sa-tier-secondary:focus {
+    background-color: var(--secondary_container, #404659);
+    color: var(--on_secondary_container, #dce2f9);
     outline-color: var(--secondary, #c0c6dc);
-    box-shadow: 0 0 0 6px var(--sa-glow-secondary, rgba(192, 198, 220, 0.2));
+    box-shadow: 0 0 0 6px var(--sa-glow-secondary, rgba(192, 198, 220, 0.2)) !important;
 }
 .sa-pill-btn.sa-tier-error.sa-focus-ring,
 .sa-circle-btn.sa-tier-error.sa-focus-ring,
@@ -249,8 +255,10 @@
 .sa-pill-btn.sa-tier-error:focus,
 .sa-circle-btn.sa-tier-error:focus,
 .sa-tile-btn.sa-tier-error:focus {
+    background-color: var(--error_container, #93000a);
+    color: var(--on_error_container, #ffdad6);
     outline-color: var(--error, #ffb4ab);
-    box-shadow: 0 0 0 6px var(--sa-glow-error, rgba(255, 180, 171, 0.2));
+    box-shadow: 0 0 0 6px var(--sa-glow-error, rgba(255, 180, 171, 0.2)) !important;
 }
 
 /* GTK parity: while hovering, the outline is cleared (frame only shows on
