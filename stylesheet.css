@@ -60,6 +60,13 @@
 .sa-muted { color: var(--on_surface_variant, #c5c6d0); font-size: 0.78em; }
 
 /* Suspend-inhibitor details: one row per application, name then reason/mode. */
+/* Confirmation buttons must stay compact: the shell theme adds enough extra
+ * box height to make a pill nearly circular. Constrain it explicitly. */
+.sa-confirm-btn {
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 4px 18px !important;
+}
 .sa-confirm-body { max-width: 420px; }
 .sa-confirm-details { spacing: 10px; max-width: 420px; }
 .sa-confirm-details-item { spacing: 2px; }
