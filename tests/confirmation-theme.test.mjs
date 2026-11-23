@@ -40,3 +40,11 @@ test('confirmation reuses the existing BMS blur target so its surface is not los
     assert.match(base, /previousCarrierStyle/);
     assert.match(base, /carrier\.set_style\?\.\(style\.replace\(\/border-radius:\\s\*999px\/, 'border-radius: 20px'\)\)/);
 });
+
+test('only one surface is blurred while the confirmation is open', () => {
+    const base = read('../lib/layouts/base.js');
+    assert.match(base, /carrier\?\.remove_style_class_name\('bms-popup-blur-target'\)/);
+    assert.match(base, /carrier\?\.remove_style_class_name\('bms-redraw-blur-instant'\)/);
+    assert.match(base, /carrier\.add_style_class_name\('bms-popup-blur-target'\)/);
+    assert.match(base, /carrier\.add_style_class_name\('bms-redraw-blur-instant'\)/);
+});
