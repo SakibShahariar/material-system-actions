@@ -60,8 +60,6 @@
 .sa-muted { color: var(--on_surface_variant, #c5c6d0); font-size: 0.78em; }
 
 /* Suspend-inhibitor details: one row per application, name then reason/mode. */
-/* Confirmation buttons stay compact next to the sheet heading and text. */
-.sa-panel .sa-confirm-btn { min-height: 34px; padding: 6px 16px; }
 .sa-confirm-body { max-width: 420px; }
 .sa-confirm-details { spacing: 10px; max-width: 420px; }
 .sa-confirm-details-item { spacing: 2px; }
@@ -239,6 +237,7 @@
     outline-width: 2px;
     outline-offset: 2px;
     outline-color: var(--primary, #b0c6ff);
+    box-shadow: 0 0 0 6px var(--sa-glow-primary, rgba(176, 198, 255, 0.2)) !important;
 }
 .sa-pill-btn.sa-tier-secondary.sa-focus-ring,
 .sa-circle-btn.sa-tier-secondary.sa-focus-ring,
@@ -249,6 +248,7 @@
     background-color: var(--secondary_container, #404659);
     color: var(--on_secondary_container, #dce2f9);
     outline-color: var(--secondary, #c0c6dc);
+    box-shadow: 0 0 0 6px var(--sa-glow-secondary, rgba(192, 198, 220, 0.2)) !important;
 }
 .sa-pill-btn.sa-tier-error.sa-focus-ring,
 .sa-circle-btn.sa-tier-error.sa-focus-ring,
@@ -259,6 +259,7 @@
     background-color: var(--error_container, #93000a);
     color: var(--on_error_container, #ffdad6);
     outline-color: var(--error, #ffb4ab);
+    box-shadow: 0 0 0 6px var(--sa-glow-error, rgba(255, 180, 171, 0.2)) !important;
 }
 
 /* GTK parity: while hovering, the outline is cleared (frame only shows on
@@ -649,6 +650,7 @@
     border-radius: 12px;
     outline: 2px solid var(--primary, #b0c6ff);
     outline-offset: 2px;
+    box-shadow: 0 0 0 6px var(--sa-glow-primary-soft, rgba(176, 198, 255, 0.16));
 }
 .sa-layout-card .sa-card-cancel.sa-pressed,
 .sa-layout-card .sa-card-cancel:active {
@@ -664,12 +666,15 @@
 /* Card: keep geometry but add depth so pressed/focused still read clearly. */
 .sa-layout-card .sa-card-action.sa-focus-ring,
 .sa-layout-card .sa-card-action:focus {
+    box-shadow: 0 0 0 6px var(--sa-glow-primary-soft, rgba(176, 198, 255, 0.16));
 }
 .sa-layout-card .sa-card-action.sa-tier-secondary.sa-focus-ring,
 .sa-layout-card .sa-card-action.sa-tier-secondary:focus {
+    box-shadow: 0 0 0 6px var(--sa-glow-secondary-soft, rgba(192, 198, 220, 0.16));
 }
 .sa-layout-card .sa-card-action.sa-tier-error.sa-focus-ring,
 .sa-layout-card .sa-card-action.sa-tier-error:focus {
+    box-shadow: 0 0 0 6px var(--sa-glow-error-soft, rgba(255, 180, 171, 0.16));
 }
 .sa-layout-card .sa-card-action.sa-pressed,
 .sa-layout-card .sa-card-action:active,
