@@ -9,8 +9,8 @@ const base = read('../lib/layouts/base.js');
 
 test('keyboard focus tints the button background and foreground', () => {
     assert.match(base, /import \{hexToRgba\} from '\.\.\/theme-colors\.js'/);
-    assert.match(base, /const focusBg = hexToRgba\(this\.theme\?\.primary \|\| '#b0c6ff', 0\.45\)/);
-    assert.match(base, /const focusFg = this\.theme\?\.on_primary \|\| '#ffffff'/);
+    assert.match(base, /const focusBg = hexToRgba\(this\.theme\?\.primary \|\| '#b0c6ff', 0\.6\)/);
+    assert.match(base, /const focusFg = this\.theme\?\.on_surface \|\| '#ffffff'/);
     assert.match(base, /background-color: \$\{focusBg\}; color: \$\{focusFg\};/);
     assert.match(base, /widget\.connect\('key-focus-out'/);
     assert.match(base, /widget\.remove_style_class_name\('sa-focus-ring'\)/);
