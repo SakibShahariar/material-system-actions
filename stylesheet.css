@@ -472,7 +472,14 @@
 .sa-row-icon-badge.sa-tier-error { background-color: var(--error_container, #93000a); }
 
 /* TUI rows: no background by default; hover/focus/selected make them pop */
+/* St.Button adds internal left padding to its label; zero it so row text lines
+ * up exactly with the box-drawing border labels on either side. */
 .sa-tui-row { background-color: transparent; border-radius: 6px; margin: 0; padding: 0; }
+.sa-tui-row > StLabel,
+.sa-tui-row StLabel { margin: 0; padding: 0; text-align: left; }
+/* Give the whole TUI frame a consistent inset so the box-drawing lines are
+ * not flush against the panel edge. */
+.sa-layout-tui { padding: 14px !important; }
 .sa-tui-row:hover { background-color: rgba(255, 255, 255, 0.07); }
 .sa-tui-row.sa-focus-ring,
 .sa-tui-row:focus {
