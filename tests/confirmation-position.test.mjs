@@ -8,7 +8,7 @@ const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 
 test('confirmations are centered even for edge-positioned layouts', () => {
     const dialog = read('../lib/dialog.js');
-    assert.match(dialog, /const pos = this\._style\?\._confirmation \? null : this\._style\?\.position/);
+    assert.match(dialog, /const pos = this\._style\?\._confirmation \? 'center' : this\._style\?\.position/);
 });
 
 test('dialog position is restored when the confirmation closes', () => {
