@@ -11,7 +11,7 @@ test('keyboard focus tints the button background and foreground', () => {
     assert.match(base, /import \{hexToRgba, darkenHex\} from '\.\.\/theme-colors\.js'/);
     assert.match(base, /const focusBg = hexToRgba\(this\.theme\?\.primary \|\| '#b0c6ff', 0\.6\)/);
     assert.match(base, /const focusFg = darkenHex\(this\.theme\?\.on_primary \|\| '#561d27', 0\.3\)/);
-    assert.match(base, /background-color: \$\{focusBg\}; color: \$\{focusFg\};/);
+    assert.match(base, /background-color: \$\{focusBg\}; color: \$\{focusFg\}; font-weight: bold;/);
     assert.match(base, /widget\.connect\('key-focus-out'/);
     assert.match(base, /widget\.remove_style_class_name\('sa-focus-ring'\)/);
 });
