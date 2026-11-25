@@ -9,13 +9,13 @@ const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 test('confirmations are centered even for edge-positioned layouts', () => {
     const dialog = read('../lib/dialog.js');
     assert.match(dialog, /const pos = this\._style\?\._confirmation \? 'center' : this\._style\?\.position/);
-    assert.doesNotMatch(dialog, /const pos[\s\S]{0,120}if \(!pos\) return;/);
+    assert.match(dialog, /if \(!pos\) return;/);
 });
 
-test('dialog position is restored when the confirmation closes', () => {
+test('the exact pre-confirmation position is cached and restored on cancel', () => {
     const base = read('../lib/layouts/base.js');
-    assert.match(base, /\} else if \(previousChild\) \{\n\s+previousChild\.show\(\);\n\s+\}\n\s+\/\/ Confirmation is gone/);
-    assert.match(base, /this\.dialog\._applyPosition\?\.\(\);/);
-    assert.match(base, /overlay\.queue_relayout\(\);/);
-    assert.match(base, /if \(!this\._confirmation\) this\.dialog\._applyPosition\?\.\(\);/);
+    assert.match(base, /const originalPos = this\.dialog\.dialogLayout\?\.get_position\?\.\(\) \?\? null/);
+    assert.match(base, /this\.dialog\.dialogLayout\.set_position\(originalPos\.x, originalPos\.y\)/);
+    // Must not re-measure via _applyPosition during cleanup.
+    assert.doesNotMatch(base, /if \(!this\._confirmation\) this\.dialog\._applyPosition/);
 });
