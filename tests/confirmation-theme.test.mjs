@@ -33,10 +33,12 @@ test('confirmation reuses the existing BMS blur target so its surface is not los
     const base = read('../lib/layouts/base.js');
     assert.match(base, /const carrier = this\.bmsBlurTargets\?\.\[0\] \?\? this\.dialog\._styleRoot/);
     assert.match(base, /if \(carrier && this\.transparentRoot\)/);
-    assert.match(base, /\(carrier \?\? overlay\)\.add_child\(component\.root\)/);
-    assert.match(base, /for \(const child of carrier\.get_children\(\)\)/);
-    assert.match(base, /if \(child\.visible\) \{[\s\S]*?hiddenChildren\.push\(child\)/);
-    assert.match(base, /for \(const child of hiddenChildren\) child\.show\(\)/);
+    assert.match(base, /overlay\.add_child\(component\.root\)/);
+    // The whole layout root is hidden (not just its children), so the empty
+    // root cannot occupy space and push the confirmation down.
+    assert.match(base, /if \(previousChild\) previousChild\.hide\(\)/);
+    assert.match(base, /if \(previousChild\) previousChild\.show\(\)/);
+    assert.doesNotMatch(base, /hiddenChildren/);
     assert.match(base, /previousCarrierStyle/);
     assert.match(base, /carrier\.set_style\?\.\(style\.replace\(\/border-radius:\\s\*999px\/, 'border-radius: 20px'\)\)/);
 });
