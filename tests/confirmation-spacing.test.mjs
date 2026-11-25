@@ -19,7 +19,6 @@ test('confirmation layout has roomier spacing', () => {
 test('focus foreground uses a bright role that survives the blur', () => {
     const base = read('../lib/layouts/base.js');
     assert.match(base, /hexToRgba\(this\.theme\?\.primary \|\| '#b0c6ff', 0\.6\)/);
-    assert.match(base, /const focusFg = this\.theme\?\.primary_fixed \|\| '#ffffff'/);
-    assert.doesNotMatch(base, /const focusFg = this\.theme\?\.on_primary/);
+    assert.match(base, /const focusFg = lightenHex\(this\.theme\?\.on_primary \|\| '#561d27', 0\.65\)/);
     assert.doesNotMatch(base, /const focusFg = this\.theme\?\.on_surface/);
 });
