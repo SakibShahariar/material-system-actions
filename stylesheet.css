@@ -81,6 +81,13 @@
 .sa-status-header-compact .sa-status-clock { font-size: 1em; }
 .sa-status-header-compact .sa-status-user,
 .sa-status-header-compact .sa-status-detail { font-size: 0.7em; }
+/* Dock is a narrow vertical edge: keep its status header compact so the
+ * actions start higher and the panel does not dominate a tall screen. */
+.sa-layout-dock { spacing: 8px; padding: 10px 8px; }
+.sa-layout-dock .sa-shared-status-header { spacing: 1px; padding: 2px 4px 4px; }
+.sa-layout-dock .sa-status-clock { font-size: 0.95em; }
+.sa-layout-dock .sa-status-user,
+.sa-layout-dock .sa-status-detail { font-size: 0.7em; }
 
 .sa-heading {
     color: var(--on_surface_variant, #c5c6d0);
