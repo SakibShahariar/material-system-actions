@@ -8,9 +8,9 @@ const read = path => readFileSync(new URL(path, import.meta.url), 'utf8');
 const base = read('../lib/layouts/base.js');
 
 test('keyboard focus tints the button background and foreground', () => {
-    assert.match(base, /const focusBg = this\.theme\?\.primary \|\| '#b0c6ff'/);
-    assert.match(base, /const focusFg = this\.theme\?\.on_primary \|\| '#561d27'/);
-    assert.doesNotMatch(base, /hexToRgba/);
+    assert.match(base, /import \{hexToRgba, darkenHex\} from '\.\.\/theme-colors\.js'/);
+    assert.match(base, /const focusBg = hexToRgba\(this\.theme\?\.primary \|\| '#b0c6ff', 0\.6\)/);
+    assert.match(base, /const focusFg = darkenHex\(this\.theme\?\.on_primary \|\| '#561d27', 0\.3\)/);
     assert.match(base, /background-color: \$\{focusBg\}; color: \$\{focusFg\};/);
     assert.match(base, /widget\.connect\('key-focus-out'/);
     assert.match(base, /widget\.remove_style_class_name\('sa-focus-ring'\)/);
